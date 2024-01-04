@@ -3,5 +3,5 @@
 	"references": [
 		{"path": "./src/backend"},
 		{"path": "./src/frontend"}
-	]
+	],
 }
