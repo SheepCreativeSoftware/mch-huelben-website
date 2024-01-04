@@ -1,0 +1,25 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"lib": ["DOM", "ESNext"],
+		"module": "NodeNext",
+		"outDir": "./../../dist",
+		"strict": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"moduleResolution": "NodeNext",
+		"declaration": true,
+		"removeComments": false,
+		"paths": {
+			"../shared/*": ["../shared/*"]
+		},
+		"rootDirs": [
+			"./",
+			"../shared/"
+		]
+	},
+	"include": [
+		"./*",
+		"./**/*"
+	],
+}

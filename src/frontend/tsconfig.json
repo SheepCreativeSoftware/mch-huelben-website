@@ -1,0 +1,27 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"lib": ["DOM", "ESNext", "DOM.Iterable"],
+		"module": "NodeNext",
+		"outDir": "./../../dist/public/js",
+		"strict": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"moduleResolution": "NodeNext",
+		"declaration": true,
+		"esModuleInterop": true,
+		"removeComments": false,
+		"paths": {
+			"../shared/*": ["../shared/*"]
+		},
+		"rootDirs": [
+			"./",
+			"../shared/"
+		]
+	},
+	"include": [
+		"./*",
+		"./**/*"
+	],
+	
+}
