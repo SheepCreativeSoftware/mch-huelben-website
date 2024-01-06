@@ -1,10 +1,15 @@
-import { connectDb, getConnection } from './modules/database/connectDatabase.mjs';
+
 // eslint-disable-next-line no-shadow
 import { Request, Response } from 'express';
 import { buntstift } from 'buntstift';
 import { defaults } from './modules/defaults.mjs';
 import express from 'express';
+import expressLayouts from 'express-ejs-layouts';
 import { expressLogger } from './modules/expressLogger.mjs';
+import { getNavLinks } from './modules/database/getNavLinks.mjs';
+import { sendErrorPage } from './modules/sendErrorPage.mjs';
+import { userLoginRouter } from './routes/user/login.mjs';
+
 
 const app = express();
 
@@ -19,15 +24,27 @@ if(process.env.NODE_ENV === 'development') {
 // Setup ejs view engine
 app.set('view engine', 'ejs');
 app.set('views', defaultPath+'views');
+app.use(expressLayouts);
+app.set('layout', 'layout/default');
+app.use(express.urlencoded({ extended: false }));
 
 // Setup basic middlewares
 
 
 // Setup public routes
 app.get('/', (req, res) => {
-	res.render('index', { name: 'Marina' });
+	res.render('index', {
+		author: 'mch-huelben',
+		message: 'Hi Marina',
+		meta: 'Eisenbahn',
+		naviLinks: getNavLinks(),
+		title: 'Home',
+	});
 	expressLogger('success', req, res);
 });
+
+app.use('/user', userLoginRouter);
+
 
 
 
@@ -37,46 +54,16 @@ app.get('/', (req, res) => {
 
 // Handle Error routes
 app.use(function(req, res) {
-	res.status(defaults.status.notFound).send('Sorry cant find that!');
-	expressLogger('warn', req, res);
+	sendErrorPage(req, res, 'Not Found');
 });
 
 app.use(function(err: Error, req: Request, res: Response) {
 	expressLogger('error', req, res);
 	if(err.stack) buntstift.error(err.stack);
-	res.status(defaults.status.serverError).send('Something broke!');
+	sendErrorPage(req, res, 'Internal Server Error');
 });
 
 app.listen(process.env.SERVER_PORT || defaults).on('listening', () => {
 	buntstift.success(`Server started and is listening on Port ${process.env.SERVER_PORT || defaults}`);
 });
 
-const asyncFunction = async function() {
-	await connectDb({
-
-		host: process.env.DATABASE_HOST,
-		port: Number(process.env.DATABASE_PORT),
-		user: process.env.DATABASE_USER,
-		password: process.env.DATABASE_PASSWORD,
-		database: process.env.DATABASE_NAME,
-	});
-	let conn = await getConnection();
-
-	console.log("connected ! connection id is " + conn.threadId);
-	try {
-		const res = await conn.query('select 1', [2]);
-		const res2 = await conn.query('CREATE TABLE IF NOT EXISTS test (id INT NULL)');
-		console.log(res, res2); // [{ "1": 1 }]
-		return res;
-	} finally {
-		await conn.end();
-		console.log(conn.isValid());
-		setInterval(async () => {
-			conn = await getConnection();
-			console.log(conn.isValid());
-			console.log("connected ! connection id is " + conn.threadId);
-		}, 15_000);
-	}
-};
-
-asyncFunction();

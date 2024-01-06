@@ -1,0 +1,12 @@
+<section id="main" >
+	<article>
+		<% if (typeof message !== 'undefined') { %>
+			<p><%= message %></p>
+		<% } %>
+		<form id="login" action="/user/login" method="post">
+			<label for="email">E-Mail</label>
+			<input type="email" name="email" id="email">
+			<button type="submit">Login</button>
+		</form>
+	</article>
+</section>

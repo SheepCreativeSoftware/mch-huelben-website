@@ -11,12 +11,8 @@
 		"declaration": true,
 		"esModuleInterop": true,
 		"removeComments": false,
-		"paths": {
-			"../shared/*": ["../shared/*"]
-		},
 		"rootDirs": [
 			"./",
-			"../shared/"
 		]
 	},
 	"include": [
