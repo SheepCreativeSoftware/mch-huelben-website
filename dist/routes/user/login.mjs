@@ -12,6 +12,7 @@ const router = express.Router();
 passport.serializeUser((user, done) => done(null, user.id));
 // eslint-disable-next-line id-length
 passport.deserializeUser(async (id, done) => {
+    buntstift.verbose('deserializeUser');
     const users = await getUsers();
     return done(null, users.find((user) => user.id === id));
 });

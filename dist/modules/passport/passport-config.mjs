@@ -50,6 +50,7 @@ const initialize = (callbackUrl) => {
             // Get or create a user with the provided email from the database
             const users = await getUsers();
             const user = users.find((thisUser) => thisUser.email === payload.destination);
+            buntstift.verbose(`Verify user: ${user}`);
             if (typeof user === 'undefined')
                 callback(new Error(`Unkown User tried to login: ${JSON.stringify(payload)}`));
             callback(null, user);

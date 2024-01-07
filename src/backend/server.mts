@@ -43,23 +43,23 @@ const startServer = () => {
 		cookie: {
 			httpOnly: true,
 			maxAge: 600_000,
-			sameSite: 'strict',
 		},
 		resave: false,
 		rolling: true,
 		saveUninitialized: false,
 		secret: process.env.SESSION_SECRET,
 	};
-	if(process.env.NODE_ENV === 'development') {
+	if(process.env.NODE_ENV === 'production') {
 		// Trust first proxy (ngnix)
 		app.set('trust proxy', true);
-		if(sessionCookie.cookie) sessionCookie.cookie.secure = false;
+		if(sessionCookie.cookie) sessionCookie.cookie.secure = true;
 	}
 
 	app.use(session(sessionCookie));
 	app.use(passport.initialize());
 	app.use(passport.session());
 
+	app.use('/user', userLoginRouter);
 
 	// Setup public routes
 	app.get('/', checkNotAuthenticated, (req, res) => {
@@ -72,9 +72,6 @@ const startServer = () => {
 		});
 		expressLogger('success', req, res);
 	});
-
-	app.use('/user', userLoginRouter);
-
 
 	// Setup restricted routes
 	const csrfSyncProtect = csrfSync({
