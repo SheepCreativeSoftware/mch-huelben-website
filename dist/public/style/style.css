@@ -124,6 +124,8 @@ nav {
 	height:2.5em;
 	background:#FFFFFF;
 	text-align:center;
+	position: sticky;
+	top: 0;
 }
 
 nav ul {
@@ -356,6 +358,7 @@ footer ul li a:visited {
 	nav {
 		display:none;
 		height:auto;
+		position: relative;
 	}
 	nav ul li {
 		display:block;

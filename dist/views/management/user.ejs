@@ -1,0 +1,48 @@
+<section id="main" >
+	<article>
+		<h3>Benutzerverwaltung</h3>
+		<% if (typeof message !== 'undefined') { %>
+			<p id="login-message"><%= message %></p>
+		<% } %>
+		<p>Hier können Nutzer erstellt und entfernt werden</p>
+	</article>
+	<article>
+		<p>Neuen Benutzer hinzufügen</p>
+		<form class="addUser" action="/management/user/addUser" method="post" enctype="application/x-www-form-urlencoded">
+			<input
+				type="hidden"
+				name="CSRFToken"
+				value="<%= CSRFToken %>"
+			/>
+			<label for="name">Name</label>
+			<input type="name" name="name" id="name" required>
+			<label for="email">E-Mail</label>
+			<input type="email" name="email" id="email" required>
+			<label for="role">Benutzerrolle</label>
+			<select name="role" id="role" required>
+				<option value="user">user</option>
+				<option value="user">admin</option>
+			</select>
+			<button type="submit">Hinzufügen</button>
+		</form>
+	</article>
+	<article>
+		<p>Liste der vorhandenen Benutzer. Von hier aus können diese entfernt werden.</p>
+		<% for(const user of users) { %>
+			<form class="removeUser" action="/management/user/removeUser" method="post" enctype="application/x-www-form-urlencoded">
+				<input
+					type="hidden"
+					name="CSRFToken"
+					value="<%= CSRFToken %>"
+				/>
+				<label for="name">Name</label>
+				<input type="name" name="name" id="name" value="<%- user.name %>" readonly>
+				<label for="email">E-Mail</label>
+				<input type="email" name="email" id="email" value="<%- user.email %>" readonly>
+				<label for="role">Benutzerrolle</label>
+				<input type="text" name="role" id="role" value="<%- user.role %>" readonly>
+				<button type="submit">Entfernen</button>
+			</form>
+		<% } %>
+	</article>
+</section>

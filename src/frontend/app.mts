@@ -5,9 +5,9 @@ const scrollSmothToTarget = (anchorId: string) => {
 
 const scrollTopButton = document.getElementById('top');
 
-const loginButton = document.getElementById('login') as HTMLButtonElement;
-let loginMessage = document.getElementById('login-message') as HTMLParagraphElement;
 
+const loginButton = document.getElementById('login') as HTMLButtonElement | null;
+let loginMessage = document.getElementById('login-message') as HTMLParagraphElement | null;
 loginButton?.addEventListener('submit', async (_event) => {
 	_event.preventDefault();
 	if(_event.target instanceof HTMLFormElement) {
@@ -27,3 +27,4 @@ loginButton?.addEventListener('submit', async (_event) => {
 		else loginMessage.innerText = 'Fehler beim einloggen. Bitte versuche es noch einmal.';
 	}
 });
+

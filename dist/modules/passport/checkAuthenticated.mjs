@@ -16,4 +16,10 @@ const checkNotAuthenticated = (req, res, next) => {
         return next();
     return next('route');
 };
-export { checkAuthenticated, checkNotAuthenticated, checkNotAuthenticatedRedirect };
+// eslint-disable-next-line consistent-return
+const checkIfAdmin = (req, res, next) => {
+    if (req.user?.role === 'admin')
+        return next();
+    return next('route');
+};
+export { checkAuthenticated, checkNotAuthenticated, checkIfAdmin, checkNotAuthenticatedRedirect };

@@ -11,8 +11,9 @@ const router = express.Router();
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 passport.serializeUser((user, done) => done(null, user.id));
 // eslint-disable-next-line id-length
-passport.deserializeUser((id, done) => {
-    return done(null, getUsers().find((user) => user.id === id));
+passport.deserializeUser(async (id, done) => {
+    const users = await getUsers();
+    return done(null, users.find((user) => user.id === id));
 });
 const magicLogin = initialize('/user/verify');
 passport.use(magicLogin);

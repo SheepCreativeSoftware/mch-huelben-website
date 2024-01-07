@@ -1,28 +1,48 @@
 import { connectDb, getConnection } from './connectDatabase.mjs';
-const asyncFunction = async function () {
+import { buntstift } from 'buntstift';
+import { randomUUID } from 'crypto';
+const zero = 0;
+const initDatabase = async function () {
+    buntstift.info('Initialize DB');
     await connectDb({
+        database: process.env.DATABASE_NAME,
         host: process.env.DATABASE_HOST,
+        password: process.env.DATABASE_PASSWORD,
         port: Number(process.env.DATABASE_PORT),
         user: process.env.DATABASE_USER,
-        password: process.env.DATABASE_PASSWORD,
-        database: process.env.DATABASE_NAME,
     });
-    let conn = await getConnection();
-    console.log("connected ! connection id is " + conn.threadId);
+    const conn = await getConnection();
     try {
-        const res = await conn.query('select 1', [2]);
-        const res2 = await conn.query('CREATE TABLE IF NOT EXISTS test (id INT NULL)');
-        console.log(res, res2); // [{ "1": 1 }]
-        return res;
+        await conn.query(`CREATE TABLE IF NOT EXISTS users (
+			id TINYTEXT NOT NULL,
+			name TINYTEXT NOT NULL,
+			email TINYTEXT NOT NULL,
+			role TINYTEXT NOT NULL
+		)`);
+        buntstift.success('Created users table in DB');
     }
-    finally {
-        await conn.end();
-        console.log(conn.isValid());
-        setInterval(async () => {
-            conn = await getConnection();
-            console.log(conn.isValid());
-            console.log("connected ! connection id is " + conn.threadId);
-        }, 15_000);
+    catch (error) {
+        buntstift.error('Failed to create users table in DB');
+        if (error instanceof Error)
+            buntstift.error(error.message);
     }
+    try {
+        const result = await conn.query('SELECT email FROM users WHERE email = (?)', [process.env.SMTP_ADMIN_EMAIL]);
+        if (result.length === zero) {
+            await conn.query('INSERT INTO users (id, name, email, role) VALUES (?, ?, ?, ?)', [
+                randomUUID(),
+                'Admin',
+                process.env.SMTP_ADMIN_EMAIL,
+                'admin',
+            ]);
+            buntstift.success('Created Admin user in DB');
+        }
+    }
+    catch (error) {
+        buntstift.error('Failed to create admin user in DB');
+        if (error instanceof Error)
+            buntstift.error(error.message);
+    }
+    await conn.end();
 };
-asyncFunction();
+export { initDatabase };

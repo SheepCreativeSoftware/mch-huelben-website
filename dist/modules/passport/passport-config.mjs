@@ -20,7 +20,8 @@ const initialize = (callbackUrl) => {
          * for example "/auth/magiclogin/confirm?token=<longtoken>"
          */
         sendMagicLink: async (destination, href) => {
-            const user = getUsers().find((thisUser) => thisUser.email === destination);
+            const users = await getUsers();
+            const user = users.find((thisUser) => thisUser.email === destination);
             if (typeof user === 'undefined') {
                 buntstift.error(`Unknown user tried to login! email: ${destination}`);
             }
@@ -45,9 +46,10 @@ const initialize = (callbackUrl) => {
          * In standard passport fashion, call callback with the error as the first argument (if there was one)
          * and the user data as the second argument!
          */
-        verify: (payload, callback) => {
+        verify: async (payload, callback) => {
             // Get or create a user with the provided email from the database
-            const user = getUsers().find((thisUser) => thisUser.email === payload.destination);
+            const users = await getUsers();
+            const user = users.find((thisUser) => thisUser.email === payload.destination);
             if (typeof user === 'undefined')
                 callback(new Error(`Unkown User tried to login: ${JSON.stringify(payload)}`));
             callback(null, user);
