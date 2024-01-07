@@ -6,7 +6,7 @@ const scrollSmothToTarget = (anchorId) => {
 const scrollTopButton = document.getElementById('top');
 const loginButton = document.getElementById('login');
 let loginMessage = document.getElementById('login-message');
-loginButton.addEventListener('submit', async (_event) => {
+loginButton?.addEventListener('submit', async (_event) => {
     _event.preventDefault();
     if (_event.target instanceof HTMLFormElement) {
         const email = new FormData(_event.target).get('email');

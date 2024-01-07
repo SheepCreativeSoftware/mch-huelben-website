@@ -25,6 +25,7 @@ const sendErrorPage = (req: Request, res: Response, errorCode: ErrorCodes) => {
 	const copyTemplate = { ...errorTemplate };
 	copyTemplate.error = errorCodeDefaults[errorCode];
 	copyTemplate.userLoggedIn = req.isAuthenticated();
+	copyTemplate.naviLinks = getNavLinks(req.user?.role);
 	res.status(Number(copyTemplate.error.code)).render('error', copyTemplate);
 	if(Number(copyTemplate.error.code) < serverError) expressLogger('warn', req, res);
 	else expressLogger('error', req, res);

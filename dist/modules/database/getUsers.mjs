@@ -5,7 +5,7 @@ const users = [
         // eslint-disable-next-line id-length
         id: 1,
         name: 'Admin',
-        role: 'Admin',
+        role: 'admin',
     },
 ];
 const getUsers = () => {

@@ -1,15 +1,15 @@
 const errorCodeDefaults = {
+    'Unauthorized': {
+        code: '401',
+        description: 'Die Anfage bedarf einer Authentifizierung (User und Passwort), die bei der Anfrage mitgeschickt werden muss.',
+        header: 'Ups... Authentifizierung erforderlich',
+        text: 'Unauthorized',
+    },
     'Forbidden': {
         code: '403',
         description: 'Der Server hat die Anfrage verstanden, aber weigert sich, diese auszuführen. Eine Authentifizierung ist hier nicht möglich. Die Anfrage ist generell nicht erlaubt.',
         header: 'Ups... Anfrage verweigert',
         text: 'Forbidden',
-    },
-    'Internal Server Error': {
-        code: '500',
-        description: 'Der Server hat einen Fehler festgestellt. Bitte versuche es doch später noch einmal.',
-        header: 'Ups... Serverfehler',
-        text: 'Internal Server Error',
     },
     'Not Found': {
         code: '404',
@@ -17,17 +17,17 @@ const errorCodeDefaults = {
         header: 'Ups... Seite wurde nicht gefunden',
         text: 'Not Found',
     },
+    'Internal Server Error': {
+        code: '500',
+        description: 'Der Server hat einen Fehler festgestellt. Bitte versuche es doch später noch einmal.',
+        header: 'Ups... Serverfehler',
+        text: 'Internal Server Error',
+    },
     'Service Unavailable': {
         code: '503',
         description: 'Der Server hat einen Fehler festgestellt. Bitte versuche es doch später noch einmal.',
         header: 'Ups... Hier ist ein Fehler passiert',
         text: 'Service Unavailable',
-    },
-    'Unauthorized': {
-        code: '401',
-        description: 'Die Anfage bedarf einer Authentifizierung (User und Passwort), die bei der Anfrage mitgeschickt werden muss.',
-        header: 'Ups... Authentifizierung erforderlich',
-        text: 'Unauthorized',
     },
 };
 export { errorCodeDefaults };

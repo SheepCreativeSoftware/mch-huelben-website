@@ -1,7 +1,2 @@
-declare const getUsers: () => {
-    email: string;
-    id: number;
-    name: string;
-    role: string;
-}[];
+declare const getUsers: () => Express.User[];
 export { getUsers };

@@ -1,3 +1,4 @@
 import { NavLinks } from '../../interfaces/NavLinks.mjs';
-declare const getNavLinks: () => NavLinks[];
+type UserRoles = 'none' | 'user' | 'admin';
+declare const getNavLinks: (role?: UserRoles, path?: string) => NavLinks[];
 export { getNavLinks };

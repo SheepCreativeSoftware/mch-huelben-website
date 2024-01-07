@@ -43,7 +43,7 @@ router.post('/login', (req, res, next) => {
     });
 }, magicLogin.send);
 router.get('/verify', checkNotAuthenticatedRedirect, passport.authenticate('magiclogin', {
-    failureRedirect: '/login',
+    failureRedirect: '/user/login',
     successRedirect: '/',
 }));
 router.get('/logout', checkAuthenticated, (req, res) => {

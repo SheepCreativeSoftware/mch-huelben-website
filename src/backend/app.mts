@@ -11,6 +11,8 @@ import passport from 'passport';
 import { sendErrorPage } from './modules/sendErrorPage.mjs';
 import session from 'express-session';
 import { userLoginRouter } from './routes/user/login.mjs';
+import { UserRoles } from './types/UserRoles.js';
+
 
 const app = express();
 
@@ -22,7 +24,7 @@ if(process.env.NODE_ENV === 'development') {
 	buntstift.configure(buntstift.getConfiguration().withVerboseMode(true));
 }
 
-// Setup ejs view engine
+// Setup express
 app.set('view engine', 'ejs');
 app.set('views', defaultPath+'views');
 app.use(expressLayouts);
@@ -31,14 +33,25 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // Setup basic middlewares
-
 if(typeof process.env.SESSION_SECRET === 'undefined') throw new Error('Missing Session Secret');
-app.use(session({
-	cookie: { maxAge: 600_000 },
+const sessionCookie: session.SessionOptions = {
+	cookie: {
+		httpOnly: true,
+		maxAge: 600_000,
+		sameSite: 'strict',
+	},
 	resave: false,
-	saveUninitialized: true,
+	rolling: true,
+	saveUninitialized: false,
 	secret: process.env.SESSION_SECRET,
-}));
+};
+if(process.env.NODE_ENV === 'development') {
+	// Trust first proxy (ngnix)
+	app.set('trust proxy', true);
+	if(sessionCookie.cookie) sessionCookie.cookie.secure = false;
+}
+
+app.use(session(sessionCookie));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -50,7 +63,7 @@ app.get('/', checkNotAuthenticated, (req, res) => {
 		author: 'mch-huelben',
 		message: 'Hi Marina',
 		meta: 'Eisenbahn',
-		naviLinks: getNavLinks(),
+		naviLinks: getNavLinks('none', '/'),
 		title: 'Home',
 	});
 	expressLogger('success', req, res);
@@ -65,7 +78,7 @@ app.get('/', checkAuthenticated, (req, res) => {
 		author: 'mch-huelben',
 		message: 'Hi Admin',
 		meta: 'Eisenbahn',
-		naviLinks: getNavLinks(),
+		naviLinks: getNavLinks(req.user?.role, '/'),
 		title: 'Home',
 		userLoggedIn: req.isAuthenticated(),
 	});

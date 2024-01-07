@@ -8,7 +8,7 @@ const scrollTopButton = document.getElementById('top');
 const loginButton = document.getElementById('login') as HTMLButtonElement;
 let loginMessage = document.getElementById('login-message') as HTMLParagraphElement;
 
-loginButton.addEventListener('submit', async (_event) => {
+loginButton?.addEventListener('submit', async (_event) => {
 	_event.preventDefault();
 	if(_event.target instanceof HTMLFormElement) {
 		const email = new FormData(_event.target).get('email');
