@@ -8,6 +8,7 @@ interface RendererTemplate {
 	naviLinks: NavLinks[],
 	message?: string,
 	error?: ErrorRender,
+	userLoggedIn?: boolean,
 }
 
 export { RendererTemplate };

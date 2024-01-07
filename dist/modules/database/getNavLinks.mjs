@@ -2,8 +2,8 @@
 const naviLinks = [
     {
         active: false,
-        href: 'start',
-        name: 'Start',
+        href: '/',
+        name: 'Home',
     },
     {
         active: true,

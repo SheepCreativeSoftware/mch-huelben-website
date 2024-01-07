@@ -2,19 +2,19 @@ import { buntstift } from 'buntstift';
 import ejs from 'ejs';
 import { getSmtpTransport } from './getSmtpTransport.mjs';
 import path from 'path';
-const sendMagicLinkEmail = async ({ email, token }) => {
+const sendMagicLinkEmail = async ({ email, url }) => {
     const basePath = path.join('dist', 'views');
     const emailInHtml = await ejs.renderFile(path.join(basePath, 'magicLinkEmail.ejs'), {
         email,
         host: process.env.HOST,
+        href: url,
         title: `Sicherer Anmeldelink für ${process.env.HOST}`,
-        token,
         url: process.env.URL,
     });
     const emailInPlainText = await ejs.renderFile(path.join(basePath, 'magicLinkEmailPlain.ejs'), {
         email,
         host: process.env.HOST,
-        token,
+        href: url,
         url: process.env.URL,
     });
     const info = await getSmtpTransport().sendMail({

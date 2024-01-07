@@ -4,8 +4,8 @@ import { NavLinks } from '../../interfaces/NavLinks.mjs';
 const naviLinks: NavLinks[] = [
 	{
 		active: false,
-		href: 'start',
-		name: 'Start',
+		href: '/',
+		name: 'Home',
 	},
 	{
 		active: true,

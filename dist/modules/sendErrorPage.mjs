@@ -17,6 +17,7 @@ const serverError = 500;
 const sendErrorPage = (req, res, errorCode) => {
     const copyTemplate = { ...errorTemplate };
     copyTemplate.error = errorCodeDefaults[errorCode];
+    copyTemplate.userLoggedIn = req.isAuthenticated();
     res.status(Number(copyTemplate.error.code)).render('error', copyTemplate);
     if (Number(copyTemplate.error.code) < serverError)
         expressLogger('warn', req, res);

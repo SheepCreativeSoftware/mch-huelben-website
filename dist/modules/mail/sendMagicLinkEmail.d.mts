@@ -1,5 +1,5 @@
-declare const sendMagicLinkEmail: ({ email, token }: {
+declare const sendMagicLinkEmail: ({ email, url }: {
     email: string;
-    token: string;
+    url: string;
 }) => Promise<void>;
 export { sendMagicLinkEmail };
