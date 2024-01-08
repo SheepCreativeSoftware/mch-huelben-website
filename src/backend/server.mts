@@ -3,7 +3,7 @@ import { checkAuthenticated, checkNotAuthenticated } from './modules/passport/ch
 import { Request, Response } from 'express';
 import { buntstift } from 'buntstift';
 import { csrfSync } from './modules/misc/csfrSync.mjs';
-import { defaults } from './modules/defaults.mjs';
+import { defaults } from './modules/defaults/defaults.mjs';
 import express from 'express';
 import expressLayouts from 'express-ejs-layouts';
 import { expressLogger } from './modules/expressLogger.mjs';
@@ -23,6 +23,8 @@ const startServer = () => {
 		defaultPath = './dist/';
 		app.use(express.static(defaultPath+'public'));
 		buntstift.configure(buntstift.getConfiguration().withVerboseMode(true));
+	} else {
+		buntstift.configure(buntstift.getConfiguration().withQuietMode(true));
 	}
 
 	// Setup ejs support in express

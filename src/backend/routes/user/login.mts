@@ -1,12 +1,14 @@
 import { checkAuthenticated, checkNotAuthenticatedRedirect } from '../../modules/passport/checkAuthenticated.mjs';
+// eslint-disable-next-line no-shadow
+import express, { NextFunction, Request, Response } from 'express';
 import { buntstift } from 'buntstift';
-import express from 'express';
 import { expressLogger } from '../../modules/expressLogger.mjs';
 import { getNavLinks } from '../../modules/database/getNavLinks.mjs';
 import { getUsers } from '../../modules/database/getUsers.mjs';
-import { initialize } from '../../modules/passport/passport-config.mjs';
+import { initialize } from '../../modules/passport/magicLoginStrategy.mjs';
 import passport from 'passport';
 import { RendererTemplate } from '../../interfaces/RendererTemplate.mjs';
+import { sendErrorPage } from '../../modules/sendErrorPage.mjs';
 
 
 // eslint-disable-next-line new-cap
@@ -52,9 +54,16 @@ router.post('/login', (req, res, next) => {
 }, magicLogin.send);
 
 router.get('/verify', checkNotAuthenticatedRedirect, passport.authenticate('magiclogin', {
-	failureRedirect: '/user/login',
-	successRedirect: '/',
-}));
+	failWithError: true,
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+}), (req: Request, res: Response, next: NextFunction) => {
+	// Handle success
+	return res.redirect('/user/login');
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+}, (err: Error, req: Request, res: Response, next: NextFunction) => {
+	// Handle error
+	return sendErrorPage(req, res, 'Unauthorized');
+});
 
 router.get('/logout', checkAuthenticated, (req, res) => {
 	req.logOut({ keepSessionInfo: false }, (err)=>{

@@ -2,7 +2,25 @@
 import { buntstift } from 'buntstift';
 import { getUsers } from '../database/getUsers.mjs';
 import MagicLoginStrategy from 'passport-magic-login';
+import { randomBytes } from 'crypto';
 import { sendMagicLinkEmail } from '../mail/sendMagicLinkEmail.mjs';
+import { TokenSessionStore } from '../../interfaces/TokenSessionStore.mjs';
+
+const size = 128;
+let randomSecretKey = process.env.JWT_SECRET || randomBytes(size).toString('hex');
+if(process.env.NODE_ENV === 'production') randomSecretKey = String(process.env.JWT_SECRET)+randomBytes(size).toString('hex');
+
+const tokenSessionStore: TokenSessionStore[] = [];
+
+const removeMillis = 1000;
+const oneElement = 1;
+const clearTokenSessionStore = () => {
+	buntstift.verbose(`tokenSessionStore.length is ${tokenSessionStore.length}`);
+	const currentDate = Date.now() / removeMillis;
+	tokenSessionStore.forEach((value, index, array) => {
+		if(value.exp <= currentDate) array.splice(index, oneElement);
+	});
+};
 
 const initialize = (callbackUrl: string) => {
 // IMPORTANT: ALL OPTIONS ARE REQUIRED!
@@ -11,7 +29,7 @@ const initialize = (callbackUrl: string) => {
 	const magicLogin = new MagicLoginStrategy.default({
 
 		// Used to encrypt the authentication token. Needs to be long, unique and (duh) secret.
-		secret: process.env.JWT_SECRET,
+		secret: randomSecretKey,
 
 		// The authentication callback URL
 		callbackUrl,
@@ -48,18 +66,26 @@ const initialize = (callbackUrl: string) => {
 		 * and the user data as the second argument!
 		 */
 		verify: async (payload, callback) => {
-		// Get or create a user with the provided email from the database
+			// Store the tokens payload and fail if token has been reused
+			clearTokenSessionStore();
+			if(tokenSessionStore.some((token) => token.code === payload.code)) {
+				// ...
+				return callback(new Error(`Token already used: ${payload.code}`));
+			}
+			tokenSessionStore.push(payload);
+
+			// Get or create a user with the provided email from the database
 			const users = await getUsers();
 			const user = users.find((thisUser) => thisUser.email === payload.destination);
-			buntstift.verbose(`Verify user: ${user}`);
-			if(typeof user === 'undefined') callback(new Error(`Unkown User tried to login: ${JSON.stringify(payload)}`));
-			callback(null, user);
+			buntstift.verbose(`Verify user: ${user?.id}`);
+			if(typeof user === 'undefined') return callback(new Error(`Unkown User tried to login: ${JSON.stringify(payload)}`));
+			return callback(null, user);
 		},
 
 
 		// Optional: options passed to the jwt.sign call (https://github.com/auth0/node-jsonwebtoken#jwtsignpayload-secretorprivatekey-options-callback)
 		jwtOptions: {
-			expiresIn: '24h',
+			expiresIn: '15m',
 		},
 	});
 
