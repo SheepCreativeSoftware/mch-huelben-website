@@ -4,7 +4,7 @@ import express from 'express';
 import { buntstift } from 'buntstift';
 import { expressLogger } from '../../modules/expressLogger.mjs';
 import { getNavLinks } from '../../modules/database/getNavLinks.mjs';
-import { getUsers } from '../../modules/database/getUsers.mjs';
+import { getUserById } from '../../modules/database/getUsers.mjs';
 import { initialize } from '../../modules/passport/magicLoginStrategy.mjs';
 import passport from 'passport';
 import { sendErrorPage } from '../../modules/sendErrorPage.mjs';
@@ -15,8 +15,8 @@ passport.serializeUser((user, done) => done(null, user.id));
 // eslint-disable-next-line id-length
 passport.deserializeUser(async (id, done) => {
     buntstift.verbose('deserializeUser');
-    const users = await getUsers();
-    return done(null, users.find((user) => user.id === id));
+    const user = await getUserById(id);
+    return done(null, user);
 });
 const magicLogin = initialize('/user/verify');
 passport.use(magicLogin);

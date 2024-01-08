@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys */
 import { buntstift } from 'buntstift';
-import { getUsers } from '../database/getUsers.mjs';
+import { getUserByEmail } from '../database/getUsers.mjs';
 import MagicLoginStrategy from 'passport-magic-login';
 import { randomBytes } from 'crypto';
 import { sendMagicLinkEmail } from '../mail/sendMagicLinkEmail.mjs';
@@ -36,8 +36,7 @@ const initialize = (callbackUrl) => {
          * for example "/auth/magiclogin/confirm?token=<longtoken>"
          */
         sendMagicLink: async (destination, href) => {
-            const users = await getUsers();
-            const user = users.find((thisUser) => thisUser.email === destination);
+            const user = await getUserByEmail(destination);
             if (typeof user === 'undefined') {
                 buntstift.error(`Unknown user tried to login! email: ${destination}`);
             }
@@ -70,9 +69,8 @@ const initialize = (callbackUrl) => {
                 return callback(new Error(`Token already used: ${payload.code}`));
             }
             tokenSessionStore.push(payload);
-            // Get or create a user with the provided email from the database
-            const users = await getUsers();
-            const user = users.find((thisUser) => thisUser.email === payload.destination);
+            // Get a user with the provided email from the database
+            const user = await getUserByEmail(payload.destination);
             buntstift.verbose(`Verify user: ${user?.id}`);
             if (typeof user === 'undefined')
                 return callback(new Error(`Unkown User tried to login: ${JSON.stringify(payload)}`));

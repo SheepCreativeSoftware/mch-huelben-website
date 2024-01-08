@@ -4,12 +4,11 @@ import express, { NextFunction, Request, Response } from 'express';
 import { buntstift } from 'buntstift';
 import { expressLogger } from '../../modules/expressLogger.mjs';
 import { getNavLinks } from '../../modules/database/getNavLinks.mjs';
-import { getUsers } from '../../modules/database/getUsers.mjs';
+import { getUserById } from '../../modules/database/getUsers.mjs';
 import { initialize } from '../../modules/passport/magicLoginStrategy.mjs';
 import passport from 'passport';
 import { RendererTemplate } from '../../interfaces/RendererTemplate.mjs';
 import { sendErrorPage } from '../../modules/sendErrorPage.mjs';
-
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -17,10 +16,10 @@ const router = express.Router();
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 passport.serializeUser((user: any, done) => done(null, user.id));
 // eslint-disable-next-line id-length
-passport.deserializeUser(async (id, done) => {
+passport.deserializeUser(async (id: string, done) => {
 	buntstift.verbose('deserializeUser');
-	const users = await getUsers();
-	return done(null, users.find((user) => user.id === id));
+	const user = await getUserById(id);
+	return done(null, user);
 });
 const magicLogin = initialize('/user/verify');
 passport.use(magicLogin);
