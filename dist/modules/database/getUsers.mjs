@@ -1,5 +1,4 @@
 import { getConnection } from './connectDatabase.mjs';
-import { randomUUID } from 'crypto';
 const getUsers = async () => {
     const conn = await getConnection();
     const users = await conn.query('SELECT id, name, email, role FROM users LIMIT 1000');
@@ -28,8 +27,7 @@ const setUser = async ({ email, name, role }) => {
     if (user && user.email === email)
         throw new Error('Failed to Add User: email is already existing');
     const conn = await getConnection();
-    await conn.query('INSERT INTO users (id, name, email, role) VALUES (?, ?, ?, ?)', [
-        randomUUID(),
+    await conn.query('INSERT INTO users (name, email, role) VALUES (?, ?, ?)', [
         name,
         email,
         role,

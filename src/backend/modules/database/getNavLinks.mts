@@ -1,10 +1,11 @@
+import { defaultNavLinks } from '../defaults/defaultNavLinks.mjs';
 import { NavLinks } from '../../interfaces/NavLinks.mjs';
 
 type UserRoles = 'none' | 'user' | 'admin';
 
-// Todo: get Navlinks from DB
 const naviLinks: NavLinks[] = [];
 
+// eslint-disable-next-line default-param-last
 const getNavLinks = (role: UserRoles='none', path?: string) => {
 	const links = [...naviLinks];
 	switch (role) {
@@ -23,11 +24,7 @@ const getNavLinks = (role: UserRoles='none', path?: string) => {
 		});
 	// eslint-disable-next-line no-fallthrough
 	case 'none':
-		links.unshift({
-			active: false,
-			href: '/',
-			name: 'Start',
-		});
+		links.unshift(...defaultNavLinks);
 		break;
 	default:
 		break;

@@ -1,0 +1,28 @@
+<section id="main" >
+<% if (typeof userLoggedIn !== 'undefined' && userLoggedIn === true) { %>
+	<article>
+		<h3>Meta Daten</h3>
+		<p>Meta-Daten der Seite bearbeiten</p>
+		<form class="page-form" id="setMetaData" action="/pages/<%= currentUrl %>/setMetaData">
+			<input
+				type="hidden"
+				name="CSRFToken"
+				value="<%= CSRFToken %>"
+			/>
+			<label for="title">Titel</label>
+			<input type="text" name="title" id="title" value="<%= title %>" required><br>
+			<label for="description">Beschreibung</label>
+			<input type="text" name="description" id="description" value="<%= meta.description %>" required><br>
+			<label for="keywords">Schlüsselwörter</label>
+			<input type="text" name="keywords" id="keywords" value="<%= meta.keywords %>" required><br>
+			<button type="submit">Aktualisieren</button>
+		</form>
+	</article>
+<% } %>
+
+	<article>
+		<h1><%= title %></h1>
+		<p><%= meta.description %></p>
+		<p><%= meta.keywords %></p>
+	</article>
+</section>

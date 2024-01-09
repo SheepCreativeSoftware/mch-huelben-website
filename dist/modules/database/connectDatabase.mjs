@@ -25,7 +25,7 @@ const setupEvents = () => {
         return;
     conn.on('end', () => buntstift.verbose('Connection to DB closed'));
     conn.on('error', (error) => {
-        buntstift.error('Connection to DB closed');
+        buntstift.error('Connection to DB failed');
         if (error.fatal)
             buntstift.warn(error.message);
         else
@@ -44,14 +44,12 @@ const reconnectDb = async (firstConnect) => {
     return conn;
 };
 /** Establish a connection to DB or returns current connection */
-const connectDb = async (connectionUri) => {
+const connectDb = (connectionUri) => {
     if (conn && conn.isValid())
         return conn;
     buntstift.verbose('Connect DB');
     config = connectionUri;
-    await reconnectDb(true);
-    setupEvents();
-    return conn;
+    return reconnectDb(true);
 };
 /** Returns the current active connection */
 const getConnection = () => {

@@ -8,7 +8,7 @@
 	</article>
 	<article>
 		<p>Neuen Benutzer hinzufügen</p>
-		<form class="addUser" action="/management/user/addUser" method="post" enctype="application/x-www-form-urlencoded">
+		<form class="page-form" action="/management/user/addUser">
 			<input
 				type="hidden"
 				name="CSRFToken"
@@ -29,7 +29,7 @@
 	<article>
 		<p>Liste der vorhandenen Benutzer. Von hier aus können diese entfernt werden.</p>
 		<% for(const user of users) { %>
-			<form class="removeUser" action="/management/user/removeUser" method="post" enctype="application/x-www-form-urlencoded">
+			<form class="page-form" action="/management/user/removeUser">
 				<input
 					type="hidden"
 					name="CSRFToken"

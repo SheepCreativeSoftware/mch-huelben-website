@@ -1,20 +1,19 @@
-import { connectDb, getConnection } from './connectDatabase.mjs';
 import { buntstift } from 'buntstift';
+import { connectDb } from './connectDatabase.mjs';
 import { randomUUID } from 'crypto';
 const zero = 0;
 const initDatabase = async function () {
     buntstift.info('Initialize DB');
-    await connectDb({
+    const conn = await connectDb({
         database: process.env.DATABASE_NAME,
         host: process.env.DATABASE_HOST,
         password: process.env.DATABASE_PASSWORD,
         port: Number(process.env.DATABASE_PORT),
         user: process.env.DATABASE_USER,
     });
-    const conn = await getConnection();
     try {
         await conn.query(`CREATE TABLE IF NOT EXISTS users (
-			id TINYTEXT NOT NULL,
+			id VARCHAR(36) NOT NULL DEFAULT UUID(),
 			name TINYTEXT NOT NULL,
 			email TINYTEXT NOT NULL,
 			role TINYTEXT NOT NULL
@@ -40,6 +39,37 @@ const initDatabase = async function () {
     }
     catch (error) {
         buntstift.error('Failed to create admin user in DB');
+        if (error instanceof Error)
+            buntstift.error(error.message);
+    }
+    try {
+        await conn.query(`CREATE TABLE IF NOT EXISTS meta (
+			id VARCHAR(36) NOT NULL DEFAULT UUID(),
+			page TEXT NOT NULL,
+			title TEXT NULL DEFAULT NULL,
+			keywords TEXT NULL DEFAULT NULL,
+			description TEXT NULL DEFAULT NULL
+		)`);
+        buntstift.success('Created meta data table in DB');
+    }
+    catch (error) {
+        buntstift.error('Failed to create meta data table in DB');
+        if (error instanceof Error)
+            buntstift.error(error.message);
+    }
+    try {
+        await conn.query(`CREATE TABLE IF NOT EXISTS content (
+			id VARCHAR(36) NOT NULL DEFAULT UUID(),
+			page TEXT NOT NULL,
+			type TINYTEXT NOT NULL,
+			content TEXT NOT NULL,
+			description TEXT NOT NULL,
+			datetime DATETIME NULL DEFAULT current_timestamp()
+		)`);
+        buntstift.success('Created meta data table in DB');
+    }
+    catch (error) {
+        buntstift.error('Failed to create meta data table in DB');
         if (error instanceof Error)
             buntstift.error(error.message);
     }

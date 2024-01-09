@@ -1,5 +1,6 @@
-// Todo: get Navlinks from DB
+import { defaultNavLinks } from '../defaults/defaultNavLinks.mjs';
 const naviLinks = [];
+// eslint-disable-next-line default-param-last
 const getNavLinks = (role = 'none', path) => {
     const links = [...naviLinks];
     switch (role) {
@@ -18,11 +19,7 @@ const getNavLinks = (role = 'none', path) => {
             });
         // eslint-disable-next-line no-fallthrough
         case 'none':
-            links.unshift({
-                active: false,
-                href: '/',
-                name: 'Start',
-            });
+            links.unshift(...defaultNavLinks);
             break;
         default:
             break;

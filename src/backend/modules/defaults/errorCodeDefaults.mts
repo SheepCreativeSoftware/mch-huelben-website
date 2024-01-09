@@ -8,6 +8,12 @@ type ErrorCodeDefaults = {
 }
 
 const errorCodeDefaults: ErrorCodeDefaults = {
+	'Bad Request': {
+		code: '400',
+		description: 'Der Server kann oder wird die Anforderung aufgrund von etwas, das als Client-Fehler wahrgenommen wird (z. B. fehlerhafte Anforderungssyntax, ungültiges Anforderungs-Message-Framing oder irreführendes Anforderungs-Routing), nicht verarbeiten.',
+		header: 'Ups... Fehlerhafte Anfrage',
+		text: 'Bad Request',
+	},
 	'Unauthorized': {
 		code: '401',
 		description: 'Die Anfage bedarf einer Authentifizierung (User und Passwort), die bei der Anfrage mitgeschickt werden muss.',

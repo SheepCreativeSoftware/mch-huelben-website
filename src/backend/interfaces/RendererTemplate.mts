@@ -1,13 +1,15 @@
-import { ErrorRender } from './ErrorRender.mjs';
 import { NavLinks } from './NavLinks.mjs';
 
 interface RendererTemplate {
+	CSRFToken?: string,
 	author: string,
-	meta: string,
+	meta: {
+		description: string,
+		keywords: string,
+	},
 	title: string,
 	naviLinks: NavLinks[],
 	message?: string,
-	error?: ErrorRender,
 	userLoggedIn?: boolean,
 }
 

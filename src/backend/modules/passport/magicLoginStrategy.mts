@@ -7,8 +7,12 @@ import { sendMagicLinkEmail } from '../mail/sendMagicLinkEmail.mjs';
 import { TokenSessionStore } from '../../interfaces/TokenSessionStore.mjs';
 
 const size = 128;
+let expiresIn = '24h';
 let randomSecretKey = process.env.JWT_SECRET || randomBytes(size).toString('hex');
-if(process.env.NODE_ENV === 'production') randomSecretKey = String(process.env.JWT_SECRET)+randomBytes(size).toString('hex');
+if(process.env.NODE_ENV === 'production') {
+	randomSecretKey = String(process.env.JWT_SECRET)+randomBytes(size).toString('hex');
+	expiresIn = '15m';
+}
 
 const tokenSessionStore: TokenSessionStore[] = [];
 
@@ -83,7 +87,7 @@ const initialize = (callbackUrl: string) => {
 
 		// Optional: options passed to the jwt.sign call (https://github.com/auth0/node-jsonwebtoken#jwtsignpayload-secretorprivatekey-options-callback)
 		jwtOptions: {
-			expiresIn: '15m',
+			expiresIn,
 		},
 	});
 

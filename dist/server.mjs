@@ -1,14 +1,14 @@
-import { checkAuthenticated, checkNotAuthenticated } from './modules/passport/checkAuthenticated.mjs';
 import { buntstift } from 'buntstift';
-import { csrfSync } from './modules/misc/csfrSync.mjs';
+import { csrfSync } from 'csrf-sync';
 import { defaults } from './modules/defaults/defaults.mjs';
 import express from 'express';
 import expressLayouts from 'express-ejs-layouts';
-import { expressLogger } from './modules/expressLogger.mjs';
-import { getNavLinks } from './modules/database/getNavLinks.mjs';
+import { expressLogger } from './modules/misc/expressLogger.mjs';
 import { managementUserRouter } from './routes/management/user.mjs';
+import { pagesPublicRouter } from './routes/pages/public.mjs';
+import { pagesRestrictedRouter } from './routes/pages/restricted.mjs';
 import passport from 'passport';
-import { sendErrorPage } from './modules/sendErrorPage.mjs';
+import { sendErrorPage } from './modules/misc/sendErrorPage.mjs';
 import session from 'express-session';
 import { userLoginRouter } from './routes/user/login.mjs';
 const startServer = () => {
@@ -18,10 +18,6 @@ const startServer = () => {
     if (process.env.NODE_ENV === 'development') {
         defaultPath = './dist/';
         app.use(express.static(defaultPath + 'public'));
-        buntstift.configure(buntstift.getConfiguration().withVerboseMode(true));
-    }
-    else {
-        buntstift.configure(buntstift.getConfiguration().withQuietMode(true));
     }
     // Setup ejs support in express
     app.set('view engine', 'ejs');
@@ -56,17 +52,8 @@ const startServer = () => {
     app.use(passport.session());
     app.use('/user', userLoginRouter);
     // Setup public routes
-    app.get('/', checkNotAuthenticated, (req, res) => {
-        res.render('index', {
-            author: 'mch-huelben',
-            message: 'Hi Marina',
-            meta: 'Eisenbahn',
-            naviLinks: getNavLinks('none', '/'),
-            title: 'Home',
-        });
-        expressLogger('success', req, res);
-    });
-    // Setup restricted routes
+    app.use('/', pagesPublicRouter);
+    // Setup CSRF protection
     const csrfSyncProtect = csrfSync({
         getTokenFromRequest: (req) => {
             if (req.is('application/x-www-form-urlencoded'))
@@ -81,17 +68,8 @@ const startServer = () => {
         size: 128,
     });
     app.use(csrfSyncProtect.csrfSynchronisedProtection);
-    app.get('/', checkAuthenticated, (req, res) => {
-        res.render('index', {
-            author: 'mch-huelben',
-            message: 'Hi Admin',
-            meta: 'Eisenbahn',
-            naviLinks: getNavLinks(req.user?.role, '/'),
-            title: 'Home',
-            userLoggedIn: req.isAuthenticated(),
-        });
-        expressLogger('success', req, res);
-    });
+    // Setup restricted routes
+    app.use('/', pagesRestrictedRouter);
     app.use('/management', managementUserRouter);
     // Handle Error routes
     app.use(function (req, res) {

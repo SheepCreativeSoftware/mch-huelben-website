@@ -2,12 +2,12 @@ import { checkAuthenticated, checkNotAuthenticatedRedirect } from '../../modules
 // eslint-disable-next-line no-shadow
 import express from 'express';
 import { buntstift } from 'buntstift';
-import { expressLogger } from '../../modules/expressLogger.mjs';
+import { expressLogger } from '../../modules/misc/expressLogger.mjs';
 import { getNavLinks } from '../../modules/database/getNavLinks.mjs';
 import { getUserById } from '../../modules/database/getUsers.mjs';
 import { initialize } from '../../modules/passport/magicLoginStrategy.mjs';
 import passport from 'passport';
-import { sendErrorPage } from '../../modules/sendErrorPage.mjs';
+import { sendErrorPage } from '../../modules/misc/sendErrorPage.mjs';
 // eslint-disable-next-line new-cap
 const router = express.Router();
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,7 +22,10 @@ const magicLogin = initialize('/user/verify');
 passport.use(magicLogin);
 const loginTemplate = {
     author: 'mch-huelben',
-    meta: 'Login',
+    meta: {
+        description: 'Login Seite',
+        keywords: 'Login',
+    },
     naviLinks: getNavLinks(),
     title: 'Login',
 };

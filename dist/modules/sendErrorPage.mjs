@@ -9,7 +9,10 @@ const errorTemplate = {
         header: '',
         text: '',
     },
-    meta: 'Eisenbahn',
+    meta: {
+        description: '',
+        keywords: '',
+    },
     naviLinks: getNavLinks(),
     title: 'Error',
 };
@@ -19,6 +22,9 @@ const sendErrorPage = (req, res, errorCode) => {
     copyTemplate.error = errorCodeDefaults[errorCode];
     copyTemplate.userLoggedIn = req.isAuthenticated();
     copyTemplate.naviLinks = getNavLinks(req.user?.role);
+    copyTemplate.meta.description = `${errorCodeDefaults[errorCode].header} ${errorCodeDefaults[errorCode].code}`;
+    copyTemplate.meta.keywords = `${errorCodeDefaults[errorCode].header} ${errorCodeDefaults[errorCode].code} -  MCH-H&uuml;lben e.V.`;
+    copyTemplate.title = `${errorCodeDefaults[errorCode].code}`;
     res.status(Number(copyTemplate.error.code)).render('error', copyTemplate);
     if (Number(copyTemplate.error.code) < serverError)
         expressLogger('warn', req, res);

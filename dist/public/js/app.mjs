@@ -27,4 +27,40 @@ loginButton?.addEventListener('submit', async (_event) => {
             loginMessage.innerText = 'Fehler beim einloggen. Bitte versuche es noch einmal.';
     }
 });
+const getCsrfToken = () => {
+    const tokenElement = document.getElementsByName('CSRFToken')[0];
+    let csrfToken = 'null';
+    if (tokenElement instanceof HTMLInputElement)
+        csrfToken = tokenElement.value;
+    return csrfToken || 'null';
+};
+const pageForms = document.getElementsByClassName('page-form');
+for (const pageForm of pageForms) {
+    if (pageForm instanceof HTMLFormElement) {
+        pageForm.addEventListener('submit', async (_event) => {
+            _event.preventDefault();
+            if (_event.target instanceof HTMLFormElement) {
+                const formData = new FormData(_event.target);
+                const bodyObject = {};
+                for (const [key, value] of formData.entries())
+                    Object.assign(bodyObject, { [key]: value });
+                const response = await fetch(_event.target.action, {
+                    body: JSON.stringify(bodyObject),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-csrf-token': getCsrfToken(),
+                    },
+                    method: 'POST',
+                });
+                if (response.redirected)
+                    window.open(response.url);
+                if (!response.ok) {
+                    // ...
+                    // eslint-disable-next-line no-alert
+                    alert(`Fehler bei Aktion: ${response.status} - ${response.statusText}`);
+                }
+            }
+        });
+    }
+}
 export {};

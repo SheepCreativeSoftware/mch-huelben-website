@@ -5,9 +5,12 @@ import MagicLoginStrategy from 'passport-magic-login';
 import { randomBytes } from 'crypto';
 import { sendMagicLinkEmail } from '../mail/sendMagicLinkEmail.mjs';
 const size = 128;
+let expiresIn = '24h';
 let randomSecretKey = process.env.JWT_SECRET || randomBytes(size).toString('hex');
-if (process.env.NODE_ENV === 'production')
+if (process.env.NODE_ENV === 'production') {
     randomSecretKey = String(process.env.JWT_SECRET) + randomBytes(size).toString('hex');
+    expiresIn = '15m';
+}
 const tokenSessionStore = [];
 const removeMillis = 1000;
 const oneElement = 1;
@@ -78,7 +81,7 @@ const initialize = (callbackUrl) => {
         },
         // Optional: options passed to the jwt.sign call (https://github.com/auth0/node-jsonwebtoken#jwtsignpayload-secretorprivatekey-options-callback)
         jwtOptions: {
-            expiresIn: '15m',
+            expiresIn,
         },
     });
     return magicLogin;

@@ -2,18 +2,22 @@ import { checkAuthenticated, checkIfAdmin } from '../../modules/passport/checkAu
 import { getUsers, removeUser, setUser } from '../../modules/database/getUsers.mjs';
 import { buntstift } from 'buntstift';
 import express from 'express';
-import { expressLogger } from '../../modules/expressLogger.mjs';
+import { expressLogger } from '../../modules/misc/expressLogger.mjs';
+import { getErrorStatusCode } from '../../modules/defaults/getStatusCode.mjs';
 import { getNavLinks } from '../../modules/database/getNavLinks.mjs';
-import { sendErrorPage } from '../../modules/sendErrorPage.mjs';
-
+import { sendErrorPage } from '../../modules/misc/sendErrorPage.mjs';
+import { UserTemplate } from '../../interfaces/renderer/UserTemplate.mjs';
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
 
-const basicTemplate = {
+const basicTemplate: UserTemplate = {
 	CSRFToken: '',
 	author: 'mch-huelben',
-	meta: '',
+	meta: {
+		description: '',
+		keywords: '',
+	},
 	naviLinks: getNavLinks(),
 	title: 'Benutzer-Verwaltung',
 	userLoggedIn: false,
@@ -23,7 +27,7 @@ const basicTemplate = {
 /** List users on page */
 router.get('/user', checkAuthenticated, checkIfAdmin, async (req, res) => {
 	try {
-		const copyTemplate = { ...basicTemplate };
+		const copyTemplate = JSON.parse(JSON.stringify(basicTemplate)) as UserTemplate;
 		copyTemplate.naviLinks = getNavLinks(req.user?.role, '/management/user');
 		copyTemplate.userLoggedIn = req.isAuthenticated();
 		copyTemplate.users = await getUsers();
@@ -41,18 +45,20 @@ router.post('/user/addUser', checkAuthenticated, checkIfAdmin, async (req, res) 
 		await setUser({ email: req.body.email, name: req.body.name, role: req.body.role });
 	} catch (error) {
 		if(error instanceof Error) buntstift.error(error.message);
-		return sendErrorPage(req, res, 'Forbidden');
+		return res.status(getErrorStatusCode('Bad Request')).end();
 	}
 
 	return res.redirect('/management/user');
 });
 
+const onlyOne = 1;
 router.post('/user/removeUser', checkAuthenticated, checkIfAdmin, async (req, res) => {
 	try {
+		if(await getUsers.length <= onlyOne) throw new Error('Cannot delete last user');
 		await removeUser({ email: req.body.email, name: req.body.name, role: req.body.role });
 	} catch (error) {
 		if(error instanceof Error) buntstift.error(error.message);
-		return sendErrorPage(req, res, 'Forbidden');
+		return res.status(getErrorStatusCode('Bad Request')).end();
 	}
 
 	return res.redirect('/management/user');
