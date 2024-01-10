@@ -2,6 +2,7 @@ import { buntstift } from 'buntstift';
 import { checkNotAuthenticated } from '../../modules/passport/checkAuthenticated.mjs';
 import express from 'express';
 import { expressLogger } from '../../modules/misc/expressLogger.mjs';
+import { getContent } from '../../modules/database/getContent.mjs';
 import { getMetaData } from '../../modules/database/getMetaData.mjs';
 import { getNavLinks } from '../../modules/database/getNavLinks.mjs';
 import { PagesTemplate } from '../../interfaces/renderer/PagesTemplate.mjs';
@@ -13,7 +14,9 @@ const router = express.Router();
 const basicTemplate: PagesTemplate = {
 	CSRFToken: '',
 	author: 'mch-huelben',
+	content: [],
 	currentUrl: '',
+	dateOptions: { dateStyle: 'long', timeStyle: 'short' },
 	meta: {
 		description: '',
 		keywords: '',
@@ -22,6 +25,8 @@ const basicTemplate: PagesTemplate = {
 	title: '',
 	userLoggedIn: false,
 };
+
+const zero = 0;
 
 /** Start page */
 router.get('/', checkNotAuthenticated, async (req, res) => {
@@ -35,12 +40,14 @@ router.get('/', checkNotAuthenticated, async (req, res) => {
 			copyTemplate.meta.keywords = metaData.keywords;
 			copyTemplate.title = metaData.title;
 		}
+		copyTemplate.content = await getContent(page);
+		if(copyTemplate.content.length === zero) return sendErrorPage(req, res, 'Not Found');
 
-		res.render('pages/normal', copyTemplate);
-		expressLogger('success', req, res);
+		res.render('pages/public', copyTemplate);
+		return expressLogger('success', req, res);
 	} catch (error) {
 		if(error instanceof Error) buntstift.error(error.message);
-		sendErrorPage(req, res, 'Internal Server Error');
+		return sendErrorPage(req, res, 'Internal Server Error');
 	}
 });
 
@@ -55,12 +62,14 @@ router.get('/pages/:page', checkNotAuthenticated, async (req, res) => {
 			copyTemplate.meta.keywords = metaData.keywords;
 			copyTemplate.title = metaData.title;
 		}
+		copyTemplate.content = await getContent(page);
+		if(copyTemplate.content.length === zero) return sendErrorPage(req, res, 'Not Found');
 
-		res.render('pages/normal', copyTemplate);
-		expressLogger('success', req, res);
+		res.render('pages/public', copyTemplate);
+		return expressLogger('success', req, res);
 	} catch (error) {
 		if(error instanceof Error) buntstift.error(error.message);
-		sendErrorPage(req, res, 'Internal Server Error');
+		return sendErrorPage(req, res, 'Internal Server Error');
 	}
 });
 

@@ -65,7 +65,8 @@ const initDatabase = async function() {
 			type TINYTEXT NOT NULL,
 			content TEXT NOT NULL,
 			description TEXT NOT NULL,
-			datetime DATETIME NULL DEFAULT current_timestamp()
+			created DATETIME NULL DEFAULT current_timestamp(),
+			updated DATETIME NULL DEFAULT NULL ON UPDATE current_timestamp()
 		)`);
 		buntstift.success('Created meta data table in DB');
 	} catch (error) {

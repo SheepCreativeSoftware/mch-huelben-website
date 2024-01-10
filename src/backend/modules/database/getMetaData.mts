@@ -1,5 +1,5 @@
 import { getConnection } from './connectDatabase.mjs';
-import { FullMeatDataDB, MetaDataDB } from '../../interfaces/MetaDataDB.mjs';
+import { MetaDataDB } from '../../interfaces/MetaDataDB.mjs';
 import { UUID } from 'crypto';
 
 const zero = 0;
@@ -11,7 +11,7 @@ const getMetaData = async (page: string) => {
 
 const getMetaDataId = async (page: string) => {
 	const conn = await getConnection();
-	const metaData = await conn.query('SELECT id FROM meta WHERE page = ? LIMIT 1', [page]) as FullMeatDataDB[] | undefined[];
+	const metaData = await conn.query('SELECT id FROM meta WHERE page = ? LIMIT 1', [page]) as { id: UUID }[] | undefined[];
 	if(typeof metaData[zero] === 'undefined') return null;
 	return metaData[zero].id;
 };

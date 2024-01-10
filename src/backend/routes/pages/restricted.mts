@@ -15,7 +15,9 @@ const router = express.Router();
 const basicTemplate: PagesTemplate = {
 	CSRFToken: '',
 	author: 'mch-huelben',
+	content: [],
 	currentUrl: '',
+	dateOptions: { dateStyle: 'long', timeStyle: 'short' },
 	meta: {
 		description: '',
 		keywords: '',
@@ -41,7 +43,7 @@ router.get('/', checkAuthenticated, async (req, res) => {
 			copyTemplate.title = metaData.title;
 		}
 
-		res.render('pages/normal', copyTemplate);
+		res.render('pages/restricted', copyTemplate);
 		expressLogger('success', req, res);
 	} catch (error) {
 		if(error instanceof Error) buntstift.error(error.message);
@@ -64,7 +66,7 @@ router.get('/pages/:page', checkAuthenticated, async (req, res) => {
 			copyTemplate.title = metaData.title;
 		}
 
-		res.render('pages/normal', copyTemplate);
+		res.render('pages/restricted', copyTemplate);
 		expressLogger('success', req, res);
 	} catch (error) {
 		if(error instanceof Error) buntstift.error(error.message);

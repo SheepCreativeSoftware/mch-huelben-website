@@ -11,7 +11,9 @@ const router = express.Router();
 const basicTemplate = {
     CSRFToken: '',
     author: 'mch-huelben',
+    content: [],
     currentUrl: '',
+    dateOptions: { dateStyle: 'long', timeStyle: 'short' },
     meta: {
         description: '',
         keywords: '',
@@ -36,7 +38,7 @@ router.get('/', checkAuthenticated, async (req, res) => {
             copyTemplate.meta.keywords = metaData.keywords;
             copyTemplate.title = metaData.title;
         }
-        res.render('pages/normal', copyTemplate);
+        res.render('pages/restricted', copyTemplate);
         expressLogger('success', req, res);
     }
     catch (error) {
@@ -60,7 +62,7 @@ router.get('/pages/:page', checkAuthenticated, async (req, res) => {
             copyTemplate.meta.keywords = metaData.keywords;
             copyTemplate.title = metaData.title;
         }
-        res.render('pages/normal', copyTemplate);
+        res.render('pages/restricted', copyTemplate);
         expressLogger('success', req, res);
     }
     catch (error) {

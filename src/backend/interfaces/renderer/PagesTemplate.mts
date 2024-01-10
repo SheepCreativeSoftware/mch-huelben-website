@@ -1,7 +1,10 @@
+import { ContentDB } from '../ContentDB.mjs';
 import { RendererTemplate } from '../RendererTemplate.mjs';
 
 interface PagesTemplate extends RendererTemplate {
-	currentUrl: string
+	content: ContentDB[] | undefined[],
+	currentUrl: string,
+	dateOptions: Intl.DateTimeFormatOptions,
 }
 
 export { PagesTemplate };
