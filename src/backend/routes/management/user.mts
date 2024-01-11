@@ -17,9 +17,9 @@ const basicTemplate: UserTemplate = {
 	meta: {
 		description: '',
 		keywords: '',
+		title: 'Benutzer-Verwaltung',
 	},
 	naviLinks: getNavLinks(),
-	title: 'Benutzer-Verwaltung',
 	userLoggedIn: false,
 	users: [] as Express.User[],
 };

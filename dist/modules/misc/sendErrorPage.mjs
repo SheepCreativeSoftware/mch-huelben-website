@@ -12,9 +12,9 @@ const errorTemplate = {
     meta: {
         description: '',
         keywords: '',
+        title: 'Error',
     },
     naviLinks: getNavLinks(),
-    title: 'Error',
 };
 const serverError = 500;
 const sendErrorPage = (req, res, errorCode) => {
@@ -22,9 +22,11 @@ const sendErrorPage = (req, res, errorCode) => {
     copyTemplate.error = errorCodeDefaults[errorCode];
     copyTemplate.userLoggedIn = req.isAuthenticated();
     copyTemplate.naviLinks = getNavLinks(req.user?.role);
-    copyTemplate.meta.description = `${errorCodeDefaults[errorCode].header} ${errorCodeDefaults[errorCode].code}`;
-    copyTemplate.meta.keywords = `${errorCodeDefaults[errorCode].header} ${errorCodeDefaults[errorCode].code} -  MCH-H&uuml;lben e.V.`;
-    copyTemplate.title = `${errorCodeDefaults[errorCode].code}`;
+    copyTemplate.meta = {
+        description: `${errorCodeDefaults[errorCode].header} ${errorCodeDefaults[errorCode].code}`,
+        keywords: `${errorCodeDefaults[errorCode].header} ${errorCodeDefaults[errorCode].code} -  MCH-H&uuml;lben e.V.`,
+        title: `${errorCodeDefaults[errorCode].code}`,
+    };
     res.status(Number(copyTemplate.error.code)).render('error', copyTemplate);
     if (Number(copyTemplate.error.code) < serverError)
         expressLogger('warn', req, res);

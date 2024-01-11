@@ -14,9 +14,9 @@ const basicTemplate = {
     meta: {
         description: '',
         keywords: '',
+        title: 'Benutzer-Verwaltung',
     },
     naviLinks: getNavLinks(),
-    title: 'Benutzer-Verwaltung',
     userLoggedIn: false,
     users: [],
 };

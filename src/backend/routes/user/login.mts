@@ -29,9 +29,9 @@ const loginTemplate: RendererTemplate = {
 	meta: {
 		description: 'Login Seite',
 		keywords: 'Login',
+		title: 'Login',
 	},
 	naviLinks: getNavLinks(),
-	title: 'Login',
 };
 
 router.get('/login', checkNotAuthenticatedRedirect, (req, res) => {

@@ -21,9 +21,9 @@ const basicTemplate: PagesTemplate = {
 	meta: {
 		description: '',
 		keywords: '',
+		title: '',
 	},
 	naviLinks: getNavLinks(),
-	title: '',
 	userLoggedIn: false,
 };
 
@@ -37,17 +37,14 @@ router.get('/', checkAuthenticated, async (req, res) => {
 		copyTemplate.userLoggedIn = req.isAuthenticated();
 		if(typeof req.csrfToken === 'function') copyTemplate.CSRFToken = req.csrfToken();
 		const metaData = await getMetaData(page);
-		if(metaData) {
-			copyTemplate.meta.description = metaData.description;
-			copyTemplate.meta.keywords = metaData.keywords;
-			copyTemplate.title = metaData.title;
-		}
+		if(metaData) copyTemplate.meta = metaData;
 
 		res.render('pages/restricted', copyTemplate);
-		expressLogger('success', req, res);
+		return expressLogger('success', req, res);
 	} catch (error) {
 		if(error instanceof Error) buntstift.error(error.message);
-		sendErrorPage(req, res, 'Internal Server Error');
+		if(error instanceof Error && error.message === 'Unknown Page') return sendErrorPage(req, res, 'Not Found');
+		return sendErrorPage(req, res, 'Internal Server Error');
 	}
 });
 
@@ -60,17 +57,14 @@ router.get('/pages/:page', checkAuthenticated, async (req, res) => {
 		copyTemplate.userLoggedIn = req.isAuthenticated();
 		if(typeof req.csrfToken === 'function') copyTemplate.CSRFToken = req.csrfToken();
 		const metaData = await getMetaData(page);
-		if(metaData) {
-			copyTemplate.meta.description = metaData.description;
-			copyTemplate.meta.keywords = metaData.keywords;
-			copyTemplate.title = metaData.title;
-		}
+		if(metaData) copyTemplate.meta = metaData;
 
 		res.render('pages/restricted', copyTemplate);
-		expressLogger('success', req, res);
+		return expressLogger('success', req, res);
 	} catch (error) {
 		if(error instanceof Error) buntstift.error(error.message);
-		sendErrorPage(req, res, 'Internal Server Error');
+		if(error instanceof Error && error.message === 'Unknown Page') return sendErrorPage(req, res, 'Not Found');
+		return sendErrorPage(req, res, 'Internal Server Error');
 	}
 });
 

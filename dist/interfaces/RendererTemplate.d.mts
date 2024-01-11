@@ -5,8 +5,8 @@ interface RendererTemplate {
     meta: {
         description: string;
         keywords: string;
+        title: string;
     };
-    title: string;
     naviLinks: NavLinks[];
     message?: string;
     userLoggedIn?: boolean;
