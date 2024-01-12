@@ -1,0 +1,29 @@
+<section id="main" >
+	<%- include('meta') %>
+	<% if (typeof userLoggedIn !== 'undefined' && userLoggedIn === true) { %>
+		<% let thatContent = {
+			id: 'none',
+			type: 'article-main',
+			content: '',
+		}
+		if (typeof content[0] !== 'undefined') {
+			thatContent = content[0]
+		} %>
+		<article>
+			<h3>Willkommens-text</h3>
+			<p>Hier kann der Bereich editiert werden<br></p>
+			<form class="page-form" id="updatePageContent" action="/pages/<%= currentUrl %>/updatePageContent">
+				<input
+					type="hidden"
+					name="CSRFToken"
+					value="<%= CSRFToken %>"
+				/>
+				<input type="hidden" value="<%= thatContent.id %>" name="id">
+				<input type="hidden" value="<%= thatContent.type %>"  name="type">
+				<input id="trix-content-0" type="hidden" value="<%- thatContent.value %>" name="content">
+				<trix-editor input="trix-content-0"></trix-editor>
+				<button type="submit">Aktualisieren</button>
+			</form>
+		</article>
+	<% } %>
+	</section>

@@ -1,4 +1,3 @@
-<section id="main" >
 <% if (typeof userLoggedIn !== 'undefined' && userLoggedIn === true) { %>
 	<article>
 		<h3>Meta Daten</h3>
@@ -10,7 +9,7 @@
 				value="<%= CSRFToken %>"
 			/>
 			<label for="title">Titel</label>
-			<input type="text" name="title" id="title" value="<%= title %>" required><br>
+			<input type="text" name="title" id="title" value="<%= meta.title %>" required><br>
 			<label for="description">Beschreibung</label>
 			<input type="text" name="description" id="description" value="<%= meta.description %>" required><br>
 			<label for="keywords">Schlüsselwörter</label>
@@ -19,10 +18,3 @@
 		</form>
 	</article>
 <% } %>
-
-	<article>
-		<h1><%= title %></h1>
-		<p><%= meta.description %></p>
-		<p><%= meta.keywords %></p>
-	</article>
-</section>

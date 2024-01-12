@@ -4,7 +4,9 @@ import { buntstift } from 'buntstift';
 import { checkAuthenticated } from '../../modules/passport/checkAuthenticated.mjs';
 import express from 'express';
 import { expressLogger } from '../../modules/misc/expressLogger.mjs';
+import { getContent } from '../../modules/database/getContent.mjs';
 import { getNavLinks } from '../../modules/database/getNavLinks.mjs';
+import { getSpecialContent } from './getSpecialContent.mjs';
 import { sendErrorPage } from '../../modules/misc/sendErrorPage.mjs';
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -35,7 +37,8 @@ router.get('/', checkAuthenticated, async (req, res) => {
         const metaData = await getMetaData(page);
         if (metaData)
             copyTemplate.meta = metaData;
-        res.render('pages/restricted', copyTemplate);
+        copyTemplate.content = await getSpecialContent(await getContent(page));
+        res.render('pages/restricted/start', copyTemplate);
         return expressLogger('success', req, res);
     }
     catch (error) {

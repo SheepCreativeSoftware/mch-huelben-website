@@ -1,0 +1,27 @@
+<section id="main" >
+<%- include('meta') %>
+
+<% if (typeof userLoggedIn !== 'undefined' && userLoggedIn === true) { %>
+	<article>
+		<h3>Bereich hinzufügen</h3>
+		<p>Einen neuen Bereich auf der Seite hinzufügen<br></p>
+		<form class="page-form" id="addPageContent" action="/pages/<%= currentUrl %>/addPageContent">
+			<input
+				type="hidden"
+				name="CSRFToken"
+				value="<%= CSRFToken %>"
+			/>
+			<label for="content-type">Typ</label>
+			<select name="content-type" id="content-type" >
+				<option value="article-big">Artikel breit</option>
+				<option value="article-small">Artikel schmal</option>
+				<option value="aside-info">Seitenleiste Info</option>
+				<option value="aside-maps">Seitenleiste GMaps</option>
+				<option value="gallery-preview">Galerie Vorschau</option>
+				<option value="news-preview">Aktuelles Vorschau</option>
+			</select>
+			<button type="submit">Hinzufügen</button>
+		</form>
+	</article>
+<% } %>
+</section>

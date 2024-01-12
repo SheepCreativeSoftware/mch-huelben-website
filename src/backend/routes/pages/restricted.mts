@@ -4,7 +4,9 @@ import { buntstift } from 'buntstift';
 import { checkAuthenticated } from '../../modules/passport/checkAuthenticated.mjs';
 import express from 'express';
 import { expressLogger } from '../../modules/misc/expressLogger.mjs';
+import { getContent } from '../../modules/database/getContent.mjs';
 import { getNavLinks } from '../../modules/database/getNavLinks.mjs';
+import { getSpecialContent } from './getSpecialContent.mjs';
 import { MetaDataDB } from '../../interfaces/MetaDataDB.mjs';
 import { PagesTemplate } from '../../interfaces/renderer/PagesTemplate.mjs';
 import { sendErrorPage } from '../../modules/misc/sendErrorPage.mjs';
@@ -27,6 +29,7 @@ const basicTemplate: PagesTemplate = {
 	userLoggedIn: false,
 };
 
+
 /** Start page */
 router.get('/', checkAuthenticated, async (req, res) => {
 	try {
@@ -38,8 +41,9 @@ router.get('/', checkAuthenticated, async (req, res) => {
 		if(typeof req.csrfToken === 'function') copyTemplate.CSRFToken = req.csrfToken();
 		const metaData = await getMetaData(page);
 		if(metaData) copyTemplate.meta = metaData;
+		copyTemplate.content = await getSpecialContent(await getContent(page));
 
-		res.render('pages/restricted', copyTemplate);
+		res.render('pages/restricted/start', copyTemplate);
 		return expressLogger('success', req, res);
 	} catch (error) {
 		if(error instanceof Error) buntstift.error(error.message);
