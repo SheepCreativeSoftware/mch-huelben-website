@@ -29,15 +29,21 @@ const basicTemplate: PagesTemplate = {
 
 const zero = 0;
 
+const createContentData = async (page: string) => {
+	const copyTemplate = JSON.parse(JSON.stringify(basicTemplate)) as PagesTemplate;
+	copyTemplate.naviLinks = getNavLinks('none', '/');
+	const metaData = await getMetaData(page);
+	if(metaData) copyTemplate.meta = metaData;
+	copyTemplate.content = await getSpecialContent(await getContent(page));
+	return copyTemplate;
+};
+
 /** Start page */
 router.get('/', checkNotAuthenticated, async (req, res) => {
 	try {
 		const page = 'start';
-		const copyTemplate = JSON.parse(JSON.stringify(basicTemplate)) as PagesTemplate;
-		copyTemplate.naviLinks = getNavLinks('none', '/');
-		const metaData = await getMetaData(page);
-		if(metaData) copyTemplate.meta = metaData;
-		copyTemplate.content = await getSpecialContent(await getContent(page));
+		const copyTemplate = await createContentData(page);
+
 		if(copyTemplate.content.length === zero) return sendErrorPage(req, res, 'Not Found');
 
 		res.render('pages/public', copyTemplate);
@@ -52,11 +58,7 @@ router.get('/', checkNotAuthenticated, async (req, res) => {
 router.get('/pages/:page', checkNotAuthenticated, async (req, res) => {
 	try {
 		const page = req.params.page;
-		const copyTemplate = JSON.parse(JSON.stringify(basicTemplate)) as PagesTemplate;
-		copyTemplate.naviLinks = getNavLinks('none', `/pages/${page}`);
-		const metaData = await getMetaData(page);
-		if(metaData) copyTemplate.meta = metaData;
-		copyTemplate.content = await getSpecialContent(await getContent(page));
+		const copyTemplate = await createContentData(page);
 		if(copyTemplate.content.length === zero) return sendErrorPage(req, res, 'Not Found');
 
 		res.render('pages/public', copyTemplate);

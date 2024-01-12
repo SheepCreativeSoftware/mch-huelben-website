@@ -11,7 +11,6 @@
 			thatContent = content[0]
 		} %>
 		<article>
-			<h3>Willkommens-text</h3>
 			<p>Hier kann der Bereich editiert werden<br></p>
 			<form class="page-form" id="updatePageContent" action="/pages/<%= currentUrl %>/updatePageContent">
 				<input
@@ -20,8 +19,8 @@
 					value="<%= CSRFToken %>"
 				/>
 				<input type="hidden" value="<%= thatContent.id %>" name="id">
-				<input type="hidden" value="<%= thatContent.type %>"  name="type">
-				<input id="trix-content-0" type="hidden" value="<%- thatContent.content %>" name="content">
+				<input type="hidden" value="article-big"  name="type">
+				<input id="trix-content-0" type="hidden" value="<%= thatContent.content %>" name="content">
 				<trix-editor input="trix-content-0"></trix-editor>
 				<button type="submit">Aktualisieren</button>
 			</form>

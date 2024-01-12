@@ -1,11 +1,11 @@
 // eslint-disable-next-line no-shadow
 import express from 'express';
+import { getContent, setContent } from '../../modules/database/getContent.mjs';
 import { getErrorStatusCode, getInfoStatusCode } from '../../modules/defaults/getStatusCode.mjs';
 import { getMetaData, setMetaData } from '../../modules/database/getMetaData.mjs';
 import { buntstift } from 'buntstift';
 import { checkAuthenticated } from '../../modules/passport/checkAuthenticated.mjs';
 import { expressLogger } from '../../modules/misc/expressLogger.mjs';
-import { getContent } from '../../modules/database/getContent.mjs';
 import { getNavLinks } from '../../modules/database/getNavLinks.mjs';
 import { getSpecialContent } from './getSpecialContent.mjs';
 import { sendErrorPage } from '../../modules/misc/sendErrorPage.mjs';
@@ -59,6 +59,7 @@ router.get('/', checkAuthenticated, async (req, res) => {
         return sendErrorPage(req, res, 'Internal Server Error');
     }
 });
+// News page must be in here later
 router.get('/pages/:page', checkAuthenticated, async (req, res) => {
     try {
         const page = req.params.page;
@@ -88,6 +89,22 @@ router.post('/pages/:page/setMetaData', checkAuthenticated, async (req, res) => 
             title: req.body.title,
         };
         await setMetaData({ metaData, page });
+    }
+    catch (error) {
+        if (error instanceof Error)
+            buntstift.error(error.message);
+        return res.status(getErrorStatusCode('Bad Request')).end();
+    }
+    return res.status(getInfoStatusCode('Created')).end();
+});
+router.post('/pages/:page/updatePageContent', checkAuthenticated, async (req, res) => {
+    try {
+        const page = req.params.page;
+        const content = req.body.content;
+        const type = req.body.type;
+        // eslint-disable-next-line id-length
+        const id = req.body.id;
+        await setContent(page, type, content, id);
     }
     catch (error) {
         if (error instanceof Error)

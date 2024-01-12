@@ -64,7 +64,6 @@ const initDatabase = async function() {
 			page TEXT NOT NULL,
 			type TINYTEXT NOT NULL,
 			content TEXT NOT NULL,
-			description TEXT NOT NULL,
 			created DATETIME NULL DEFAULT current_timestamp(),
 			updated DATETIME NULL DEFAULT NULL ON UPDATE current_timestamp()
 		)`);
