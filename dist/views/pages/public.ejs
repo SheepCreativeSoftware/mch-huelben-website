@@ -10,6 +10,16 @@
 					Veröffentlicht: <%= new Date(singleContent.created).toLocaleString('de-DE', dateOptions) %><% if (singleContent.updated) { %> - Aktualisiert: <%= new Date(singleContent.updated).toLocaleString('de-DE' , dateOptions) %><% } %></p>
 			</article>
 		<% } %>
+
+		<% if (singleContent.type === 'news-preview') { %>
+			<article class="news-preview" >
+				<div class="article-content">
+					<%- singleContent.content %>
+				</div>
+				<p class="article-date">
+					Veröffentlicht: <%= new Date(singleContent.created).toLocaleString('de-DE', dateOptions) %><% if (singleContent.updated) { %> - Aktualisiert: <%= new Date(singleContent.updated).toLocaleString('de-DE' , dateOptions) %><% } %></p>
+			</article>
+		<% } %>
 	</div>
 <% } %>
 

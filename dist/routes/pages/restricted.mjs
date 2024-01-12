@@ -1,8 +1,9 @@
+// eslint-disable-next-line no-shadow
+import express from 'express';
 import { getErrorStatusCode, getInfoStatusCode } from '../../modules/defaults/getStatusCode.mjs';
 import { getMetaData, setMetaData } from '../../modules/database/getMetaData.mjs';
 import { buntstift } from 'buntstift';
 import { checkAuthenticated } from '../../modules/passport/checkAuthenticated.mjs';
-import express from 'express';
 import { expressLogger } from '../../modules/misc/expressLogger.mjs';
 import { getContent } from '../../modules/database/getContent.mjs';
 import { getNavLinks } from '../../modules/database/getNavLinks.mjs';
@@ -24,51 +25,57 @@ const basicTemplate = {
     naviLinks: getNavLinks(),
     userLoggedIn: false,
 };
+const createContentData = async (req, page) => {
+    const copyTemplate = JSON.parse(JSON.stringify(basicTemplate));
+    copyTemplate.currentUrl = page;
+    copyTemplate.naviLinks = getNavLinks(req.user?.role, '/');
+    copyTemplate.userLoggedIn = req.isAuthenticated();
+    if (typeof req.csrfToken === 'function')
+        copyTemplate.CSRFToken = req.csrfToken();
+    const metaData = await getMetaData(page);
+    if (metaData)
+        copyTemplate.meta = metaData;
+    copyTemplate.content = await getSpecialContent(await getContent(page));
+    return copyTemplate;
+};
 /** Start page */
 router.get('/', checkAuthenticated, async (req, res) => {
     try {
         const page = 'start';
-        const copyTemplate = JSON.parse(JSON.stringify(basicTemplate));
-        copyTemplate.currentUrl = page;
-        copyTemplate.naviLinks = getNavLinks(req.user?.role, '/');
-        copyTemplate.userLoggedIn = req.isAuthenticated();
-        if (typeof req.csrfToken === 'function')
-            copyTemplate.CSRFToken = req.csrfToken();
-        const metaData = await getMetaData(page);
-        if (metaData)
-            copyTemplate.meta = metaData;
-        copyTemplate.content = await getSpecialContent(await getContent(page));
-        res.render('pages/restricted/start', copyTemplate);
+        const copyTemplate = await createContentData(req, page);
+        res.render(`pages/restricted/${page}`, copyTemplate, (error, html) => {
+            if (error)
+                throw error;
+            return res.status(getInfoStatusCode('Accepted')).send(html);
+        });
         return expressLogger('success', req, res);
     }
     catch (error) {
-        if (error instanceof Error)
+        if (error instanceof Error) {
             buntstift.error(error.message);
-        if (error instanceof Error && error.message === 'Unknown Page')
-            return sendErrorPage(req, res, 'Not Found');
+            if (error.message.includes('Failed to lookup view'))
+                return sendErrorPage(req, res, 'Not Found');
+        }
         return sendErrorPage(req, res, 'Internal Server Error');
     }
 });
 router.get('/pages/:page', checkAuthenticated, async (req, res) => {
     try {
         const page = req.params.page;
-        const copyTemplate = JSON.parse(JSON.stringify(basicTemplate));
-        copyTemplate.currentUrl = page;
-        copyTemplate.naviLinks = getNavLinks(req.user?.role, `/pages/${page}`);
-        copyTemplate.userLoggedIn = req.isAuthenticated();
-        if (typeof req.csrfToken === 'function')
-            copyTemplate.CSRFToken = req.csrfToken();
-        const metaData = await getMetaData(page);
-        if (metaData)
-            copyTemplate.meta = metaData;
-        res.render('pages/restricted', copyTemplate);
+        const copyTemplate = await createContentData(req, page);
+        res.render(`pages/restricted/${page}`, copyTemplate, (error, html) => {
+            if (error)
+                throw error;
+            return res.status(getInfoStatusCode('Accepted')).send(html);
+        });
         return expressLogger('success', req, res);
     }
     catch (error) {
-        if (error instanceof Error)
+        if (error instanceof Error) {
             buntstift.error(error.message);
-        if (error instanceof Error && error.message === 'Unknown Page')
-            return sendErrorPage(req, res, 'Not Found');
+            if (error.message.includes('Failed to lookup view'))
+                return sendErrorPage(req, res, 'Not Found');
+        }
         return sendErrorPage(req, res, 'Internal Server Error');
     }
 });

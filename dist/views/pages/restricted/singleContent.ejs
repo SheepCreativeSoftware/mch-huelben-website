@@ -1,7 +1,7 @@
 <section id="main" >
 	<%- include('meta') %>
 	<% if (typeof userLoggedIn !== 'undefined' && userLoggedIn === true) { %>
-		<%# Welcome header %>
+		<%# Content %>
 		<% let thatContent = {
 			id: 'none',
 			type: 'article-big',
@@ -27,31 +27,5 @@
 			</form>
 		</article>
 
-		<%# News preview %>
-		<% thatContent = {
-			id: 'none',
-			type: 'news-preview',
-			content: '',
-		}
-		if (typeof content[1] !== 'undefined') {
-			thatContent = content[1]
-		} %>
-		<article>
-			<h3>Nachrichten Vorschau</h3>
-			<form class="page-form" id="updatePageContent" action="/pages/<%= currentUrl %>/updatePageContent">
-				<input
-					type="hidden"
-					name="CSRFToken"
-					value="<%= CSRFToken %>"
-				/>
-				<input type="hidden" value="<%= thatContent.id %>" name="id">
-				<input type="hidden" value="<%= thatContent.type %>"  name="type">
-				<label for="manual-content-1">Maximale Zeichenlänge</label>
-				<input id="manual-content-1" type="number" value="<%- thatContent.content %>" name="content">
-				<button type="submit">Aktualisieren</button>
-			</form>
-		</article>
-
-		<%# Gallery Preview %>
 	<% } %>
 	</section>
