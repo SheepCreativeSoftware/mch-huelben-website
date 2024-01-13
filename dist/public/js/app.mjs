@@ -53,7 +53,7 @@ for (const pageForm of pageForms) {
                     method: 'POST',
                 });
                 if (response.redirected)
-                    window.open(response.url);
+                    window.open(response.url, '_self');
                 if (!response.ok) {
                     // ...
                     // eslint-disable-next-line no-alert
@@ -63,4 +63,17 @@ for (const pageForm of pageForms) {
         });
     }
 }
+const updateTrixToolbarVisibility = () => {
+    const trixEditors = document.getElementsByTagName('trix-editor');
+    for (const trixEditor of trixEditors) {
+        const toolBar = trixEditor.toolbarElement;
+        if (trixEditor === document.activeElement)
+            toolBar.classList.remove('trix-unfocused');
+        else
+            toolBar.classList.add('trix-unfocused');
+    }
+};
+document.addEventListener('trix-focus', updateTrixToolbarVisibility);
+document.addEventListener('trix-blur', updateTrixToolbarVisibility);
+document.addEventListener('trix-initialize', updateTrixToolbarVisibility);
 export {};

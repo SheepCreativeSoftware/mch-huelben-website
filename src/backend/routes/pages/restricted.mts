@@ -1,6 +1,6 @@
+import { addContent, getContent, removeContent, setContent } from '../../modules/database/getContent.mjs';
 // eslint-disable-next-line no-shadow
 import express, { Request } from 'express';
-import { getContent, setContent } from '../../modules/database/getContent.mjs';
 import { getErrorStatusCode, getInfoStatusCode } from '../../modules/defaults/getStatusCode.mjs';
 import { getMetaData, setMetaData } from '../../modules/database/getMetaData.mjs';
 import { buntstift } from 'buntstift';
@@ -37,6 +37,7 @@ const createContentData = async (req: Request, page: string) => {
 	copyTemplate.currentUrl = page;
 	copyTemplate.naviLinks = getNavLinks(req.user?.role, '/');
 	copyTemplate.userLoggedIn = req.isAuthenticated();
+	copyTemplate.adminLoggedIn = req.user?.role === 'admin';
 	if(typeof req.csrfToken === 'function') copyTemplate.CSRFToken = req.csrfToken();
 	const metaData = await getMetaData(page);
 	if(metaData) copyTemplate.meta = metaData;
@@ -103,13 +104,27 @@ router.post('/pages/:page/setMetaData', checkAuthenticated, async (req, res) => 
 	return res.status(getInfoStatusCode('Created')).end();
 });
 
+router.post('/pages/:page/addPageContent', checkAuthenticated, async (req, res) => {
+	const page = req.params.page;
+	try {
+		// eslint-disable-next-line id-length
+		const type = req.body.type as ContentType;
+		await addContent(page, type);
+	} catch (error) {
+		if(error instanceof Error) buntstift.error(error.message);
+		return res.status(getErrorStatusCode('Bad Request')).end();
+	}
+
+	return res.redirect(`/pages/${page}`);
+});
+
 router.post('/pages/:page/updatePageContent', checkAuthenticated, async (req, res) => {
 	try {
 		const page = req.params.page;
 		const content = req.body.content;
 		const type = req.body.type as ContentType;
 		// eslint-disable-next-line id-length
-		const id = req.body.id as UUID | 'none';
+		const id = req.body.id as UUID;
 		await setContent(page, type, content, id);
 	} catch (error) {
 		if(error instanceof Error) buntstift.error(error.message);
@@ -117,6 +132,20 @@ router.post('/pages/:page/updatePageContent', checkAuthenticated, async (req, re
 	}
 
 	return res.status(getInfoStatusCode('Created')).end();
+});
+
+router.post('/pages/:page/removePageContent', checkAuthenticated, async (req, res) => {
+	const page = req.params.page;
+	try {
+		// eslint-disable-next-line id-length
+		const id = req.body.id as UUID;
+		await removeContent(page, id);
+	} catch (error) {
+		if(error instanceof Error) buntstift.error(error.message);
+		return res.status(getErrorStatusCode('Bad Request')).end();
+	}
+
+	return res.redirect(`/pages/${page}`);
 });
 
 export { router as pagesRestrictedRouter };

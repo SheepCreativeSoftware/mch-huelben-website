@@ -1,0 +1,11 @@
+<% if (typeof adminLoggedIn !== 'undefined' && adminLoggedIn === true) { %>
+	<form class="page-form" id="removePageContent" action="/pages/<%= currentUrl %>/removePageContent">
+		<input
+			type="hidden"
+			name="CSRFToken"
+			value="<%= CSRFToken %>"
+		/>
+		<input type="hidden" value="<%= singleContent.id %>" name="id">
+		<button type="submit">Entfernen</button>
+	</form >
+<% } %>

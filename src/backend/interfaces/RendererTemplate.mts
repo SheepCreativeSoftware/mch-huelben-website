@@ -11,6 +11,7 @@ interface RendererTemplate {
 	naviLinks: NavLinks[],
 	message?: string,
 	userLoggedIn?: boolean,
+	adminLoggedIn?: boolean,
 }
 
 export { RendererTemplate };

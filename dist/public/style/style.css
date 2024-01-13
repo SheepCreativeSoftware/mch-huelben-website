@@ -171,45 +171,53 @@ nav ul li ul {
 	padding:0em;
 }
 
-#main article {
-	display: inline-block;
+
+#main div.hasAside {
 	width: 65.3%;
-	background: #FFFFFF;
-	vertical-align: top;
-	padding: 0em;
-	text-align: center;
-	margin-top: 0em;
-	margin-right: 0em;
-	margin-bottom: 1.25em;
-	margin-left: 0em;
 }
+
+#main div.noAside {
+	width: 100%;
+}
+
+#main div#article {
+	display: inline-block;
+	background-color: #DCDCDC;
+}
+
+
+#main div article:nth-child(even) {
+	width: calc(100% - 2em);
+	background-color: #06F;
+	color: #FFF;
+	margin: 0 0 1.25em 0;
+	padding: 1em;
+}
+
+#main div article:nth-child(odd) {
+	width: calc(100% - 2em);
+	background-color: #FFFFFF;
+	margin: 0 0 1.25em 0;
+	padding: 1em;
+}
+
 #article2 {
 	background: #06F !important;
 }
-#article2 h1{
+#main div article:nth-child(even) h1,
+#main div article:nth-child(even) h2,
+#main div article:nth-child(even) h3,
+#main div article:nth-child(even) p {
 	color:#FFF;
 }
-#article2 h2{
-	color:#FFF;
-}
-#article2 h3{
-	color:#FFF;
-}
-#article2 p{
-	color:#FFF;
-}
-#article2 a {
+
+#main div article:nth-child(even) a,
+#main div article:nth-child(even) a:link,
+#main div article:nth-child(even) a:hover,
+#main div article:nth-child(even) a:visited {
 	color:#E2DBDB;
 }
-#article2 a:link {
-	color:#E2DBDB;
-}
-#article2 a:hover {
-	color:#E2DBDB;
-}
-#article2 a:visited {
-	color:#E2DBDB;
-}
+
 
 #main article img {
 	
@@ -370,4 +378,10 @@ footer ul li a:visited {
 	#headerPic2 {
 		display:none;
 	}
+}
+
+.trix-unfocused {
+	height: 30px;
+	overflow: hidden;
+	display: none;
 }

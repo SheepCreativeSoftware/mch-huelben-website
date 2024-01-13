@@ -1,3 +1,5 @@
+import { TrixEditor } from './interfaces/Trix.mjs';
+
 const scrollSmothToTarget = (anchorId: string) => {
 	const targetElement = document.querySelector(anchorId);
 	if(targetElement) targetElement.scrollIntoView({ behavior: 'smooth' });
@@ -52,7 +54,7 @@ for(const pageForm of pageForms) {
 					},
 					method: 'POST',
 				});
-				if(response.redirected) window.open(response.url);
+				if(response.redirected) window.open(response.url, '_self');
 				if(!response.ok) {
 					// ...
 					// eslint-disable-next-line no-alert
@@ -63,3 +65,16 @@ for(const pageForm of pageForms) {
 	}
 }
 
+
+const updateTrixToolbarVisibility = () => {
+	const trixEditors = document.getElementsByTagName('trix-editor') as HTMLCollectionOf<TrixEditor>;
+	for(const trixEditor of trixEditors) {
+		const toolBar = trixEditor.toolbarElement;
+		if(trixEditor === document.activeElement) toolBar.classList.remove('trix-unfocused');
+		else toolBar.classList.add('trix-unfocused');
+	}
+};
+
+document.addEventListener('trix-focus', updateTrixToolbarVisibility);
+document.addEventListener('trix-blur', updateTrixToolbarVisibility);
+document.addEventListener('trix-initialize', updateTrixToolbarVisibility);

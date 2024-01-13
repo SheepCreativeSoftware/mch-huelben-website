@@ -1,1 +1,19 @@
-<%- include('singleContent') %>
+<section id="main" >
+	<% hasAside = false;
+	for(const singleContent of content) { 
+		if(singleContent.type.includes('aside')) hasAside = true;
+	}%>
+	<div id="article" class="<% if (hasAside) { %><%= 'hasAside' %><% } else { %><%= 'noAside' %><% } %>">
+		<% if (typeof userLoggedIn !== 'undefined' && userLoggedIn === true) { %>
+			<%- include('meta') %>
+			<%- include('restricted') %>
+		<% } %>
+	</div>
+<% if(hasAside) { %>
+<aside>
+	<% if (typeof userLoggedIn !== 'undefined' && userLoggedIn === true) { %>
+		<%- include('restricted-aside') %>
+	<% } %>
+</aside>
+<% } %>
+</section>

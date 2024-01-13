@@ -1,0 +1,37 @@
+<% for(const singleContent of content) { 
+	if(singleContent.type === 'aside-info') {%>
+	<section>
+		<p>Hier kann der Bereich editiert werden<br></p>
+		<form class="page-form" id="updatePageContent" action="/pages/<%= currentUrl %>/updatePageContent">
+			<input
+				type="hidden"
+				name="CSRFToken"
+				value="<%= CSRFToken %>"
+			/>
+			<input type="hidden" value="<%= singleContent.id %>" name="id">
+			<input type="hidden" value="<%= singleContent.type %>"  name="type">
+			<input id="trix-content-<%= singleContent.id %>" type="hidden" value="<%= singleContent.content %>" name="content">
+			<trix-editor class="trix-content" input="trix-content-<%= singleContent.id %>"></trix-editor>
+			<button type="submit">Speichern</button>
+		</form>
+		<%- include('remove', { singleContent }) %>
+	</section>
+	<% } else if(singleContent.type === 'aside-maps') {%>
+	<section>
+		<p>Hier kann der Bereich editiert werden<br></p>
+		<form class="page-form" id="updatePageContent" action="/pages/<%= currentUrl %>/updatePageContent">
+			<input
+				type="hidden"
+				name="CSRFToken"
+				value="<%= CSRFToken %>"
+			/>
+			<input type="hidden" value="<%= singleContent.id %>" name="id">
+			<input type="hidden" value="<%= singleContent.type %>"  name="type">
+			<label for="manual-content-<%= singleContent.id %>">Google Maps Url</label>
+			<input id="manual-content-<%= singleContent.id %>" type="url" value="<%= singleContent.content %>" name="content">
+			<button type="submit">Speichern</button>
+		</form>
+		<%- include('remove', { singleContent }) %>
+	</section>
+	<% } %>
+<% } %>

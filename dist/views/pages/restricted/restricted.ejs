@@ -1,7 +1,41 @@
-<section id="main" >
-<%- include('meta') %>
-
-<% if (typeof userLoggedIn !== 'undefined' && userLoggedIn === true) { %>
+<% for(const singleContent of content) { 
+	if(singleContent.type === 'article-big' || singleContent.type === 'article-small' || singleContent.type === 'aside-info') {%>
+	<article>
+		<p>Hier kann der Bereich editiert werden<br></p>
+		<form class="page-form" id="updatePageContent" action="/pages/<%= currentUrl %>/updatePageContent">
+			<input
+				type="hidden"
+				name="CSRFToken"
+				value="<%= CSRFToken %>"
+			/>
+			<input type="hidden" value="<%= singleContent.id %>" name="id">
+			<input type="hidden" value="<%= singleContent.type %>"  name="type">
+			<input id="trix-content-<%= singleContent.id %>" type="hidden" value="<%= singleContent.content %>" name="content">
+			<trix-editor class="trix-content" input="trix-content-<%= singleContent.id %>"></trix-editor>
+			<button type="submit">Speichern</button>
+		</form>
+		<%- include('remove', { singleContent }) %>
+	</article>
+	<% } else if(singleContent.type === 'news-preview') {%>
+	<article>
+		<p>Nachrichten Vorschau</p>
+		<form class="page-form" id="updatePageContent" action="/pages/<%= currentUrl %>/updatePageContent">
+			<input
+				type="hidden"
+				name="CSRFToken"
+				value="<%= CSRFToken %>"
+			/>
+			<input type="hidden" value="<%= singleContent.id %>" name="id">
+			<input type="hidden" value="<%= singleContent.type %>"  name="type">
+			<label for="manual-content-<%= singleContent.id %>">Maximale Zeichenlänge</label>
+			<input id="manual-content-<%= singleContent.id %>" type="number" value="<%- singleContent.content %>" name="content">
+			<button type="submit">Speichern</button>
+		</form>
+		<%- include('remove', { singleContent }) %>
+	</article>
+	<% } %>
+<% } %>
+<% if (typeof adminLoggedIn !== 'undefined' && adminLoggedIn === true) { %>
 	<article>
 		<h3>Bereich hinzufügen</h3>
 		<p>Einen neuen Bereich auf der Seite hinzufügen<br></p>
@@ -12,16 +46,15 @@
 				value="<%= CSRFToken %>"
 			/>
 			<label for="content-type">Typ</label>
-			<select name="content-type" id="content-type" >
+			<select name="type" id="content-type" >
 				<option value="article-big">Artikel breit</option>
 				<option value="article-small">Artikel schmal</option>
 				<option value="aside-info">Seitenleiste Info</option>
 				<option value="aside-maps">Seitenleiste GMaps</option>
-				<option value="gallery-preview">Galerie Vorschau</option>
+				<option value="gallery-preview" disabled>Galerie Vorschau</option>
 				<option value="news-preview">Aktuelles Vorschau</option>
 			</select>
 			<button type="submit">Hinzufügen</button>
 		</form>
 	</article>
 <% } %>
-</section>

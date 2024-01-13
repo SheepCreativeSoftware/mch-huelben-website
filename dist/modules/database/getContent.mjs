@@ -26,19 +26,27 @@ const getContentNews = async (limit = 10, offset = 0) => {
 // eslint-disable-next-line id-length
 const setContent = async (page, type, content, id) => {
     const conn = await getConnection();
-    if (id === 'none') {
-        await conn.query('INSERT INTO content (page, type, content) VALUES (?, ?, ?)', [
-            page,
-            type,
-            content,
-        ]);
-    }
-    else {
-        await conn.query('UPDATE content SET content = ? WHERE page=? AND id=?', [
-            content,
-            page,
-            id,
-        ]);
-    }
+    await conn.query('UPDATE content SET content = ? WHERE page=? AND id=?', [
+        content,
+        page,
+        id,
+    ]);
 };
-export { getContent, getContentNews, setContent };
+// eslint-disable-next-line id-length
+const addContent = async (page, type, content = '') => {
+    const conn = await getConnection();
+    await conn.query('INSERT INTO content (page, type, content) VALUES (?, ?, ?)', [
+        page,
+        type,
+        content,
+    ]);
+};
+// eslint-disable-next-line id-length
+const removeContent = async (page, id) => {
+    const conn = await getConnection();
+    await conn.query('DELETE FROM content WHERE id=? AND page=?', [
+        id,
+        page,
+    ]);
+};
+export { addContent, getContent, getContentNews, removeContent, setContent };
