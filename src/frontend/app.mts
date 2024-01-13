@@ -71,10 +71,10 @@ const updateTrixToolbarVisibility = () => {
 	for(const trixEditor of trixEditors) {
 		const toolBar = trixEditor.toolbarElement;
 		if(trixEditor === document.activeElement) toolBar.classList.remove('trix-unfocused');
-		else toolBar.classList.add('trix-unfocused');
+		else if(!toolBar.contains(document.activeElement)) toolBar.classList.add('trix-unfocused');
 	}
 };
 
 document.addEventListener('trix-focus', updateTrixToolbarVisibility);
-document.addEventListener('trix-blur', updateTrixToolbarVisibility);
+//document.addEventListener('trix-blur', updateTrixToolbarVisibility);
 document.addEventListener('trix-initialize', updateTrixToolbarVisibility);

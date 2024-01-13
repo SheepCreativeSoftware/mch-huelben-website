@@ -32,10 +32,10 @@ const basicTemplate: PagesTemplate = {
 	userLoggedIn: false,
 };
 
-const createContentData = async (req: Request, page: string) => {
+const createContentData = async (req: Request, page: string, path: string) => {
 	const copyTemplate = JSON.parse(JSON.stringify(basicTemplate)) as PagesTemplate;
 	copyTemplate.currentUrl = page;
-	copyTemplate.naviLinks = getNavLinks(req.user?.role, '/');
+	copyTemplate.naviLinks = getNavLinks(req.user?.role, path);
 	copyTemplate.userLoggedIn = req.isAuthenticated();
 	copyTemplate.adminLoggedIn = req.user?.role === 'admin';
 	if(typeof req.csrfToken === 'function') copyTemplate.CSRFToken = req.csrfToken();
@@ -50,7 +50,7 @@ const createContentData = async (req: Request, page: string) => {
 router.get('/', checkAuthenticated, async (req, res) => {
 	try {
 		const page = 'start';
-		const copyTemplate = await createContentData(req, page);
+		const copyTemplate = await createContentData(req, page, '/');
 
 		res.render(`pages/restricted/${page}`, copyTemplate, (error, html) => {
 			if(error) throw error;
@@ -71,7 +71,7 @@ router.get('/', checkAuthenticated, async (req, res) => {
 router.get('/pages/:page', checkAuthenticated, async (req, res) => {
 	try {
 		const page = req.params.page;
-		const copyTemplate = await createContentData(req, page);
+		const copyTemplate = await createContentData(req, page, `/pages/${page}`);
 
 		res.render(`pages/restricted/${page}`, copyTemplate, (error, html) => {
 			if(error) throw error;
