@@ -1,14 +1,16 @@
 <section id="main" >
-	<article>
-			<h3>Login</h3>
-			<p>Bitte loggen Sie sich über Ihre E-Mail Adresse ein.</p>
-		<% if (typeof message !== 'undefined') { %>
-			<p id="login-message"><%= message %></p>
-		<% } %>
-		<form id="login" action="/user/login" method="post">
-			<label for="email">E-Mail</label>
-			<input type="email" name="email" id="email">
-			<button type="submit">Login</button>
-		</form>
-	</article>
+	<div id="article" class="noAside">
+		<article>
+				<h3>Login</h3>
+				<p>Bitte loggen Sie sich über Ihre E-Mail Adresse ein.</p>
+			<% if (typeof message !== 'undefined') { %>
+				<p id="login-message"><%= message %></p>
+			<% } %>
+			<form id="login" action="/user/login" method="post">
+				<label for="email">E-Mail</label>
+				<input type="email" name="email" id="email">
+				<button type="submit">Login</button>
+			</form>
+		</article>
+	</div>
 </section>

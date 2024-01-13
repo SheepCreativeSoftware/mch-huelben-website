@@ -6,7 +6,6 @@ interface ContentDB {
     page: string;
     type: ContentType;
     content: string;
-    description: string;
     created: string;
     updated: string;
 }

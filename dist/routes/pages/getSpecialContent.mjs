@@ -9,8 +9,14 @@ const getSpecialContent = async (content) => {
             continue;
         if (singleRow.type === 'news-preview') {
             const news = await getContentNews(onlyOne);
-            if (typeof news[firstElement] !== 'undefined')
+            if (typeof news[firstElement] === 'undefined') {
+                singleRow.content = '';
+            }
+            else {
                 singleRow.content = news[firstElement].content.substring(zero, maxString);
+                singleRow.created = news[firstElement].created;
+                singleRow.updated = news[firstElement].updated;
+            }
         }
     }
     return content;

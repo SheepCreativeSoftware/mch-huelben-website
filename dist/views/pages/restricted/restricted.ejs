@@ -1,5 +1,5 @@
 <% for(const singleContent of content) { 
-	if(singleContent.type === 'article-big' || singleContent.type === 'article-small' || singleContent.type === 'aside-info') {%>
+	if(singleContent.type === 'article-big') {%>
 	<article>
 		<p>Hier kann der Bereich editiert werden<br></p>
 		<form class="page-form" id="updatePageContent" action="/pages/<%= currentUrl %>/updatePageContent">
@@ -47,8 +47,7 @@
 			/>
 			<label for="content-type">Typ</label>
 			<select name="type" id="content-type" >
-				<option value="article-big">Artikel breit</option>
-				<option value="article-small">Artikel schmal</option>
+				<option value="article-big">Artikel</option>
 				<option value="aside-info">Seitenleiste Info</option>
 				<option value="aside-maps">Seitenleiste GMaps</option>
 				<option value="gallery-preview" disabled>Galerie Vorschau</option>
