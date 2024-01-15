@@ -21,6 +21,8 @@ const basicTemplate = {
         title: '',
     },
     naviLinks: getNavLinks(),
+    newsContent: [],
+    newsCount: 0,
     userLoggedIn: false,
 };
 const zero = 0;

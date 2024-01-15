@@ -23,6 +23,8 @@ const basicTemplate = {
         title: '',
     },
     naviLinks: getNavLinks(),
+    newsContent: [],
+    newsCount: 0,
     userLoggedIn: false,
 };
 const createContentData = async (req, page, path) => {
@@ -61,6 +63,27 @@ router.get('/', checkAuthenticated, async (req, res) => {
     }
 });
 // News page must be in here later
+router.get('/pages/news', checkAuthenticated, async (req, res) => {
+    try {
+        const page = 'news';
+        const copyTemplate = await createContentData(req, page, `/pages/${page}`);
+        // TODO: Get news content and add it here into the template
+        res.render(`pages/restricted/${page}`, copyTemplate, (error, html) => {
+            if (error)
+                throw error;
+            return res.status(getInfoStatusCode('Accepted')).send(html);
+        });
+        return expressLogger('success', req, res);
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            buntstift.error(error.message);
+            if (error.message.includes('Failed to lookup view'))
+                return sendErrorPage(req, res, 'Not Found');
+        }
+        return sendErrorPage(req, res, 'Internal Server Error');
+    }
+});
 router.get('/pages/:page', checkAuthenticated, async (req, res) => {
     try {
         const page = req.params.page;

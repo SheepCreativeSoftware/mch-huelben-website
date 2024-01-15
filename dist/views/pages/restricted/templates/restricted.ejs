@@ -1,8 +1,8 @@
 <% for(const singleContent of content) { 
 	if(singleContent.type === 'article-big') {%>
 	<article>
-		<p>Hier kann der Bereich editiert werden<br></p>
-		<form class="page-form" id="updatePageContent" action="/pages/<%= currentUrl %>/updatePageContent">
+		<p>Hier kann der Beitrag editiert werden<br></p>
+		<form class="page-form" action="/pages/<%= currentUrl %>/updatePageContent">
 			<input
 				type="hidden"
 				name="CSRFToken"
@@ -19,7 +19,7 @@
 	<% } else if(singleContent.type === 'news-preview') {%>
 	<article>
 		<p>Nachrichten Vorschau</p>
-		<form class="page-form" id="updatePageContent" action="/pages/<%= currentUrl %>/updatePageContent">
+		<form class="page-form" action="/pages/<%= currentUrl %>/updatePageContent">
 			<input
 				type="hidden"
 				name="CSRFToken"
@@ -33,6 +33,8 @@
 		</form>
 		<%- include('remove', { singleContent }) %>
 	</article>
+	<% } else if(singleContent.type === 'news-block') {%>
+		<% if(typeof hasNews !== 'undefined' && hasNews) { %><%- include('news-block', { singleContent }) %><% } %>
 	<% } %>
 <% } %>
 <% if (typeof adminLoggedIn !== 'undefined' && adminLoggedIn === true) { %>
@@ -50,8 +52,9 @@
 				<option value="article-big">Artikel</option>
 				<option value="aside-info">Seitenleiste Info</option>
 				<option value="aside-maps">Seitenleiste GMaps</option>
-				<option value="gallery-preview" disabled>Galerie Vorschau</option>
+				<option value="gallery-preview">Galerie Vorschau</option>
 				<option value="news-preview">Aktuelles Vorschau</option>
+				<% if(typeof hasNews !== 'undefined' && hasNews) { %><option value="news-block">Aktuelles Block</option><% } %>
 			</select>
 			<button type="submit">Hinzufügen</button>
 		</form>

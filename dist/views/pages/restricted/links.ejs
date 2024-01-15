@@ -5,14 +5,14 @@
 	}%>
 	<div id="article" class="<% if (hasAside) { %><%= 'hasAside' %><% } else { %><%= 'noAside' %><% } %>">
 		<% if (typeof userLoggedIn !== 'undefined' && userLoggedIn === true) { %>
-			<%- include('meta') %>
-			<%- include('restricted') %>
+			<%- include('templates/meta') %>
+			<%- include('templates/restricted') %>
 		<% } %>
 	</div>
 <% if(hasAside) { %>
 <aside>
 	<% if (typeof userLoggedIn !== 'undefined' && userLoggedIn === true) { %>
-		<%- include('restricted-aside') %>
+		<%- include('templates/restricted-aside') %>
 	<% } %>
 </aside>
 <% } %>

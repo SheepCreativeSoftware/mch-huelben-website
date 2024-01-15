@@ -24,6 +24,8 @@ const basicTemplate: PagesTemplate = {
 		title: '',
 	},
 	naviLinks: getNavLinks(),
+	newsContent: [],
+	newsCount: 0,
 	userLoggedIn: false,
 };
 

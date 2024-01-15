@@ -6,7 +6,7 @@
 	<div id="article" class="<% if (hasAside) { %><%= 'hasAside' %><% } else { %><%= 'noAside' %><% } %>">
 		<% if (typeof userLoggedIn !== 'undefined' && userLoggedIn === true) { %>
 			<%- include('templates/meta') %>
-			<%- include('templates/restricted') %>
+			<%- include('templates/restricted', { hasNews: true }) %>
 		<% } %>
 	</div>
 <% if(hasAside) { %>
