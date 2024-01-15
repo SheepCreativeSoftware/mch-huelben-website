@@ -1,7 +1,7 @@
 <% for(const singleContent of content) { 
 	if(singleContent.type === 'article-big') {%>
 	<article>
-		<p>Hier kann der Beitrag editiert werden<br></p>
+		<p>Beitrag editieren</p>
 		<form class="page-form" action="/pages/<%= currentUrl %>/updatePageContent">
 			<input
 				type="hidden"
@@ -33,6 +33,23 @@
 		</form>
 		<%- include('remove', { singleContent }) %>
 	</article>
+	<% } if(singleContent.type === 'contact-form') {%>
+	<article>
+		<p>Kontaktformular editieren</p>
+		<form class="page-form" action="/pages/<%= currentUrl %>/updatePageContent">
+			<input
+				type="hidden"
+				name="CSRFToken"
+				value="<%= CSRFToken %>"
+			/>
+			<input type="hidden" value="<%= singleContent.id %>" name="id">
+			<input type="hidden" value="<%= singleContent.type %>"  name="type">
+			<input id="trix-content-<%= singleContent.id %>" type="hidden" value="<%= singleContent.content %>" name="content">
+			<trix-editor class="trix-content" input="trix-content-<%= singleContent.id %>"></trix-editor>
+			<button type="submit">Speichern</button>
+		</form>
+		<%- include('remove', { singleContent }) %>
+	</article>
 	<% } else if(singleContent.type === 'news-block') {%>
 		<% if(typeof hasNews !== 'undefined' && hasNews) { %><%- include('news-block', { singleContent }) %><% } %>
 	<% } %>
@@ -49,12 +66,13 @@
 			/>
 			<label for="content-type">Typ</label>
 			<select name="type" id="content-type" >
-				<option value="article-big">Artikel</option>
+				<option value="article-big">Beitrag</option>
 				<option value="aside-info">Seitenleiste Info</option>
 				<option value="aside-maps">Seitenleiste GMaps</option>
 				<option value="gallery-preview">Galerie Vorschau</option>
 				<option value="news-preview">Aktuelles Vorschau</option>
 				<% if(typeof hasNews !== 'undefined' && hasNews) { %><option value="news-block">Aktuelles Block</option><% } %>
+				<option value="contact-form">Kontaktformular</option>
 			</select>
 			<button type="submit">Hinzufügen</button>
 		</form>
