@@ -1,6 +1,10 @@
 # mch-huelben-website [WIP]
 This project is currently work in progress
 
+## Motivation
+This project is not about using the right tools to do something.
+It's about building up knowledge and enhance experience in multiple aspects of web development.
+
 ## Description
 This project is focused on a redesign of the website from [mch-huelben](https://old.mch-huelben.de), which I made back in 2013.  
 This page was created using PHP with a connection to a MySQL Database. There was also a administrative page to add and update the content etc..
@@ -10,13 +14,13 @@ The basic plan for this project:
 - Completely redesign the pages using Figma
 - Use node.js as a new server platform
 - Use express.js for routing pages and for creating and API to manage the content
-- The managment of the side should be done completlely on client side to have a well separated front- and back-end
+- The management of the side should be done completely on client side using the API to have a well separated front- and back-end
 - Use ejs as a template engine for server to create the pages / maybe also usable on client side
-- Use MariaDB/MySQL (already available on the server)
+- Use MariaDB/MySQL (already available on the server platform)
 - Use MagicLink as a login system (easy solution, which should be a good choice for this type of site)
 
 
-
+## Setup
 ### Enviroment Variables
 This variables need to be defined to run this on a server.
 
