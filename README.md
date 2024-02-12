@@ -8,7 +8,8 @@ This page was created using PHP with a connection to a MySQL Database. There was
 The basic plan for this project:
 - Completely redesign the pages using Figma
 - Use node.js as a new server platform
-- Use express.js for routing pages and for creating and API to manipulate the content
+- Use express.js for routing pages and for creating and API to manage the content
+- The managment of the side should be done completlely on client side to have a well separated front- and back-end
 - Use ejs as a template engine for server to create the pages / maybe also usable on client side
 - Use MariaDB/MySQL (already available on the server)
 - Use MagicLink as a login system (easy solution, which should be a good choice for this type of site)
@@ -16,6 +17,8 @@ The basic plan for this project:
 
 
 ### Enviroment Variables
+This variables need to be defined to run this on a server.
+
 #### General
 **NODE_ENV** production
 **HOST** Hostname (e.g. example.com)
