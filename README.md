@@ -1,4 +1,5 @@
-# mch-huelben-website
+# mch-huelben-website [WIP]
+This project is currently work in progress
 
 ## Description
 This project is focused on a redesign of the website from [mch-huelben](https://old.mch-huelben.de), which I made back in 2013.  
