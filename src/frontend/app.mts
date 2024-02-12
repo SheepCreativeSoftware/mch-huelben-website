@@ -1,13 +1,5 @@
 import { TrixEditor } from './interfaces/Trix.mjs';
 
-const scrollSmothToTarget = (anchorId: string) => {
-	const targetElement = document.querySelector(anchorId);
-	if(targetElement) targetElement.scrollIntoView({ behavior: 'smooth' });
-};
-
-const scrollTopButton = document.getElementById('top');
-
-
 const loginButton = document.getElementById('login') as HTMLButtonElement | null;
 let loginMessage = document.getElementById('login-message') as HTMLParagraphElement | null;
 loginButton?.addEventListener('submit', async (_event) => {
@@ -76,5 +68,4 @@ const updateTrixToolbarVisibility = () => {
 };
 
 document.addEventListener('trix-focus', updateTrixToolbarVisibility);
-//document.addEventListener('trix-blur', updateTrixToolbarVisibility);
 document.addEventListener('trix-initialize', updateTrixToolbarVisibility);

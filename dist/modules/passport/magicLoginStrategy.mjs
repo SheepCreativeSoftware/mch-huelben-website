@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys */
 import { buntstift } from 'buntstift';
-import { getUserByEmail } from '../database/getUsers.mjs';
+import { getUserByEmail } from '../database/users/getUsers.mjs';
 import MagicLoginStrategy from 'passport-magic-login';
 import { randomBytes } from 'crypto';
 import { sendMagicLinkEmail } from '../mail/sendMagicLinkEmail.mjs';

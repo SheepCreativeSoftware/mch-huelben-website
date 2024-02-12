@@ -1,5 +1,5 @@
-import { ContentDB } from '../../interfaces/ContentDB.mjs';
-import { getContentNews } from '../../modules/database/getContent.mjs';
+import { ContentDB } from '../../interfaces/Database.mjs';
+import { getContentNews } from '../../modules/database/content/readContent.mjs';
 
 const firstElement = 0;
 const onlyOne = 1;

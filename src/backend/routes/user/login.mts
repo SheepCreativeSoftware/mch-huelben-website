@@ -4,7 +4,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import { buntstift } from 'buntstift';
 import { expressLogger } from '../../modules/misc/expressLogger.mjs';
 import { getNavLinks } from '../../modules/database/getNavLinks.mjs';
-import { getUserById } from '../../modules/database/getUsers.mjs';
+import { getUserById } from '../../modules/database/users/getUsers.mjs';
 import { initialize } from '../../modules/passport/magicLoginStrategy.mjs';
 import passport from 'passport';
 import { RendererTemplate } from '../../interfaces/RendererTemplate.mjs';
@@ -21,6 +21,7 @@ passport.deserializeUser(async (id: string, done) => {
 	const user = await getUserById(id);
 	return done(null, user);
 });
+
 const magicLogin = initialize('/user/verify');
 passport.use(magicLogin);
 

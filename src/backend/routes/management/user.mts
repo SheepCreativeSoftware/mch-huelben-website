@@ -1,12 +1,15 @@
 import { checkAuthenticated, checkIfAdmin } from '../../modules/passport/checkAuthenticated.mjs';
-import { getUsers, removeUser, setUser } from '../../modules/database/getUsers.mjs';
 import { buntstift } from 'buntstift';
 import express from 'express';
 import { expressLogger } from '../../modules/misc/expressLogger.mjs';
 import { getErrorStatusCode } from '../../modules/defaults/getStatusCode.mjs';
 import { getNavLinks } from '../../modules/database/getNavLinks.mjs';
+import { getUsers } from '../../modules/database/users/getUsers.mjs';
+import { removeUser } from '../../modules/database/users/deleteUsers.mjs';
 import { sendErrorPage } from '../../modules/misc/sendErrorPage.mjs';
+import { setUser } from '../../modules/database/users/setUsers.mjs';
 import { UserTemplate } from '../../interfaces/renderer/UserTemplate.mjs';
+
 
 // eslint-disable-next-line new-cap
 const router = express.Router();

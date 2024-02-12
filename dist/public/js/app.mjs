@@ -1,9 +1,3 @@
-const scrollSmothToTarget = (anchorId) => {
-    const targetElement = document.querySelector(anchorId);
-    if (targetElement)
-        targetElement.scrollIntoView({ behavior: 'smooth' });
-};
-const scrollTopButton = document.getElementById('top');
 const loginButton = document.getElementById('login');
 let loginMessage = document.getElementById('login-message');
 loginButton?.addEventListener('submit', async (_event) => {
@@ -74,6 +68,5 @@ const updateTrixToolbarVisibility = () => {
     }
 };
 document.addEventListener('trix-focus', updateTrixToolbarVisibility);
-//document.addEventListener('trix-blur', updateTrixToolbarVisibility);
 document.addEventListener('trix-initialize', updateTrixToolbarVisibility);
 export {};

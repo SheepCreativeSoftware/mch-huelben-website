@@ -8,7 +8,6 @@ import expressLayouts from 'express-ejs-layouts';
 import { expressLogger } from './modules/misc/expressLogger.mjs';
 import { managementUserRouter } from './routes/management/user.mjs';
 import { pagesPublicRouter } from './routes/pages/public.mjs';
-import { pagesRestrictedRouter } from './routes/pages/restricted.mjs';
 import passport from 'passport';
 import { sendErrorPage } from './modules/misc/sendErrorPage.mjs';
 import session from 'express-session';
@@ -82,7 +81,6 @@ const startServer = () => {
 	app.use(csrfSyncProtect.csrfSynchronisedProtection);
 
 	// Setup restricted routes
-	app.use('/', pagesRestrictedRouter);
 	app.use('/management', managementUserRouter);
 
 

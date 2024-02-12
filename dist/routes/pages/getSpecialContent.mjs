@@ -1,4 +1,4 @@
-import { getContentNews } from '../../modules/database/getContent.mjs';
+import { getContentNews } from '../../modules/database/content/readContent.mjs';
 const firstElement = 0;
 const onlyOne = 1;
 const zero = 0;

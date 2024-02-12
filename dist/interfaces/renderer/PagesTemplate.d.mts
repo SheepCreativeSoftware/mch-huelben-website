@@ -1,4 +1,4 @@
-import { ContentDB } from '../ContentDB.mjs';
+import { ContentDB } from '../Database.mjs';
 import { RendererTemplate } from '../RendererTemplate.mjs';
 interface PagesTemplate extends RendererTemplate {
     content: ContentDB[] | undefined[];
