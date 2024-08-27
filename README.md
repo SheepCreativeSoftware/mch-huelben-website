@@ -1,8 +1,8 @@
 # mch-huelben-website [WIP]
-This project is currently work in progress
+This project is currently work in progress. The current code base is partly a proof of concept and will be changed in future.
 
 ## Motivation
-This project is not about using the right tools to do something.
+This project is not about always using the right tools to do something.
 It's about building up knowledge and enhance experience in multiple aspects of web development.
 
 ## Description
