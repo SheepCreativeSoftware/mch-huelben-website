@@ -52,6 +52,7 @@ app.use('*', async (req, res) => {
     }
 
     const rendered = await render(url, ssrManifest)
+    console.log(rendered, url, ssrManifest, isProduction);
 
     const html = template
       .replace(`<!--app-head-->`, rendered.head ?? '')
