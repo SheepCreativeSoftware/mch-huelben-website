@@ -16,7 +16,8 @@
 		"lint:prettier": "npx prettier --check \"**/*.{xml,json,yml,yaml}\"",
 		"lint:prettier:fix": "npx prettier --write \"**/*.{xml,json,yml,yaml}\"",
 		"lint:tsc": "vue-tsc --noEmit",
-		"preview": "cross-env NODE_ENV=production node server"
+		"preview": "cross-env NODE_ENV=production node server",
+		"prepare": "husky"
 	},
 	"dependencies": {
 		"compression": "^1.7.4",
