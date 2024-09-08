@@ -4,6 +4,6 @@
 		"moduleResolution": "NodeNext"
 	},
 	"extends": "./tsconfig.base.json",
-	"include": ["src/**/*.ts", "src/**/*.tsx"],
+	"include": ["src/**/*.vue"],
 	"exclude": ["node_modules/", "dist", "src/**/*.d.ts"]
 }

@@ -4,6 +4,7 @@ import pluginJs from '@eslint/js';
 import pluginVue from 'eslint-plugin-vue';
 import tseslint from 'typescript-eslint';
 import stylistic from '@stylistic/eslint-plugin';
+import { extractIdentifiers } from 'vue/compiler-sfc';
 
 export default [
 	pluginJs.configs.recommended,
@@ -17,6 +18,9 @@ export default [
 			globals: {
 				...globals.browser,
 				...globals.node,
+				...globals.es2022,
+				...globals.builtin,
+				...globals.nodeBuiltin,
 			},
 			parserOptions: {
 				ecmaVersion: 2022,
@@ -378,6 +382,9 @@ export default [
 				'@typescript-eslint/consistent-type-exports': 'error',
 				'default-param-last': 'off',
 				'@typescript-eslint/default-param-last': 'error',
+				'@typescript-eslint/no-unsafe-call': 'off',
+				'@typescript-eslint/no-misused-promises': 'off',
+				'@typescript-eslint/no-unsafe-assignment': 'off',
 			},
 			languageOptions: {
 				parserOptions: {
@@ -399,7 +406,8 @@ export default [
 		languageOptions: {
 			parserOptions: {
 				parser: '@typescript-eslint/parser',
-				project: './tsconfig.eslint.json',
+				project: './tsconfig.eslint-vue.json',
+				extraFileExtensions: ['.vue'],
 			}
 		},
 		rules: {
