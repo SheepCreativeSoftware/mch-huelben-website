@@ -393,6 +393,7 @@ export default [
 				},
 			},
 			files: ['**/*.ts', '**/*.tsx'],
+			ignores: ['**/*.config.ts']
 		},
 		/** Prevent type checking on non-TS files (causes parser errors)*/
 		{

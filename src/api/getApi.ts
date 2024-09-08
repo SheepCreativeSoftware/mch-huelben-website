@@ -1,60 +1,58 @@
-import type { Application } from 'express';
-import {
-	answererAuthorizedHandler,
-	creatorAuthorizedHandler,
-	creatorOrAnswererAuthorizedHandler,
-	userAuthorizedHandler,
-} from '../modules/protection/userAuthCheck';
 import {
 	clientErrorHandler,
 	errorHandler,
 	logOnError,
 	notFoundHandler,
-} from '../modules/handler/errorHandlers';
-import { answerSurveyRoutes } from './answer/router';
-import { jwtAuthorizationHandler } from '../modules/protection/jwtAuthorization';
-import { openApiSpecHandler } from './openAPI/handle';
-import { securityRoutes } from './security/router';
-import { surveyListRouter } from './survey-list/router';
-import { surveyResultRoutes } from './survey-result/router';
+} from '../modules/handler/errorHandlers.ts';
+import type { Application } from 'express';
+import compression from 'compression';
 import cookieParser from 'cookie-parser';
-import cors from 'cors';
 import express from 'express';
+import { getMainRouter } from './main-router.ts';
+import sirv from 'sirv';
+import { getSSRRouter } from './ssr-router.ts';
 
 if (typeof process.env.URL === 'undefined') throw new Error('Missing URL enviroment parameter');
 
-const url = process.env.URL;
+// Const url = process.env.URL;
+const isProduction = process.env.NODE_ENV === 'production';
+const base = process.env.BASE ?? '/';
 
-const getApi = (): Application => {
+const getApi = async (): Promise<Application> => {
 	const app = express();
 
 	// Setup parsers for specific types
 	app.use(express.json());
 	app.use(cookieParser());
 
-	// Setup basic middlewares
-	if (process.env.NODE_ENV === 'production') {
+	if (isProduction) {
 		// Trust first proxy (ngnix)
 		app.set('trust proxy', true);
+		app.use(compression());
+		app.use(base, sirv('./dist/client', { extensions: [] }));
+	} else {
+
 	}
 
-	// Setup cors protection
-	app.use(cors({
-		origin: [url],
-		methods: ['GET', 'POST'],
-	}));
+	app.all('/api/*', getMainRouter());
+	app.use(await getSSRRouter());
 
-	app.get('/api/v1/open-api-spec', openApiSpecHandler());
+	// Setup cors protection
+
+	/*
+	 * App.use(cors({
+	 * 	methods: ['GET', 'POST'],
+	 * 	origin: [url],
+	 * }));
+	 */
 
 	// Setup user authentification routes and authorization middleware
-	app.use(jwtAuthorizationHandler());
-	app.use('/api/v1/security', securityRoutes);
+
+	// App.use(jwtAuthorizationHandler());
 
 	// Setup Protected Routes
-	app.use(userAuthorizedHandler());
-	app.use('/api/v1/survey-list', creatorAuthorizedHandler(), surveyListRouter);
-	app.use('/api/v1/survey-result', creatorOrAnswererAuthorizedHandler(), surveyResultRoutes);
-	app.use('/api/v1/answer', answererAuthorizedHandler(), answerSurveyRoutes);
+
+	// App.use(userAuthorizedHandler());
 
 	// Handle errors
 	app.use(logOnError);

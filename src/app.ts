@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { buntstift } from 'buntstift';
-import { dataSource } from './database/datasource.ts';
+// Import { dataSource } from './database/datasource.ts';
 import { getApi } from './api/getApi.ts';
 import http from 'node:http';
 
@@ -9,14 +9,14 @@ const DEFAULT_PORT = 3_000;
 const main = async () => {
 	// Init Database
 	try {
-		await dataSource.initialize();
+		// Await dataSource.initialize();
 		buntstift.success('Data Source has been initialized!');
 	} catch (error) {
 		if (error instanceof Error) throw new Error(`Error during Data Source initialization: ${error.message}\n${error.stack ?? ''}`);
 	}
 
 	// Init server
-	const server = http.createServer(getApi());
+	const server = http.createServer(await getApi());
 
 	const port = process.env.PORT ?? DEFAULT_PORT;
 	server.
