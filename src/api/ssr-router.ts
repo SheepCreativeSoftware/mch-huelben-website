@@ -46,7 +46,7 @@ const getSSRRouter = async (): Promise<Router> => {
 			const [appHtml, preloadLinks] = await render(url, manifest);
 
 			const html = template.
-				replace('<!--preload-links-->', preloadLinks).
+				replace('<!--app-head-->', preloadLinks).
 				replace('<!--app-html-->', appHtml);
 
 			res.status(StatusCodes.OK).set({ 'Content-Type': 'text/html' }).end(html);

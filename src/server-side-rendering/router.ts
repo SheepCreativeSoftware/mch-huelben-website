@@ -18,7 +18,7 @@ const routes = Object.keys(pages).map((path) => {
 	};
 });
 
-export function createRouter() {
+const createRouter = function () {
 	return _createRouter({
 		/*
 		 * Use appropriate history implementation for server/client
@@ -26,5 +26,8 @@ export function createRouter() {
 		 */
 		history: import.meta.env.SSR ? createMemoryHistory('/') : createWebHistory('/'),
 		routes,
+
 	});
-}
+};
+
+export { createRouter };
