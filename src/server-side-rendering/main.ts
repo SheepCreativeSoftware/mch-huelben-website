@@ -14,8 +14,17 @@ const createApp = function () {
 	app.use(pinia);
 	const router = createRouter();
 	app.use(router);
-	pinia.state.value['foo-store'] = { count: 0, foo: 'foobar' };
-	// Onsole.dir(pinia.state.value, { depth: 3, showHidden: true });
+	/*
+	 * Pinia.state.value['foo-store'] = { count: 0, foo: 'foobar' };
+	 *  Onsole.dir(pinia.state.value, { depth: 3, showHidden: true });
+	 */
+
+	router.beforeEach((to) => {
+		if (import.meta.env.SSR && to.path === '/store') {
+			pinia.state.value['foo-store'] = { foo: 'foobar' };
+			console.log('pinia.state.value', pinia.state.value);
+		}
+	});
 
 	return { app, router };
 };
