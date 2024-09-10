@@ -8,7 +8,7 @@ import { createSSRApp } from 'vue';
  * that creates a fresh app instance. If using Vuex, we'd also be creating a
  * fresh store here.
  */
-const createApp = function () {
+const createApp = function (store) {
 	const app = createSSRApp(App);
 	const pinia = createPinia();
 	app.use(pinia);
@@ -20,9 +20,14 @@ const createApp = function () {
 	 */
 
 	router.beforeEach((to) => {
-		if (import.meta.env.SSR && to.path === '/store') {
-			pinia.state.value['foo-store'] = { foo: 'foobar' };
+		if (import.meta.env.SSR && store) {
+			pinia.state.value = store;
 			console.log('pinia.state.value', pinia.state.value);
+		}
+		if (!import.meta.env.SSR && to.path === '/store') {
+			const store = JSON.parse(window.__pinia);
+			if (store) pinia.state.value = store;
+			console.log('pinia.state.value', window.__pinia);
 		}
 	});
 

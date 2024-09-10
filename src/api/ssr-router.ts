@@ -43,10 +43,11 @@ const getSSRRouter = async (): Promise<Router> => {
 				render = (await vite.ssrLoadModule(path.resolve(import.meta.dirname, '..', 'server-side-rendering', 'entry-server.ts'))).entryServer;
 			}
 
-			const [appHtml, preloadLinks] = await render(url, manifest);
+			const [appHtml, preloadLinks, store] = await render(url, manifest);
 
 			const html = template.
 				replace('<!--app-head-->', preloadLinks).
+				replace('<!--app-store-->', `<script>window.__pinia = '${JSON.stringify(store)}';</script>`).
 				replace('<!--app-html-->', appHtml);
 
 			res.status(StatusCodes.OK).set({ 'Content-Type': 'text/html' }).end(html);

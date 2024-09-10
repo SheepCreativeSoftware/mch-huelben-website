@@ -40,7 +40,11 @@ const renderPreloadLinks = (modules, manifest) => {
 };
 
 const entryServer = async function render(url: string, manifest: Record<string, string>) {
-	const { app, router } = createApp();
+	const store = url === '/store' ? {
+		'foo-store': { foo: 'foobar' },
+	} : null;
+	console.log('url', url);
+	const { app, router } = createApp(store);
 
 	// Set the router to the desired URL before rendering
 	await router.push(url);
@@ -61,7 +65,7 @@ const entryServer = async function render(url: string, manifest: Record<string, 
 	 * request.
 	 */
 	const preloadLinks = renderPreloadLinks(ctx.modules, manifest);
-	return [html, preloadLinks];
+	return [html, preloadLinks, store];
 };
 
 export { entryServer };

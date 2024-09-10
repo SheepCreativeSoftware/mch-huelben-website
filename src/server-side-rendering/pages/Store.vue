@@ -6,9 +6,12 @@
 import { useFooStore } from '../store.ts';
 
 export default {
-	serverPrefetch() {
-		const store = useFooStore(this.$pinia);
-	},
+	/*
+	 * ServerPrefetch() {
+	 * 	const store = useFooStore();
+	 * 	console.log('store', store);
+	 * },
+	 */
 	setup() {
 		const fooStore = useFooStore();
 		if (!fooStore.foo) fooStore.fetchFoo();
