@@ -393,11 +393,10 @@ export default [
 				},
 			},
 			files: ['**/*.ts', '**/*.tsx'],
-			ignores: ['**/*.config.ts']
 		},
 		/** Prevent type checking on non-TS files (causes parser errors)*/
 		{
-			files: ['**/*.js', '**/*.mjs', '**/*.cjs', '**/*.d.ts'],
+			files: ['**/*.js', '**/*.mjs', '**/*.cjs', '**/*.d.ts', '**/*.config.ts'],
 			extends: [tseslint.configs.disableTypeChecked],
 		},
 	),
