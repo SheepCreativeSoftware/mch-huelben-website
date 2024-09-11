@@ -22,4 +22,9 @@ declare global {
 			isLoggedIn: undefined | (() => boolean);
 		}
 	}
+	// eslint-disable-next-line no-shadow
+	interface Window {
+		__pinia: string | undefined;
+	}
 }
+

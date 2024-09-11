@@ -2,6 +2,7 @@ import { basename } from 'node:path';
 import { createApp } from './main.ts';
 import { renderToString } from 'vue/server-renderer';
 import type { SSRContext } from 'vue/server-renderer';
+import type { StateTree } from 'pinia';
 
 const renderPreloadLink = (file: string): string => {
 	if (file.endsWith('.js')) return `<link rel="modulepreload" crossorigin href="${file}">`;
@@ -15,11 +16,11 @@ const renderPreloadLink = (file: string): string => {
 	return '';
 };
 
-const renderPreloadLinks = (modules, manifest) => {
+const renderPreloadLinks = (modules: SSRContext['modules'], manifest: Record<string, string[] | undefined>) => {
 	let links = '';
 	const seen = new Set();
-	modules.forEach((id) => {
-		const files = manifest[id];
+	modules.forEach((moduleId: string) => {
+		const files = manifest[moduleId];
 		if (files) {
 			files.forEach((file) => {
 				if (!seen.has(file)) {
@@ -39,12 +40,13 @@ const renderPreloadLinks = (modules, manifest) => {
 	return links;
 };
 
-const entryServer = async function render(url: string, manifest: Record<string, string>) {
-	const store = url === '/store' ? {
+const entryServer = async function render(url: string, manifest: Record<string, string[]>) {
+	const store: Record<string, StateTree> | undefined = url === '/store' ? {
 		'foo-store': { foo: 'foobar' },
-	} : null;
-	console.log('url', url);
-	const { app, router } = createApp(store);
+		// eslint-disable-next-line no-undefined
+	} : undefined;
+
+	const { app, router } = createApp({ store });
 
 	// Set the router to the desired URL before rendering
 	await router.push(url);

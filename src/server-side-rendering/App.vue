@@ -19,6 +19,8 @@
 	</div>
 </template>
 
+<script setup lang="ts"></script>
+
   <style>
   @font-face {
 	font-family: 'Inter';

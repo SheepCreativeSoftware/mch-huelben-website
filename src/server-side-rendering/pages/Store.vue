@@ -1,8 +1,9 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
 	<h1>{{ fooStore.foo }}</h1>
 </template>
 
-<script>
+<script lang="ts">
 import { useFooStore } from '../store.ts';
 
 export default {

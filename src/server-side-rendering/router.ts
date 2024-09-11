@@ -1,43 +1,23 @@
-import type {
-	RouterOptions,
-} from 'vue-router';
 import {
-	createRouter as _createRouter,
 	createMemoryHistory,
+	createRouter,
 	createWebHistory,
 } from 'vue-router';
-import PageNotFound from './pages/PageNotFound.vue';
+import type { Router } from 'vue-router';
 
-/*
- * Auto generates routes from vue files under ./pages
- * https://vitejs.dev/guide/features.html#glob-import
- */
-const pages = import.meta.glob('./pages/**/*.vue');
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+class RouterInstance {
+	static #instance: Router;
+	static getInstance(): Router {
+		if (typeof RouterInstance.#instance === 'undefined') {
+			RouterInstance.#instance = createRouter({
+				history: import.meta.env.SSR ? createMemoryHistory('/') : createWebHistory('/'),
+				routes: [],
+			});
+		}
 
-const routes: RouterOptions['routes'] = Object.keys(pages).map((path) => {
-	const name = /\.\/pages(.*)\.vue$/.exec(path)[1].toLowerCase();
+		return RouterInstance.#instance;
+	}
+}
 
-	return {
-		component: pages[path], // () => import('./pages/*.vue')
-		path: name === '/home' ? '/' : name,
-	};
-});
-
-routes.push({
-	component: PageNotFound,
-	path: '/:pathMatch(.*)*',
-});
-
-const createRouter = function () {
-	return _createRouter({
-		/*
-		 * Use appropriate history implementation for server/client
-		 * Import.meta.env.SSR is injected by Vite.
-		 */
-		history: import.meta.env.SSR ? createMemoryHistory('/') : createWebHistory('/'),
-		routes,
-
-	});
-};
-
-export { createRouter };
+export { RouterInstance };

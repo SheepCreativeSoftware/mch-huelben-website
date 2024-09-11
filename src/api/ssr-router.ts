@@ -1,14 +1,15 @@
 import express from 'express';
-import { readFileSync } from 'node:fs';
 import { getViteMiddleware } from '../middleware/vite.ts';
 import path from 'node:path';
+import { readFileSync } from 'node:fs';
 import type { Router } from 'express';
+import type { StateTree } from 'pinia';
 import { StatusCodes } from 'http-status-codes';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
 let indexProd = '';
-const manifest = {};
+const manifest: Record<string, string[] | undefined> = {};
 if (isProduction) {
 	indexProd = readFileSync(path.resolve('dist/client/index.html'), 'utf-8');
 	JSON.parse(readFileSync(
@@ -30,12 +31,13 @@ const getSSRRouter = async (): Promise<Router> => {
 			const url = req.originalUrl;
 
 			let template = '';
-			let render;
+			// eslint-disable-next-line init-declarations, no-shadow, @stylistic/max-len
+			let render: (url: string, manifest: Record<string, string[] | undefined>) => Promise<[string, string, Record<string, StateTree> | undefined]>;
 			if (isProduction) {
 				template = indexProd;
 
-				// @ts-expect-error - This is a import from a file that is only available in production
-				render = (await import(path.resolve(import.meta.dirname, '..', '..', 'dist', 'server-side-rendering', 'entry-server.js'))).entryServer;
+				render = (await import(path.resolve(import.meta.dirname, '..', '..', 'dist', 'server-side-rendering', 'entry-server.js')))
+					.entryServer;
 			} else {
 				// Always read fresh template in dev
 				template = readFileSync(path.resolve(import.meta.dirname, '..', '..', 'index.html'), 'utf-8');
@@ -45,10 +47,10 @@ const getSSRRouter = async (): Promise<Router> => {
 
 			const [appHtml, preloadLinks, store] = await render(url, manifest);
 
-			const html = template.
-				replace('<!--app-head-->', preloadLinks).
-				replace('<!--app-store-->', `<script>window.__pinia = '${JSON.stringify(store)}';</script>`).
-				replace('<!--app-html-->', appHtml);
+			const html = template
+				.replace('<!--app-head-->', preloadLinks)
+				.replace('<!--app-store-->', `<script>window.__pinia = '${JSON.stringify(store)}';</script>`)
+				.replace('<!--app-html-->', appHtml);
 
 			res.status(StatusCodes.OK).set({ 'Content-Type': 'text/html' }).end(html);
 		} catch (error) {

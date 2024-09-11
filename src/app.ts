@@ -19,11 +19,11 @@ const main = async () => {
 	const server = http.createServer(await getApi());
 
 	const port = process.env.PORT ?? DEFAULT_PORT;
-	server.
-		listen(port, () => {
+	server
+		.listen(port, () => {
 			buntstift.success(`Server has started and is listening on port: ${port.toString()}`);
-		}).
-		on('error', (error) => {
+		})
+		.on('error', (error) => {
 			buntstift.error(`Server failed because of ${error.message}`);
 			throw error;
 		});

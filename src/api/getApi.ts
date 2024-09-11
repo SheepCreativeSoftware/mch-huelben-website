@@ -9,8 +9,8 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import { getMainRouter } from './main-router.ts';
-import sirv from 'sirv';
 import { getSSRRouter } from './ssr-router.ts';
+import sirv from 'sirv';
 
 if (typeof process.env.URL === 'undefined') throw new Error('Missing URL enviroment parameter');
 
@@ -30,8 +30,6 @@ const getApi = async (): Promise<Application> => {
 		app.set('trust proxy', true);
 		app.use(compression());
 		app.use(base, sirv('./dist/client', { extensions: [] }));
-	} else {
-
 	}
 
 	app.all('/api/*', getMainRouter());

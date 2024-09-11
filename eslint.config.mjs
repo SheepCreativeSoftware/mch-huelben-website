@@ -191,7 +191,7 @@ export default [
 					ignoreOnInitialization: false,
 				},
 			],
-			'no-ternary': 'error',
+
 			'no-throw-literal': 'error',
 			'no-undef-init': 'error',
 			'no-undefined': 'error',
@@ -306,7 +306,7 @@ export default [
 			],
 			'@stylistic/comma-style': ['error', 'last'],
 			'@stylistic/computed-property-spacing': ['error', 'never'],
-			'@stylistic/dot-location': ['error', 'object'],
+			'@stylistic/dot-location': ['error', 'property'],
 			'@stylistic/eol-last': ['error', 'always'],
 			'@stylistic/func-call-spacing': ['error', 'never'],
 			'@stylistic/function-call-argument-newline': ['error', 'consistent'],
@@ -385,6 +385,7 @@ export default [
 				'@typescript-eslint/no-unsafe-call': 'off',
 				'@typescript-eslint/no-misused-promises': 'off',
 				'@typescript-eslint/no-unsafe-assignment': 'off',
+				'@typescript-eslint/no-unsafe-member-access': 'off',
 			},
 			languageOptions: {
 				parserOptions: {

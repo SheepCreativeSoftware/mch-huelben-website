@@ -1,8 +1,7 @@
+/* @ts-expect-error - There is an issue with the module which causes an missing member error */
 import { createServer } from 'vite';
+/* @ts-expect-error - There is an issue with the module which causes an missing member error */
 import type { ViteDevServer } from 'vite';
-
-// eslint-disable-next-line no-magic-numbers
-const devServerPort = Number(process.env.SERVER_PORT ?? 6173);
 
 const getViteMiddleware = async (): Promise<ViteDevServer> => {
 	return await createServer({

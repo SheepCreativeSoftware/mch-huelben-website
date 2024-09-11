@@ -5,18 +5,20 @@
 	</p>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
 
-	async setup() {
-		const url = import.meta.env.SSR      ? import.meta.url      : document.querySelector('.import-meta-url')?.textContent;
+	setup() {
+		/* @ts-expect-error this is handled by vite */
+		const url = import.meta.env.SSR ? import.meta.url : document.querySelector('.import-meta-url')?.textContent;
 		return {
 			msg: 'Not Found',
 			url,
 		};
 	},
-};
+});
 </script>
 
 <style scoped>
