@@ -1,10 +1,10 @@
-/* eslint-disable */
+/* eslint-disable sort-keys, no-magic-numbers -- That would be insane*/
+import comments from '@eslint-community/eslint-plugin-eslint-comments';
 import globals from 'globals';
 import pluginJs from '@eslint/js';
 import pluginVue from 'eslint-plugin-vue';
-import tseslint from 'typescript-eslint';
 import stylistic from '@stylistic/eslint-plugin';
-import { extractIdentifiers } from 'vue/compiler-sfc';
+import tseslint from 'typescript-eslint';
 
 export default [
 	pluginJs.configs.recommended,
@@ -185,7 +185,7 @@ export default [
 			'no-shadow': [
 				'error',
 				{
-					builtinGlobals: true,
+					builtinGlobals: false,
 					hoist: 'functions',
 					allow: ['resolve', 'reject', 'done'],
 					ignoreOnInitialization: false,
@@ -371,6 +371,20 @@ export default [
 			'no-unused-vars': 'off',
 		},
 	},
+	{
+		plugins: { '@eslint-community/eslint-comments': comments },
+		rules: {
+			'@eslint-community/eslint-comments/disable-enable-pair': [
+				'error',
+				{ allowWholeFile: true },
+			],
+			'@eslint-community/eslint-comments/no-aggregating-enable': 'error',
+			'@eslint-community/eslint-comments/no-duplicate-disable': 'error',
+			'@eslint-community/eslint-comments/no-unlimited-disable': 'off',
+			'@eslint-community/eslint-comments/no-unused-enable': 'error',
+			'@eslint-community/eslint-comments/require-description': 'error',
+		},
+	},
 	/** Typescript related rules with strict ruleset */
 	...tseslint.config(
 		pluginJs.configs.recommended,
@@ -397,7 +411,9 @@ export default [
 		},
 		/** Prevent type checking on non-TS files (causes parser errors)*/
 		{
-			files: ['**/*.js', '**/*.mjs', '**/*.cjs', '**/*.d.ts', '**/*.config.ts'],
+			files: [
+				'**/*.js', '**/*.mjs', '**/*.cjs', '**/*.d.ts', '**/*.config.ts',
+			],
 			extends: [tseslint.configs.disableTypeChecked],
 		},
 	),
@@ -409,7 +425,7 @@ export default [
 				parser: '@typescript-eslint/parser',
 				project: './tsconfig.eslint-vue.json',
 				extraFileExtensions: ['.vue'],
-			}
+			},
 		},
 		rules: {
 			'vue/html-indent': ['error', 'tab'],
@@ -420,5 +436,5 @@ export default [
 		ignores: [
 			'!.*', '/coverage/', 'dist/', 'node_modules/', 'public/',
 		],
-	}
+	},
 ];

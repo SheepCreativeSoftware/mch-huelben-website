@@ -19,7 +19,7 @@ if (isProduction) {
 }
 
 const getSSRRouter = async (): Promise<Router> => {
-	// eslint-disable-next-line new-cap
+	// eslint-disable-next-line new-cap -- This is not a constructor
 	const router = express.Router();
 
 	const vite = await getViteMiddleware();
@@ -31,7 +31,7 @@ const getSSRRouter = async (): Promise<Router> => {
 			const url = req.originalUrl;
 
 			let template = '';
-			// eslint-disable-next-line init-declarations, no-shadow, @stylistic/max-len
+			// eslint-disable-next-line init-declarations, no-shadow, @stylistic/max-len -- Typescript cannot infer the type of render in this case
 			let render: (url: string, manifest: Record<string, string[] | undefined>) => Promise<[string, string, Record<string, StateTree> | undefined]>;
 			if (isProduction) {
 				template = indexProd;

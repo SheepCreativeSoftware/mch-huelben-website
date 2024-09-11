@@ -29,7 +29,6 @@ const main = async () => {
 		});
 };
 
-// eslint-disable-next-line no-shadow
 process.on('uncaughtException', (error, origin) => {
 	// Print last output
 	buntstift.error(`Caught exception: ${error.message}\n`);

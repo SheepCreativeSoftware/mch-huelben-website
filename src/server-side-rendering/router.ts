@@ -5,7 +5,7 @@ import {
 } from 'vue-router';
 import type { Router } from 'vue-router';
 
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class -- ignore errors because it is needed for singleton pattern
 class RouterInstance {
 	static #instance: Router;
 	static getInstance(): Router {

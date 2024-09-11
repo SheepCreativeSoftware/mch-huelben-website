@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable -- Ignore this file for now */
 import { buntstift } from 'buntstift';
 
 import crypto from 'node:crypto';

@@ -43,7 +43,7 @@ const renderPreloadLinks = (modules: SSRContext['modules'], manifest: Record<str
 const entryServer = async function render(url: string, manifest: Record<string, string[]>) {
 	const store: Record<string, StateTree> | undefined = url === '/store' ? {
 		'foo-store': { foo: 'foobar' },
-		// eslint-disable-next-line no-undefined
+		// eslint-disable-next-line no-undefined -- undefined is needed for testing
 	} : undefined;
 
 	const { app, router } = createApp({ store });
