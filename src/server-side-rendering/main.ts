@@ -24,7 +24,14 @@ const createApp = function ({ store }: { store?: Record<string, StateTree> }) {
 		/* eslint-disable @typescript-eslint/no-unsafe-argument, no-underscore-dangle -- This custom property will be set somwhere else - No type error  */
 		if (!import.meta.env.SSR && typeof window.__pinia === 'string') {
 			const initialState = JSON.parse(window.__pinia);
-			if (initialState) pinia.state.value = initialState;
+			if (typeof initialState === 'object') {
+				for (const key of Object.keys(initialState)) {
+					if (typeof pinia.state.value[key] === 'undefined') {
+						//
+						pinia.state.value[key] = initialState[key];
+					}
+				}
+			}
 		}
 		/* eslint-enable @typescript-eslint/no-unsafe-argument, no-underscore-dangle -- End */
 	});

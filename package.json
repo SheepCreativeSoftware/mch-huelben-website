@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf dist/",
     "prebuild": "yarn run clean",
-    "dev": "node server",
+    "dev": "node --experimental-strip-types --env-file=.env  src/app.ts",
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build --ssrManifest --outDir dist/client",
     "build:server": "vite build --ssr src/server-side-rendering/entry-server.ts --outDir dist/server",

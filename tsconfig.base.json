@@ -23,7 +23,7 @@
     /* Typeorm */
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "types": ["vite/client", "node"]
+    "types": ["vite/client", "node", "./src/vite-env.d.ts"]
   },
 
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],

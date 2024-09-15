@@ -1,25 +1,15 @@
 <template>
-	<div>
-		<router-link to="/">
-			Home
-		</router-link>|
-		<router-link to="/about">
-			About
-		</router-link>
-		<router-link to="/store">
-			Store
-		</router-link>
-		<router-view v-slot="{ Component }">
-			<Suspense>
-				<div>
-					<component :is="Component" />
-				</div>
-			</Suspense>
-		</router-view>
-	</div>
+	<router-view v-slot="{ Component }">
+		<Suspense>
+			<div>
+				<component :is="Component" />
+			</div>
+		</Suspense>
+	</router-view>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+</script>
 
   <style>
   @font-face {

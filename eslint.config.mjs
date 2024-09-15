@@ -430,6 +430,14 @@ export default [
 		rules: {
 			'vue/html-indent': ['error', 'tab'],
 			'sort-keys': 'off',
+			'@typescript-eslint/consistent-type-imports': 'error',
+			'@typescript-eslint/consistent-type-exports': 'error',
+			'default-param-last': 'off',
+			'@typescript-eslint/default-param-last': 'error',
+			'@typescript-eslint/no-unsafe-call': 'off',
+			'@typescript-eslint/no-misused-promises': 'off',
+			'@typescript-eslint/no-unsafe-assignment': 'off',
+			'@typescript-eslint/no-unsafe-member-access': 'off',
 		},
 	},
 	{
