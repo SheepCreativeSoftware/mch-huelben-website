@@ -1,7 +1,7 @@
 <template>
 	<footer>
 		<nav class="flex-space-center">
-			<span id="copyright">MCH-Hülben e.V. &copy; 2024</span>
+			<span id="copyright">MCH-Hülben e.V. &copy; 2014-2024</span>
 			<ul>
 				<li>
 					<ButtonLink
@@ -34,7 +34,7 @@
 				target-url="/"
 			>
 				<img
-					src="../assets/logo.svg"
+					src="../assets/logo/mch-logo-light-transparent.svg"
 					alt="MCH-Hülben Logo"
 				>
 			</ButtonLink>

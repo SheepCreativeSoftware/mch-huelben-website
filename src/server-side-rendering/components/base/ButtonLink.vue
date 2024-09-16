@@ -1,9 +1,9 @@
 <template>
 	<router-link
 		:class="{
-			'nav-link': true,
-			'nav-link-button': isButton ?? false,
-			'nav-link-inverted': hasInvertedStyle ?? false,
+			'button-link': true,
+			'button-link-button': isButton ?? false,
+			'button-link-inverted': hasInvertedStyle ?? false,
 		}"
 		:to="targetUrl"
 	>
@@ -20,21 +20,30 @@ defineProps<{
 </script>
 
 <style scoped>
-.nav-link {
-	color: var(--color-primary);
+.button-link {
+	color: var(--text-light);
 	text-decoration: none;
+	font-weight: bold;
+
+	&:hover {
+		text-decoration: underline;
+	}
 }
 
-.nav-link-button {
-	background-color: var(--color-primary);
-	color: var(--color-white);
-	padding: 0.5rem 1rem;
-	border-radius: 0.5rem;
+.button-link-button {
+	color: var(--text-light);
+	background-color: var(--accent-color);
+	padding: 1% 20px;
+	border-radius: 20px;
+
+	&.button-link-inverted {
+		color: var(--accent-color);
+		background-color: var(--text-dark);
+	}
 }
 
-.nav-link-inverted {
-	color: var(--color-white);
-	background-color: var(--color-primary);
+.button-link-inverted {
+	color: var(--text-dark);
 }
 </style>
 

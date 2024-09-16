@@ -1,5 +1,6 @@
 {
   "name": "mch-huelben-website",
+  "license": "UNLICENSED",
   "private": true,
   "version": "0.0.0",
   "type": "module",

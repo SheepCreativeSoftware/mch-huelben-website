@@ -15,18 +15,18 @@
 					Herzlich Willkommen!
 				</h2>
 				<div class="section-text">
-					Hier findest du Infos, Bilder und Kontakt rund um unserem Verein.<br>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit.<br>
 					<br>
-					Wir treffen uns wöchentlich in unserem Vereinsheim und bauen an unseren
-					Modelleisenbahnanlagen, reden und diskutieren über verschiedene Themen.<br>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit.<br>
+					doloremque iste debitis error, accusantium ex eaque molestiae qui.<br>
 					<br>
-					Außerdem unternehmen wir von Zeit zu Zeit Ausflüge zu bahntechnischen Zielen.<br>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, suscipit.<br>
 				</div>
 			</section>
 		</ContainerComponent>
 		<div class="overall-image">
 			<img
-				src="../assets/overall-image.jpg"
+				src="../assets/overall/overall-1.png"
 				alt="Overall Image"
 			>
 		</div>
@@ -52,7 +52,7 @@
 		</ContainerComponent>
 		<div class="overall-image">
 			<img
-				src="../assets/overall-image2.jpg"
+				src="../assets/overall/overall-2.png"
 				alt="Overall Image 2"
 			>
 		</div>
@@ -77,7 +77,7 @@
 		</ContainerComponent>
 		<div class="overall-image">
 			<img
-				src="../assets/overall-image3.jpg"
+				src="../assets/overall/overall-3.png"
 				alt="Overall Image 3"
 			>
 		</div>
@@ -95,5 +95,20 @@ import NewsView from '../components/NewsView.vue';
 </script>
 
 <style scoped>
+.headline {
+	position: absolute;
+    top: 20vh;
+}
+
+.header-container {
+	position: relative;
+	top: 0;
+	width: 100%;
+	height: 100vh;
+	background-image: url('../assets/Heading.png');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
 
 </style>
