@@ -1,6 +1,22 @@
+@font-face {
+	font-family: 'Source Sans 3';
+  font-optical-sizing: auto;
+  font-style: normal;
+	src:
+	  url('./assets/fonts/SourceSans3-VariableFont_wght.ttf') format('ttf'),
+  }
+
+  @font-face {
+    font-family: 'Source Sans 3';
+    font-optical-sizing: auto;
+    font-style: italic;
+    src:
+      url('./assets/fonts/SourceSans3-Italic-VariableFont_wght.ttf') format('ttf'),
+    }
+
 :root {
-  font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
-  font-size: 1.5em;
+  font-family: "Source Sans 3", Helvetica, Arial, sans-serif;
+  font-size: 16px;
   font-style: normal;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -15,11 +31,16 @@
 }
 
 a {
+  font-size: 2em;
   color: var(--text-light);
   text-decoration: none;
 }
 a:hover {
   text-decoration: underline;
+}
+
+html {
+  scroll-padding-top: 94px;
 }
 
 body {
@@ -28,7 +49,12 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  color: var(--text-dark);
   background-color: var(--background-light);
+}
+
+p, h1, h2, h3 {
+  margin: 0;
 }
 
 p {
@@ -37,26 +63,28 @@ p {
 
 h1 {
   font-size: 6em;
+  font-weight: bold;
 }
 
 h2 {
   font-size: 2.8em;
+  font-weight: bold;
 }
 
 h3 {
   font-size: 2em;
+  font-weight: bold;
 }
 
 #app {
   margin: 0 auto;
+  max-width: 2000px;
   text-align: center;
 }
-/* 
+
 @media (prefers-color-scheme: dark) {
-  :root {
-    --text-light: #383838;
-    --text-dark: #ffffff;
-    --background-light: #ffffff;
-    --background-dark: #383838;
+  body {
+    color: var(--text-light);
+    background-color: var(--background-dark);
   }
-} */
+}

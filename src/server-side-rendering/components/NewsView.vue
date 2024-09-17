@@ -8,17 +8,10 @@
 			<h3>{{ article.title }}</h3>
 			<p>{{ article.text }}</p>
 		</article>
-		<ButtonLink
-			target-url="/news"
-			:is-button="true"
-		>
-			Weitere Nachrichten
-		</ButtonLink>
 	</div>
 </template>
 
 <script setup lang="ts">
-import ButtonLink from './base/ButtonLink.vue';
 
 /* eslint-disable id-length, @stylistic/max-len -- Dummy code*/
 const news = [
@@ -47,4 +40,13 @@ const { count } = defineProps<{
 const currentNews = news.slice(0, count);
 </script>
 
-<style lang="css" scoped></style>
+<style lang="css" scoped>
+.news-container {
+	display: flex;
+	flex-direction: column;
+	gap: 25px;
+}
+article {
+	text-align: left;
+}
+</style>

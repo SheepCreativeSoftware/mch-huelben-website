@@ -19,7 +19,7 @@
 				</li>
 				<li>
 					<ButtonLink
-						target-url="/#kontakt"
+						:target-url="{ path: '/', hash: '#kontakt' }"
 					>
 						Kontakt
 					</ButtonLink>

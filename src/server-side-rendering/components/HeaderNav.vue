@@ -1,7 +1,8 @@
 <template>
-	<header ref="header">
+	<header :class="{ 'scrolled': isScrolled }">
 		<div class="header-logo">
 			<img
+				:class="{ 'scrolled': isScrolled }"
 				src="../assets/logo/mch-logo-light-transparent.svg"
 				alt="MCH Hülben e.v. Logo"
 			>
@@ -14,7 +15,7 @@
 				Start
 			</ButtonLink>
 			<ButtonLink
-				target-url="/aktuelles"
+				:target-url="{path: '/', hash: '#aktuelles'}"
 			>
 				Akutelles
 			</ButtonLink>
@@ -34,8 +35,9 @@
 				Impressum
 			</ButtonLink>
 			<ButtonLink
-				target-url="/contact"
+				:target-url="{ path: '/', hash: '#kontakt' }"
 				:is-button="true"
+				:has-inverted-style="isScrolled"
 			>
 				Kontakt
 			</ButtonLink>
@@ -54,14 +56,17 @@ const isNotHome = computed(() => {
 	return route.path !== '/';
 });
 
-const header = ref<HTMLElement>();
+const isScrolled = ref(false);
 
-const handleScroll = () => {
-	if (window.scrollY > 0) header.value?.classList.add('scrolled');
-	else header.value?.classList.remove('scrolled');
-};
+if (!import.meta.env.SSR) {
+	const handleScroll = () => {
+		if (window.scrollY > 0) isScrolled.value = true;
+		else isScrolled.value = false;
+	};
 
-window.addEventListener('scroll', handleScroll);
+	window.addEventListener('scroll', handleScroll);
+}
+
 </script>
 
 <style lang="css" scoped>
@@ -70,26 +75,34 @@ header {
 	top: 0;
 	z-index: 1;
 	width: calc(100% - 96px);
+	max-width: calc(2000px - 96px);
 	display: flex;
-	padding: 4px 48px;
+	padding: 0 48px;
+	padding-top: 16px;
 	justify-content: space-between;
 	align-items: center;
 	transition: all 0.5s ease;
 
 	&.scrolled {
-		background-color: var(--background-dark);
+		background-color: var(--accent-color);
+		padding-top: 8px;
+		padding-bottom: 8px;
 	}
 }
 
 .header-logo img {
-	width: 200px;
 	height: 80px;
+	transition: all 0.5s ease;
+
+	&.scrolled {
+		height: 50px;
+	}
 }
 
 nav {
 	display: flex;
 	justify-content: space-between;
-	gap: 25px;
+	gap: 40px;
 	align-items: center;
 }
 </style>

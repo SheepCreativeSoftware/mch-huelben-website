@@ -12,10 +12,8 @@
 </template>
 
 <script setup lang="ts">
+import MainFooter from './components/MainFooter.vue';
 </script>
 
-  <style>
-  #app {
-	max-width: 1440px;
-  }
-  </style>
+<style>
+</style>

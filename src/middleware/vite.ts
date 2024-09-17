@@ -1,6 +1,4 @@
-/* @ts-expect-error - There is an issue with the module which causes an missing member error */
 import { createServer } from 'vite';
-/* @ts-expect-error - There is an issue with the module which causes an missing member error */
 import type { ViteDevServer } from 'vite';
 
 const getViteMiddleware = async (): Promise<ViteDevServer> => {

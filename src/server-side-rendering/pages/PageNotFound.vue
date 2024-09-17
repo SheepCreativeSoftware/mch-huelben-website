@@ -11,7 +11,6 @@ import { defineComponent } from 'vue';
 export default defineComponent({
 
 	setup() {
-		/* @ts-expect-error this is handled by vite */
 		const url = import.meta.env.SSR ? import.meta.url : document.querySelector('.import-meta-url')?.textContent;
 		return {
 			msg: 'Not Found',

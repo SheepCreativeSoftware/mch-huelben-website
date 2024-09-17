@@ -10,7 +10,7 @@
 	</div>
 	<main>
 		<ContainerComponent>
-			<section id="welcome">
+			<section id="willkommen">
 				<h2 class="section-title">
 					Herzlich Willkommen!
 				</h2>
@@ -22,6 +22,12 @@
 					<br>
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, suscipit.<br>
 				</div>
+				<ButtonLink
+					target-url="/ueber"
+					is-button
+				>
+					Über uns
+				</ButtonLink>
 			</section>
 		</ContainerComponent>
 		<div class="overall-image">
@@ -31,17 +37,23 @@
 			>
 		</div>
 		<ContainerComponent>
-			<section id="news">
+			<section id="aktuelles">
 				<h2 class="section-title">
 					Aktuelles
 				</h2>
 				<NewsView
 					:count="3"
 				/>
+				<ButtonLink
+					target-url="/aktuelles"
+					:is-button="true"
+				>
+					Weitere Nachrichten
+				</ButtonLink>
 			</section>
 		</ContainerComponent>
-		<ContainerComponent>
-			<section id="events">
+		<ContainerComponent id="events-container">
+			<section id="termine">
 				<h2 class="section-title">
 					Aktuelle Termine
 				</h2>
@@ -57,7 +69,7 @@
 			>
 		</div>
 		<ContainerComponent>
-			<section>
+			<section id="kontakt">
 				<h2 class="section-title">
 					Kontakt
 				</h2>
@@ -85,6 +97,7 @@
 </template>
 
 <script setup lang="ts">
+import ButtonLink from '../components/base/ButtonLink.vue';
 import ContactForm from '../components/ContactForm.vue';
 import ContainerComponent from '../components/base/ContainerComponent.vue';
 import HeaderNav from '../components/HeaderNav.vue';
@@ -94,8 +107,17 @@ import NewsView from '../components/NewsView.vue';
 
 <style scoped>
 .headline {
+	display: flex;
 	position: absolute;
-    top: 20vh;
+    top: 45vh;
+	padding: 0 20%;
+	width: calc(100% - 40%);
+}
+
+.headline-title {
+	color: var(--text-light);
+	text-align: center;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .header-container {
@@ -107,6 +129,44 @@ import NewsView from '../components/NewsView.vue';
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
+}
+
+#events-container {
+	padding-top: 0;
+}
+
+.overall-image img {
+	object-fit: cover;
+	width: 100%;
+}
+
+.container-component {
+	padding: 75px 10%;
+	width: calc(100% - 20%);
+}
+
+section {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+h2.section-title {
+	display: flex;
+	flex-direction: row;
+
+	&::after {
+		content: '';
+		flex: 1;
+		border-bottom: 2px solid var(--accent-color);
+		margin: auto;
+		margin-left: 10px;
+	}
+}
+
+.section-text {
+	text-align: left;
+	font-size: 1.5em;
 }
 
 </style>

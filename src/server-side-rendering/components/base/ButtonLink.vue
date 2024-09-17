@@ -12,8 +12,9 @@
 </template>
 
 <script setup lang="ts">
+import type { RouterLinkProps } from 'vue-router';
 defineProps<{
-	targetUrl: string;
+	targetUrl: RouterLinkProps['to'];
 	isButton?: boolean;
 	hasInvertedStyle?: boolean;
 }>();
@@ -24,6 +25,8 @@ defineProps<{
 	color: var(--text-light);
 	text-decoration: none;
 	font-weight: bold;
+	transition: all 0.5s ease;
+	width: max-content;
 
 	&:hover {
 		text-decoration: underline;
@@ -33,17 +36,35 @@ defineProps<{
 .button-link-button {
 	color: var(--text-light);
 	background-color: var(--accent-color);
-	padding: 1% 20px;
-	border-radius: 20px;
+	padding: 10px 24px;
+	border-radius: 24px;
 
 	&.button-link-inverted {
-		color: var(--accent-color);
+		color: var(--text-light);
 		background-color: var(--text-dark);
 	}
 }
 
 .button-link-inverted {
 	color: var(--text-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+	.button-link {
+		color: var(--text-light);
+	}
+
+	.button-link-button {
+		color: var(--text-light);
+
+		&.button-link-inverted {
+			color: var(--text-light);
+		}
+	}
+
+	.button-link-inverted {
+		color: var(--text-dark);
+	}
 }
 </style>
 
