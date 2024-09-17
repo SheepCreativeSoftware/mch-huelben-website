@@ -82,14 +82,12 @@
 			>
 		</div>
 	</main>
-	<MainFooter />
 </template>
 
 <script setup lang="ts">
 import ContactForm from '../components/ContactForm.vue';
 import ContainerComponent from '../components/base/ContainerComponent.vue';
 import HeaderNav from '../components/HeaderNav.vue';
-import MainFooter from '../components/MainFooter.vue';
 import NewsView from '../components/NewsView.vue';
 
 </script>
