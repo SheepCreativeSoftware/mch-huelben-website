@@ -27,6 +27,7 @@ defineProps<{
 	font-weight: bold;
 	transition: all 0.5s ease;
 	width: max-content;
+	cursor: pointer;
 
 	&:hover {
 		text-decoration: underline;
@@ -37,7 +38,7 @@ defineProps<{
 	color: var(--text-light);
 	background-color: var(--accent-color);
 	padding: 10px 24px;
-	border-radius: 24px;
+	border-radius: 20px;
 
 	&.button-link-inverted {
 		color: var(--text-light);

@@ -11,9 +11,9 @@ const isProduction = process.env.NODE_ENV === 'production';
 let indexProd = '';
 const manifest: Record<string, string[] | undefined> = {};
 if (isProduction) {
-	indexProd = readFileSync(path.resolve('dist/client/index.html'), 'utf-8');
+	indexProd = readFileSync(path.resolve('dist/ssr/client/index.html'), 'utf-8');
 	JSON.parse(readFileSync(
-		path.resolve('dist/client/.vite/ssr-manifest.json'),
+		path.resolve('dist/ssr/client/.vite/ssr-manifest.json'),
 		'utf-8',
 	));
 }
@@ -36,7 +36,7 @@ const getSSRRouter = async (): Promise<Router> => {
 			if (isProduction) {
 				template = indexProd;
 
-				render = (await import(path.resolve(import.meta.dirname, '..', '..', 'dist', 'server-side-rendering', 'entry-server.js')))
+				render = (await import(path.resolve(import.meta.dirname, '..', '..', 'dist', 'ssr', 'server', 'entry-server.js')))
 					.entryServer;
 			} else {
 				// Always read fresh template in dev
