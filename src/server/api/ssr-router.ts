@@ -36,13 +36,14 @@ const getSSRRouter = async (): Promise<Router> => {
 			if (isProduction) {
 				template = indexProd;
 
-				render = (await import(path.resolve(import.meta.dirname, '..', '..', 'dist', 'ssr', 'server', 'entry-server.js')))
+				render = (await import(path.resolve(import.meta.dirname, '..', '..', '..', 'dist', 'ssr', 'server', 'entry-server.js')))
 					.entryServer;
 			} else {
 				// Always read fresh template in dev
-				template = readFileSync(path.resolve(import.meta.dirname, '..', '..', 'index.html'), 'utf-8');
+				template = readFileSync(path.resolve(import.meta.dirname, '..', '..', '..', 'index.html'), 'utf-8');
 				template = await vite.transformIndexHtml('/', template);
-				render = (await vite.ssrLoadModule(path.resolve(import.meta.dirname, '..', 'server-side-rendering', 'entry-server.ts'))).entryServer;
+				render = (await vite.ssrLoadModule(path.resolve(import.meta.dirname, '..', '..', 'server-side-rendering', 'entry-server.ts')))
+					.entryServer;
 			}
 
 			const [appHtml, preloadLinks, store] = await render(url, manifest);

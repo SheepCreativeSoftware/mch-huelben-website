@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { buntstift } from 'buntstift';
 // Import { dataSource } from './database/datasource.js';
-import { getApi } from './api/getApi.js';
+import { getApi } from './server/api/getApi.js';
 import http from 'node:http';
 
 const DEFAULT_PORT = 3_000;
