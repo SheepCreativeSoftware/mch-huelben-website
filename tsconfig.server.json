@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"noEmit": false,
+		"outDir": "dist/",
+		"allowImportingTsExtensions": false
+	},
+	"extends": "./tsconfig.base.json",
+	"include": ["src/**/*.ts"],
+	"exclude": ["node_modules/", "dist", "src/server-side-rendering/**/*"]
+}

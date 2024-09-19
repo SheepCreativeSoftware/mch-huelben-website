@@ -3,13 +3,13 @@ import {
 	errorHandler,
 	logOnError,
 	notFoundHandler,
-} from '../modules/handler/errorHandlers.ts';
+} from '../modules/handler/errorHandlers.js';
 import type { Application } from 'express';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import express from 'express';
-import { getMainRouter } from './main-router.ts';
-import { getSSRRouter } from './ssr-router.ts';
+import { getMainRouter } from './main-router.js';
+import { getSSRRouter } from './ssr-router.js';
 import sirv from 'sirv';
 
 if (typeof process.env.URL === 'undefined') throw new Error('Missing URL enviroment parameter');

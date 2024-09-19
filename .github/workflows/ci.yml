@@ -1,62 +1,62 @@
 name: CI
 
 on:
-  push:
-    branches: ["main"]
-    tags: ["**"]
-  pull_request:
-    # Build all pull requests, regardless of what their base branch is.
-    branches: ["**"]
-    types:
-      # Default types (see https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request)
-      - opened
-      - synchronize
-      - reopened
-      # Extra types (re-run CI when marking PR for "ready for review")
-      - ready_for_review
+    push:
+        branches: ['main']
+        tags: ['**']
+    pull_request:
+        # Build all pull requests, regardless of what their base branch is.
+        branches: ['**']
+        types:
+            # Default types (see https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request)
+            - opened
+            - synchronize
+            - reopened
+            # Extra types (re-run CI when marking PR for "ready for review")
+            - ready_for_review
 
 # Automatically cancel previous runs for the same ref (i.e. branch)
 concurrency:
-  group: ${{ github.ref }}-${{ github.event_name }}
-  cancel-in-progress: true
+    group: ${{ github.ref }}-${{ github.event_name }}
+    cancel-in-progress: true
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the code
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          token: ${{ secrets.GH_DOTCOM_TOKEN }}
-          node-version-file: "package.json"
-          cache: "yarn"
-          cache-dependency-path: "yarn.lock"
-          registry-url: "https://registry.npmjs.com"
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --ignore-scripts --network-concurrency 1 --child-concurrency 1
-      - name: Lint code (ESLint)
-        run: yarn run lint:eslint
-      - name: Lint code (Prettier)
-        run: yarn run lint:prettier
-      - name: Lint code (TypeScript)
-        run: yarn run lint:tsc
+    lint:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out the code
+              uses: actions/checkout@v4
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  token: ${{ secrets.GH_DOTCOM_TOKEN }}
+                  node-version-file: 'package.json'
+                  cache: 'yarn'
+                  cache-dependency-path: 'yarn.lock'
+                  registry-url: 'https://registry.npmjs.com'
+            - name: Install dependencies
+              run: yarn install --frozen-lockfile --ignore-scripts --network-concurrency 1 --child-concurrency 1
+            - name: Lint code (ESLint)
+              run: yarn run lint:eslint
+            - name: Lint code (Prettier)
+              run: yarn run lint:prettier
+            - name: Lint code (TypeScript)
+              run: yarn run lint:tsc
 
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the code
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          token: ${{ secrets.GH_DOTCOM_TOKEN }}
-          node-version-file: "package.json"
-          cache: "yarn"
-          cache-dependency-path: "yarn.lock"
-          registry-url: "https://registry.npmjs.com"
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-      - name: Run Unit Tests
-        run: yarn run test
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out the code
+              uses: actions/checkout@v4
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  token: ${{ secrets.GH_DOTCOM_TOKEN }}
+                  node-version-file: 'package.json'
+                  cache: 'yarn'
+                  cache-dependency-path: 'yarn.lock'
+                  registry-url: 'https://registry.npmjs.com'
+            - name: Install dependencies
+              run: yarn install --frozen-lockfile
+            - name: Run Unit Tests
+              run: yarn run test

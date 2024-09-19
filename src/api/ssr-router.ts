@@ -1,5 +1,5 @@
 import express from 'express';
-import { getViteMiddleware } from '../middleware/vite.ts';
+import { getViteMiddleware } from '../middleware/vite.js';
 import path from 'node:path';
 import { readFileSync } from 'node:fs';
 import type { Router } from 'express';

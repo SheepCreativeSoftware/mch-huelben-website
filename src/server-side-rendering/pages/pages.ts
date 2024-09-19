@@ -1,7 +1,7 @@
 import About from './About.vue';
 import Home from './Home.vue';
 import PageNotFound from './PageNotFound.vue';
-import { RouterInstance } from '../router.ts';
+import { RouterInstance } from '../router.js';
 import Store from './Store.vue';
 
 RouterInstance.getInstance().addRoute({

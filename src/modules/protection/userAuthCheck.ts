@@ -1,4 +1,4 @@
-import { ForbiddenException, UnauthorizedException } from '../misc/customErrors.ts';
+import { ForbiddenException, UnauthorizedException } from '../misc/customErrors.js';
 import { buntstift } from 'buntstift';
 import type { Handler } from 'express';
 
