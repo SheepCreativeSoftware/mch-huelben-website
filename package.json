@@ -18,6 +18,9 @@
 		"lint:prettier": "npx prettier --check \"**/*.{xml,json,yml,yaml}\"",
 		"lint:prettier:fix": "npx prettier --write \"**/*.{xml,json,yml,yaml}\"",
 		"lint:tsc": "vue-tsc --noEmit",
+		"test": "tsx --test \"**/*.test.ts\"",
+		"test:watch": "tsx --test --watch \"**/*.test.ts\"",
+		"test:coverage": "tsx --test --experimental-test-coverage \"**/*.test.ts\"",
 		"production": "node dist/app.js",
 		"preview": "yarn build && NODE_ENV=production node --env-file=.env.local dist/app.js",
 		"prepare": "husky"
