@@ -59,24 +59,32 @@ footer {
 	font-size: 1.2em;
 
 	nav {
-		display: flex;
-		justify-content: space-between;
+		display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
 		width: 100%;
 		max-width: 1200px;
 
 		ul {
 			display: flex;
 			justify-content: space-between;
-			align-items: start;
 			margin: 0;
 			padding: 0;
 			gap: 30px;
 			list-style: disc;
-            padding-inline-end: 50px;
+			max-width: fit-content;
+            justify-self: center;
 
 			li:first-child {
 				list-style: none;
 			}
+		}
+
+		:first-child {
+			justify-self: start;
+		}
+
+		:last-child {
+			justify-self: end;
 		}
 
 		.button-link {
