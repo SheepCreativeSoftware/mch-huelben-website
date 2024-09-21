@@ -37,7 +37,7 @@ const getApi = async (): Promise<Application> => {
 		app.use(base, sirv('./dist/ssr/client', { extensions: [] }));
 	}
 
-	app.all('/api/*', getMainRouter());
+	app.use('/api', getMainRouter());
 	app.use(await getSSRRouter());
 
 	// Setup user authentification routes and authorization middleware

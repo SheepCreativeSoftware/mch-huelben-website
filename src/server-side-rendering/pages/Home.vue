@@ -42,9 +42,11 @@
 					<h2 class="section-title">
 						Aktuelles
 					</h2>
-					<NewsView
-						:count="3"
-					/>
+					<Suspense>
+						<NewsView
+							:count="3"
+						/>
+					</Suspense>
 					<ButtonLink
 						target-url="/aktuelles"
 						:is-button="true"

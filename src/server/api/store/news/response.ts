@@ -1,15 +1,14 @@
-import { stringToValidDateTransformer } from '../../../../modules/transform/validation-transformer';
 import { z as zod } from 'zod';
 
 const ResponseNewsBodyValidator = zod.object({
 	news: zod.array(zod.object({
 		content: zod.string(),
-		createdAt: zod.string().transform(stringToValidDateTransformer),
+		createdAt: zod.date(),
 		identifier: zod.string().uuid(),
 		title: zod.string(),
-		updateAt: zod.string().transform(stringToValidDateTransformer),
+		updateAt: zod.date().nullish(),
 	})),
-	offset: zod.number().positive(),
+	offset: zod.number().min(0),
 });
 
 export { ResponseNewsBodyValidator };
