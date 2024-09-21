@@ -7,7 +7,7 @@
 	"scripts": {
 		"clean": "rm -rf dist/",
 		"prebuild": "yarn run clean",
-		"dev": "tsx watch --ignore 'vite.config*' --clear-screen=false --env-file=.env.local src/app.ts",
+		"dev": "tsx watch --ignore 'vite.config*' --clear-screen=false --env-file=.env.local src/app.mts",
 		"build": "yarn build:server && yarn build:client-ssr && yarn build:server-ssr",
 		"build:server": "npx tsc --project tsconfig.server.json",
 		"build:client-ssr": "vite build --ssrManifest --outDir dist/ssr/client",
@@ -21,8 +21,8 @@
 		"test": "tsx --test \"**/*.test.ts\"",
 		"test:watch": "tsx --test --watch \"**/*.test.ts\"",
 		"test:coverage": "tsx --test --experimental-test-coverage \"**/*.test.ts\"",
-		"production": "node dist/app.js",
-		"preview": "yarn build && NODE_ENV=production node --env-file=.env.local dist/app.js",
+		"production": "node dist/app.mjs",
+		"preview": "yarn build && NODE_ENV=production node --env-file=.env.local dist/app.mjs",
 		"prepare": "husky"
 	},
 	"dependencies": {
@@ -73,6 +73,6 @@
 		"yarn": "^1.22.22"
 	},
 	"engines": {
-		"node": ">=22.6.0"
+		"node": ">=20.0.0"
 	}
 }

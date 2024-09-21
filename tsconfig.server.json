@@ -7,6 +7,6 @@
 		"allowImportingTsExtensions": false
 	},
 	"extends": "./tsconfig.base.json",
-	"include": ["src/**/*.ts"],
+	"include": ["src/**/*.ts", "src/**/*.mts"],
 	"exclude": ["node_modules/", "dist", "src/server-side-rendering/**/*"]
 }

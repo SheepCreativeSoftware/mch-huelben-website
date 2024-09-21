@@ -1,3 +1,6 @@
+/* @ts-expect-error This is nessecary for server deployment */
+if (typeof PhusionPassenger !== 'undefined') PhusionPassenger.configure({ autoInstall: false });
+
 import 'reflect-metadata';
 import { buntstift } from 'buntstift';
 // Import { dataSource } from './database/datasource.js';
@@ -18,7 +21,10 @@ const main = async () => {
 	// Init server
 	const server = http.createServer(await getApi());
 
-	const port = process.env.PORT ?? DEFAULT_PORT;
+	let port = process.env.PORT ?? DEFAULT_PORT;
+	/* @ts-expect-error This is nessecary for server deployment */
+	if (typeof PhusionPassenger !== 'undefined') port = 'passenger';
+
 	server
 		.listen(port, () => {
 			buntstift.success(`Server has started and is listening on port: ${port.toString()}`);

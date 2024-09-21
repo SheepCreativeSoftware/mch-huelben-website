@@ -407,7 +407,7 @@ export default [
 					project: './tsconfig.eslint.json',
 				},
 			},
-			files: ['**/*.ts', '**/*.tsx'],
+			files: ['**/*.ts', '**/*.mts', '**/*.tsx'],
 		},
 		/** Prevent type checking on non-TS files (causes parser errors)*/
 		{
