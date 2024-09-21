@@ -363,7 +363,7 @@ export default [
 					allowAllPropertiesOnSameLine: true,
 				},
 			],
-			'@stylistic/operator-linebreak': ['error', 'none'],
+			'@stylistic/operator-linebreak': ['error', 'before'],
 			'@stylistic/padded-blocks': ['error', 'never'],
 			'@stylistic/switch-colon-spacing': 'error',
 			'@stylistic/template-curly-spacing': 'error',
@@ -400,6 +400,7 @@ export default [
 				'@typescript-eslint/no-misused-promises': 'off',
 				'@typescript-eslint/no-unsafe-assignment': 'off',
 				'@typescript-eslint/no-unsafe-member-access': 'off',
+				'@typescript-eslint/no-unsafe-argument': 'off',
 			},
 			languageOptions: {
 				parserOptions: {
@@ -438,6 +439,7 @@ export default [
 			'@typescript-eslint/no-misused-promises': 'off',
 			'@typescript-eslint/no-unsafe-assignment': 'off',
 			'@typescript-eslint/no-unsafe-member-access': 'off',
+			'@typescript-eslint/no-unsafe-argument': 'off',
 		},
 	},
 	{

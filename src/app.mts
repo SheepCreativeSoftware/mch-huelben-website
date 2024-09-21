@@ -3,7 +3,7 @@ if (typeof PhusionPassenger !== 'undefined') PhusionPassenger.configure({ autoIn
 
 import 'reflect-metadata';
 import { buntstift } from 'buntstift';
-// Import { dataSource } from './database/datasource.js';
+import { dataSource } from './server/database/datasource.js';
 import { getApi } from './server/api/getApi.js';
 import http from 'node:http';
 
@@ -12,13 +12,21 @@ const DEFAULT_PORT = 3_000;
 const main = async () => {
 	// Init Database
 	try {
-		// Await dataSource.initialize();
-		buntstift.success('Data Source has been initialized!');
+		buntstift.info('Initializing Database...');
+		await dataSource.initialize();
+		buntstift.success('Database has been initialized!');
+
+		if (await dataSource.showMigrations()) {
+			buntstift.info('Running Migrations on Database...');
+			await dataSource.runMigrations();
+			buntstift.success('Migration on Database finished!');
+		}
 	} catch (error) {
-		if (error instanceof Error) throw new Error(`Error during Data Source initialization: ${error.message}\n${error.stack ?? ''}`);
+		if (error instanceof Error) throw new Error(`Error during Database initialization: ${error.message}\n${error.stack ?? ''}`);
 	}
 
 	// Init server
+	buntstift.info('Starting Server...');
 	const server = http.createServer(await getApi());
 
 	let port = process.env.PORT ?? DEFAULT_PORT;

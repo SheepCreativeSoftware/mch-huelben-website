@@ -6,6 +6,7 @@ import Store from './Store.vue';
 
 RouterInstance.getInstance().addRoute({
 	component: Home,
+	name: 'home',
 	path: '/',
 });
 

@@ -23,6 +23,8 @@
 		/* Typeorm */
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
+		"strictPropertyInitialization": false,
+
 		"types": ["vite/client", "node", "./src/vite-env.d.ts"]
 	},
 

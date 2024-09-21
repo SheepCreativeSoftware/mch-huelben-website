@@ -4,7 +4,7 @@
 </template>
 
 <script lang="ts">
-import { useFooStore } from '../store.ts';
+import { useFooStore } from '../stores/store.ts';
 
 export default {
 	/*

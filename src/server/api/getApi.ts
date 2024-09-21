@@ -7,9 +7,11 @@ import {
 import type { Application } from 'express';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import express from 'express';
+import { getCorsConfig } from '../config/cors-config.js';
 import { getMainRouter } from './main-router.js';
-import { getSSRRouter } from './ssr-router.js';
+import { getSSRRouter } from './ssr/ssr-router.js';
 import sirv from 'sirv';
 
 if (typeof process.env.URL === 'undefined') throw new Error('Missing URL enviroment parameter');
@@ -21,6 +23,9 @@ const base = process.env.BASE ?? '/';
 const getApi = async (): Promise<Application> => {
 	const app = express();
 
+	// Setup cors protection
+	app.use(cors(getCorsConfig()));
+
 	// Setup parsers for specific types
 	app.use(express.json());
 	app.use(cookieParser());
@@ -30,20 +35,10 @@ const getApi = async (): Promise<Application> => {
 		app.set('trust proxy', true);
 		app.use(compression());
 		app.use(base, sirv('./dist/ssr/client', { extensions: [] }));
-		app.use(base, sirv('./public', { extensions: [] }));
 	}
 
 	app.all('/api/*', getMainRouter());
 	app.use(await getSSRRouter());
-
-	// Setup cors protection
-
-	/*
-	 * App.use(cors({
-	 * 	methods: ['GET', 'POST'],
-	 * 	origin: [url],
-	 * }));
-	 */
 
 	// Setup user authentification routes and authorization middleware
 

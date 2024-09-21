@@ -1,43 +1,34 @@
 <template>
 	<div class="news-container">
 		<article
-			v-for="article in currentNews"
-			:key="article.id"
+			v-for="article in news"
+			:key="article.identifier"
 			class="news-item"
 		>
 			<h3>{{ article.title }}</h3>
-			<p>{{ article.text }}</p>
+			<p>{{ article.content }}</p>
+			<span class="creation-date">{{ article.createdAt.toLocaleString() }}
+				<span
+					v-if="article.updateAt !== null"
+					class="update-time"
+				>
+					(Aktualisiert: {{ article.updateAt.toLocaleString() }})
+				</span>
+			</span>
 		</article>
 	</div>
 </template>
 
 <script setup lang="ts">
+import { useNewsStore } from '../stores/news-store';
 
-/* eslint-disable id-length, @stylistic/max-len -- Dummy code*/
-const news = [
-	{
-		id: 1,
-		title: 'News 1',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis, nunc nec vehicula ultricies, nunc nunc ultricies lectus, nec vehicula ultricies nunc nec vehicula ultricies.',
-	},
-	{
-		id: 2,
-		title: 'News 2',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis, nunc nec vehicula ultricies, nunc nunc ultricies lectus, nec vehicula ultricies nunc nec vehicula ultricies.',
-	},
-	{
-		id: 3,
-		title: 'News 3',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis, nunc nec vehicula ultricies, nunc nunc ultricies lectus, nec vehicula ultricies nunc nec vehicula ultricies.',
-	},
-];
-/* eslint-enable id-length, @stylistic/max-len -- Dummy code*/
-
-const { count } = defineProps<{
+const { count, offset } = defineProps<{
 	count: number;
+	offset?: number;
 }>();
 
-const currentNews = news.slice(0, count);
+const news = await useNewsStore().getNews(count, offset);
+
 </script>
 
 <style lang="css" scoped>

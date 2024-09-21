@@ -1,23 +1,9 @@
 <template>
-	<h1>{{ msg }}</h1>
-	<p class="import-meta-url">
-		{{ url }}
-	</p>
+	<h1>{{ 'Not Found' }}</h1>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
 
-export default defineComponent({
-
-	setup() {
-		const url = import.meta.env.SSR ? import.meta.url : document.querySelector('.import-meta-url')?.textContent;
-		return {
-			msg: 'Not Found',
-			url,
-		};
-	},
-});
 </script>
 
 <style scoped>

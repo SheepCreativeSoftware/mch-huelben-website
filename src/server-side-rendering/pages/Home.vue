@@ -1,99 +1,101 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-	<div class="header-container">
-		<HeaderNav />
-		<div class="headline">
-			<h1 class="headline-title">
-				Modellbahnclub Hülben e.V.
-			</h1>
+	<div>
+		<div class="header-container">
+			<HeaderNav />
+			<div class="headline">
+				<h1 class="headline-title">
+					Modellbahnclub Hülben e.V.
+				</h1>
+			</div>
 		</div>
+		<main>
+			<ContainerComponent>
+				<section id="willkommen">
+					<h2 class="section-title">
+						Herzlich Willkommen!
+					</h2>
+					<div class="section-text">
+						Lorem ipsum dolor sit amet consectetur adipisicing elit.<br>
+						<br>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit.<br>
+						doloremque iste debitis error, accusantium ex eaque molestiae qui.<br>
+						<br>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, suscipit.<br>
+					</div>
+					<ButtonLink
+						target-url="/ueber"
+						is-button
+					>
+						Über uns
+					</ButtonLink>
+				</section>
+			</ContainerComponent>
+			<div class="overall-image">
+				<img
+					src="../assets/overall/overall-1.png"
+					alt="Overall Image"
+				>
+			</div>
+			<ContainerComponent>
+				<section id="aktuelles">
+					<h2 class="section-title">
+						Aktuelles
+					</h2>
+					<NewsView
+						:count="3"
+					/>
+					<ButtonLink
+						target-url="/aktuelles"
+						:is-button="true"
+					>
+						Weitere Nachrichten
+					</ButtonLink>
+				</section>
+			</ContainerComponent>
+			<ContainerComponent id="events-container">
+				<section id="termine">
+					<h2 class="section-title">
+						Aktuelle Termine
+					</h2>
+					<div class="section-text">
+						Leider können wir aufgrund der aktuellen Situation keine Termine anbieten.
+					</div>
+				</section>
+			</ContainerComponent>
+			<div class="overall-image">
+				<img
+					src="../assets/overall/overall-2.png"
+					alt="Overall Image 2"
+				>
+			</div>
+			<ContainerComponent>
+				<section id="kontakt">
+					<h2 class="section-title">
+						Kontakt
+					</h2>
+					<div class="section-text">
+						Hier kannst du mit uns in Kontakt treten<br>
+						Wir freuen uns über jegliche Fragen, Anregungen, Lob oder Kritik.<br>
+						<br>
+						Oder komm doch einfach Mal bei uns vorbei!<br>
+						<br>
+						Bitte füllen sie alle Felder aus und geben sie eine korrekte E-Mail Adresse an, damit<br>
+						wir dir antworten können.
+					</div>
+					<div class="section-form">
+						<ContactForm />
+					</div>
+				</section>
+			</ContainerComponent>
+			<div class="overall-image">
+				<img
+					src="../assets/overall/overall-3.png"
+					alt="Overall Image 3"
+				>
+			</div>
+		</main>
 	</div>
-	<main>
-		<ContainerComponent>
-			<section id="willkommen">
-				<h2 class="section-title">
-					Herzlich Willkommen!
-				</h2>
-				<div class="section-text">
-					Lorem ipsum dolor sit amet consectetur adipisicing elit.<br>
-					<br>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit.<br>
-					doloremque iste debitis error, accusantium ex eaque molestiae qui.<br>
-					<br>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, suscipit.<br>
-				</div>
-				<ButtonLink
-					target-url="/ueber"
-					is-button
-				>
-					Über uns
-				</ButtonLink>
-			</section>
-		</ContainerComponent>
-		<div class="overall-image">
-			<img
-				src="../assets/overall/overall-1.png"
-				alt="Overall Image"
-			>
-		</div>
-		<ContainerComponent>
-			<section id="aktuelles">
-				<h2 class="section-title">
-					Aktuelles
-				</h2>
-				<NewsView
-					:count="3"
-				/>
-				<ButtonLink
-					target-url="/aktuelles"
-					:is-button="true"
-				>
-					Weitere Nachrichten
-				</ButtonLink>
-			</section>
-		</ContainerComponent>
-		<ContainerComponent id="events-container">
-			<section id="termine">
-				<h2 class="section-title">
-					Aktuelle Termine
-				</h2>
-				<div class="section-text">
-					Leider können wir aufgrund der aktuellen Situation keine Termine anbieten.
-				</div>
-			</section>
-		</ContainerComponent>
-		<div class="overall-image">
-			<img
-				src="../assets/overall/overall-2.png"
-				alt="Overall Image 2"
-			>
-		</div>
-		<ContainerComponent>
-			<section id="kontakt">
-				<h2 class="section-title">
-					Kontakt
-				</h2>
-				<div class="section-text">
-					Hier kannst du mit uns in Kontakt treten<br>
-					Wir freuen uns über jegliche Fragen, Anregungen, Lob oder Kritik.<br>
-					<br>
-					Oder komm doch einfach Mal bei uns vorbei!<br>
-					<br>
-					Bitte füllen sie alle Felder aus und geben sie eine korrekte E-Mail Adresse an, damit<br>
-					wir dir antworten können.
-				</div>
-				<div class="section-form">
-					<ContactForm />
-				</div>
-			</section>
-		</ContainerComponent>
-		<div class="overall-image">
-			<img
-				src="../assets/overall/overall-3.png"
-				alt="Overall Image 3"
-			>
-		</div>
-	</main>
 </template>
 
 <script setup lang="ts">
