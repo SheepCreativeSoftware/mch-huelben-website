@@ -37,7 +37,7 @@ defineProps<{
 
 <style scoped>
 .button-link {
-	color: var(--bg-color-300);
+	color: var(--bg-color-900);
 	text-decoration: none;
 	font-weight: bold;
 	transition: all 0.5s ease;
@@ -59,42 +59,20 @@ defineProps<{
 }
 
 .button-link-button {
-	color: var(--bg-color-300);
+	color: var(--bg-color-100);
 	background-color: var(--primary-color-500);
 	padding: 10px 24px;
 	border-radius: 20px;
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 
 	&.button-link-inverted {
-		color: var(--bg-color-300);
+		color: var(--bg-color-100);
 		background-color: var(--bg-color-900);
 	}
 
 	&:active {
 		transform: translateY(3px);
 		transition: all 0.1s ease;
-	}
-}
-
-.button-link-inverted {
-	color: var(--bg-color-900);
-}
-
-@media (prefers-color-scheme: dark) {
-	.button-link {
-		color: var(--bg-color-300);
-	}
-
-	.button-link-button {
-		color: var(--bg-color-300);
-
-		&.button-link-inverted {
-			color: var(--bg-color-300);
-		}
-	}
-
-	.button-link-inverted {
-		color: var(--bg-color-900);
 	}
 }
 </style>

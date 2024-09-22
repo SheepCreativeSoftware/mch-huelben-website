@@ -96,6 +96,10 @@ header {
 	}
 }
 
+.button-link {
+	color: var(--bg-color-100);
+}
+
 .header-logo img {
 	height: 80px;
 	transition: all 0.5s ease;
