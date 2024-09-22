@@ -139,7 +139,7 @@ h2.section-title {
 	&::after {
 		content: '';
 		flex: 1;
-		border-bottom: 2px solid var(--accent-color);
+		border-bottom: 2px solid var(--primary-color-500);
 		margin: auto;
 		margin-left: 10px;
 	}

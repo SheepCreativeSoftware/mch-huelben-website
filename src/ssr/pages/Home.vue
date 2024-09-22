@@ -120,7 +120,7 @@ import NewsView from '../components/NewsView.vue';
 }
 
 .headline-title {
-	color: var(--text-light);
+	color: var(--bg-color-300);
 	text-align: center;
 	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
@@ -165,7 +165,7 @@ h2.section-title {
 	&::after {
 		content: '';
 		flex: 1;
-		border-bottom: 2px solid var(--accent-color);
+		border-bottom: 2px solid var(--primary-color-500);
 		margin: auto;
 		margin-left: 10px;
 	}

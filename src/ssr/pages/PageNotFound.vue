@@ -74,7 +74,7 @@ section {
 	a {
 		font-size: 1.5rem;
 		font-weight: bold;
-		color: var(--accent-color);
+		color: var(--primary-color-500);
 
 		&:hover {
 			text-decoration: underline;
@@ -82,7 +82,7 @@ section {
 		}
 
 		@media(prefers-color-scheme: dark) {
-			color: var(--text-light);
+			color: var(--bg-color-300);
 		}
 	}
 }
@@ -94,7 +94,7 @@ h2.section-title {
 	&::after {
 		content: '';
 		flex: 1;
-		border-bottom: 2px solid var(--accent-color);
+		border-bottom: 2px solid var(--primary-color-500);
 		margin: auto;
 		margin-left: 10px;
 	}

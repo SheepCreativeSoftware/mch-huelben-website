@@ -126,7 +126,7 @@ form {
 			font-weight: normal;
 
 			.button-link {
-				color: var(--text-dark);
+				color: var(--bg-color-900);
 				font-size: 1.0rem;
 				font-weight: bold;
 			}
@@ -136,8 +136,8 @@ form {
 	.button-submit {
 		margin-top: 10px;
 		align-self: center;
-		background-color: var(--accent-color);
-		color: var(--text-light);
+		background-color: var(--primary-color-500);
+		color: var(--bg-color-300);
 		font-size: 2rem;
 		font-weight: bold;
 		padding: 10px 24px;
@@ -155,12 +155,12 @@ form {
 	@media(prefers-color-scheme: dark) {
 		input, textarea {
 			background-color: #505050;
-			color: var(--text-light);
+			color: var(--bg-color-300);
 		}
 
 		label[for="confirmation"] {
 			.button-link {
-				color: var(--text-light) !important;
+				color: var(--bg-color-300) !important;
 			}
 		}
 	}

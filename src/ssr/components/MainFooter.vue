@@ -90,7 +90,7 @@ footer {
 		.button-link {
 			font-size: 1.2rem;
 			font-weight: normal;
-			color: var(--text-dark);
+			color: var(--bg-color-900);
 		}
 	}
 }
@@ -105,7 +105,7 @@ footer {
 
 		& nav {
 			.button-link {
-				color: var(--text-light);
+				color: var(--bg-color-300);
 			}
 		}
 	}

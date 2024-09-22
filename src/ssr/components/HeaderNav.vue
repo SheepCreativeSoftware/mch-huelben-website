@@ -89,7 +89,7 @@ header {
 	box-sizing: unset;
 
 	&.scrolled {
-		background-color: var(--accent-color);
+		background-color: var(--primary-color-500);
 		padding-top: 8px;
 		padding-bottom: 8px;
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);

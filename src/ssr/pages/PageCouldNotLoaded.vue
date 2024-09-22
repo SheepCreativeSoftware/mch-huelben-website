@@ -86,12 +86,12 @@ section {
 		font-size: 1.5rem;
 		font-weight: bold;
 		text-decoration: underline;
-		color: var(--accent-color);
+		color: var(--primary-color-500);
 	}
 
 	@media(prefers-color-scheme: dark) {
 		a {
-			color: var(--text-light);
+			color: var(--bg-color-300);
 		}
 	}
 }
@@ -103,7 +103,7 @@ h2.section-title {
 	&::after {
 		content: '';
 		flex: 1;
-		border-bottom: 2px solid var(--accent-color);
+		border-bottom: 2px solid var(--primary-color-500);
 		margin: auto;
 		margin-left: 10px;
 	}
