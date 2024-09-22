@@ -63,10 +63,16 @@ defineProps<{
 	background-color: var(--accent-color);
 	padding: 10px 24px;
 	border-radius: 20px;
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 
 	&.button-link-inverted {
 		color: var(--text-light);
 		background-color: var(--text-dark);
+	}
+
+	&:active {
+		transform: translateY(3px);
+		transition: all 0.1s ease;
 	}
 }
 

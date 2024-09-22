@@ -402,6 +402,15 @@ export default [
 				'@typescript-eslint/no-unsafe-member-access': 'off',
 				'@typescript-eslint/no-unsafe-argument': 'off',
 				'@typescript-eslint/no-unsafe-return': 'off',
+				'@typescript-eslint/restrict-template-expressions': [
+					'error',
+					{
+						allowNumber: true,
+						allowBoolean: true,
+						allowAny: true,
+						allowNullish: true,
+					},
+				],
 			},
 			languageOptions: {
 				parserOptions: {
@@ -442,6 +451,15 @@ export default [
 			'@typescript-eslint/no-unsafe-member-access': 'off',
 			'@typescript-eslint/no-unsafe-argument': 'off',
 			'@typescript-eslint/no-unsafe-return': 'off',
+			'@typescript-eslint/restrict-template-expressions': [
+				'error',
+				{
+					allowNumber: true,
+					allowBoolean: true,
+					allowAny: true,
+					allowNullish: true,
+				},
+			],
 		},
 	},
 	{

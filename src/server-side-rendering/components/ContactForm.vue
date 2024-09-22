@@ -145,6 +145,11 @@ form {
 		border: none;
 		cursor: pointer;
 		width: max-content;
+
+			&:active {
+			transform: translateY(3px);
+			transition: all 0.1s ease;
+		}
 	}
 
 	@media(prefers-color-scheme: dark) {

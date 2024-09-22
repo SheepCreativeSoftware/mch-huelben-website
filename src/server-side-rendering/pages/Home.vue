@@ -140,6 +140,7 @@ import NewsView from '../components/NewsView.vue';
 .overall-image img {
 	object-fit: cover;
 	width: 100%;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .container-component {

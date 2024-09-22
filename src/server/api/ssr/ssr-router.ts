@@ -1,4 +1,4 @@
-import './store-mapping.js';
+import './store-maping/store-mapping.js';
 import express from 'express';
 import { getViteMiddleware } from '../../middleware/vite.js';
 import path from 'node:path';

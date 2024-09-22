@@ -43,7 +43,6 @@ class News {
 	})
 	updatedAt: Date;
 
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-return -- This is a decorator
 	@OneToOne(() => Events)
 	@JoinColumn({
 		foreignKeyConstraintName: 'fk_news_events',

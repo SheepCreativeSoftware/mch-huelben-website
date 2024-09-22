@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, onServerPrefetch, ref } from 'vue';
 import { type News, useNewsStore } from '../stores/news-store';
 import { getDateFormatOptions } from '../../modules/transform/config/date-format-config';
 
@@ -43,6 +43,10 @@ const updateNews = () => {
 		console.error(error);
 	});
 };
+
+onServerPrefetch(() => {
+	updateNews();
+});
 
 onMounted(() => {
 	updateNews();
