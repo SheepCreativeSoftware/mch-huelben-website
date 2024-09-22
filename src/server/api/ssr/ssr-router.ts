@@ -44,7 +44,7 @@ const getSSRRouter = async (): Promise<Router> => {
 				// Always read fresh template in dev
 				template = readFileSync(path.resolve(process.cwd(), 'index.html'), 'utf-8');
 				template = await vite.transformIndexHtml('/', template);
-				render = (await vite.ssrLoadModule(path.resolve(process.cwd(), 'src', 'server-side-rendering', 'entry-server.ts')))
+				render = (await vite.ssrLoadModule(path.resolve(process.cwd(), 'src', 'ssr', 'entry-server.ts')))
 					.entryServer;
 			}
 

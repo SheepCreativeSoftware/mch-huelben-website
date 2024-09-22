@@ -11,7 +11,7 @@
 		"build": "yarn build:server && yarn build:client-ssr && yarn build:server-ssr",
 		"build:server": "yarn tsc --project tsconfig.server.json",
 		"build:client-ssr": "vite build --ssrManifest --outDir dist/ssr/client",
-		"build:server-ssr": "vite build --ssr src/server-side-rendering/entry-server.ts --outDir dist/ssr/server",
+		"build:server-ssr": "vite build --ssr src/ssr/entry-server.ts --outDir dist/ssr/server",
 		"lint": "yarn lint:eslint && yarn lint:prettier && yarn lint:tsc",
 		"lint:eslint": "eslint --cache --cache-strategy content",
 		"lint:eslint:fix": "yarn lint:eslint --fix",
