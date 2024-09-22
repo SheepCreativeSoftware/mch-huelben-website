@@ -22,14 +22,21 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const useNewsStore = defineStore('news-store', {
 	actions: {
-		async fetchFoo(count?: number, offset?: number): Promise<void> {
+		async fetchNewsData(count?: number, offset?: number): Promise<void> {
 			const url = new URL('/api/store/get-news', baseUrl);
 			if (count) url.searchParams.append('count', String(count));
 			if (offset) url.searchParams.append('offset', String(offset));
 
 			const result = await fetch(url);
 
-			if (!result.ok) throw new Error('Could not fetch news');
+			if (!result.ok) {
+				throw new Error('Could not fetch news', {
+					cause: {
+						status: result.status,
+						statusText: result.statusText,
+					},
+				});
+			}
 			const response = NewsResponseBodyValidator.parse(await result.json());
 
 			this.$state.news = response.news;
@@ -42,7 +49,7 @@ const useNewsStore = defineStore('news-store', {
 				// eslint-disable-next-line @stylistic/no-extra-parens -- This is not a mistake
 				|| (typeof offset === 'number' && this.offset !== offset)
 				|| this.news.length < Number(count)
-			) await this.fetchFoo(count, offset);
+			) await this.fetchNewsData(count, offset);
 
 			return this.news.slice(0, count);
 		},

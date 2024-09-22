@@ -1,6 +1,7 @@
 import About from './About.vue';
 import Home from './Home.vue';
 import NewsPage from './NewsPage.vue';
+import PageCouldNotLoaded from './PageCouldNotLoaded.vue';
 import PageNotFound from './PageNotFound.vue';
 import { RouterInstance } from '../router.js';
 import Store from './Store.vue';
@@ -25,6 +26,11 @@ RouterInstance.getInstance().addRoute({
 RouterInstance.getInstance().addRoute({
 	component: Store,
 	path: '/store',
+});
+
+RouterInstance.getInstance().addRoute({
+	component: PageCouldNotLoaded,
+	path: '/could-not-load',
 });
 
 RouterInstance.getInstance().addRoute({

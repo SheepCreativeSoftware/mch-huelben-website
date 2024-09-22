@@ -23,6 +23,10 @@
 import { computed, onMounted, onServerPrefetch, ref } from 'vue';
 import { type News, useNewsStore } from '../stores/news-store';
 import { getDateFormatOptions } from '../../modules/transform/config/date-format-config';
+import { routeOnError } from './route-on-error';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const props = defineProps<{
 	count: number;
@@ -38,7 +42,11 @@ const currentOffset = computed(() => {
 const updateNews = () => {
 	useNewsStore().getNews(props.count, currentOffset.value).then((newsData) => {
 		news.value = newsData;
-	}).catch((error: unknown) => {
+	}).catch(async (error: unknown) => {
+		if (error instanceof Error) {
+			await routeOnError(router, error);
+			return;
+		}
 		// eslint-disable-next-line no-console -- error handling
 		console.error(error);
 	});
