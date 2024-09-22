@@ -19,7 +19,7 @@ type News = zod.infer<typeof NewsResponseBodyValidator>;
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
-export const useNewsStore = defineStore('news-store', {
+const useNewsStore = defineStore('news-store', {
 	actions: {
 		async fetchFoo(count?: number, offset?: number): Promise<void> {
 			const url = new URL('/api/store/get-news', baseUrl);
@@ -29,14 +29,16 @@ export const useNewsStore = defineStore('news-store', {
 			const result = await fetch(url);
 
 			if (!result.ok) throw new Error('Could not fetch news');
-			const { news } = NewsResponseBodyValidator.parse(await result.json());
+			const response = NewsResponseBodyValidator.parse(await result.json());
 
-			this.$state.news = news;
+			this.$state.news = response.news;
+			this.$state.offset = response.offset;
 		},
 		async getNews(count?: number, offset?: number): Promise<News['news']> {
 			if (
 				this.news.length === 0
-				|| this.offset !== offset
+				// eslint-disable-next-line @stylistic/no-extra-parens -- This is not a mistake
+				|| (typeof offset === 'number' && this.offset !== offset)
 				|| this.news.length < Number(count)
 			) await this.fetchFoo(count, offset);
 
@@ -48,3 +50,6 @@ export const useNewsStore = defineStore('news-store', {
 		offset: 0,
 	}),
 });
+
+export { useNewsStore };
+export type { News };
