@@ -14,6 +14,7 @@ const NewsResponseBodyValidator = zod.object({
 		}),
 	})),
 	offset: zod.number().min(0),
+	totalCount: zod.number(),
 });
 type News = zod.infer<typeof NewsResponseBodyValidator>;
 
@@ -33,6 +34,7 @@ const useNewsStore = defineStore('news-store', {
 
 			this.$state.news = response.news;
 			this.$state.offset = response.offset;
+			this.$state.totalCount = response.totalCount;
 		},
 		async getNews(count?: number, offset?: number): Promise<News['news']> {
 			if (
@@ -48,6 +50,7 @@ const useNewsStore = defineStore('news-store', {
 	state: (): News => ({
 		news: [],
 		offset: 0,
+		totalCount: 0,
 	}),
 });
 

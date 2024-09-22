@@ -54,7 +54,7 @@ export default [
 			'consistent-return': [
 				'error',
 				{
-					treatUndefinedAsUnspecified: true,
+					treatUndefinedAsUnspecified: false,
 				},
 			],
 			'consistent-this': ['error', 'that'],
@@ -401,6 +401,7 @@ export default [
 				'@typescript-eslint/no-unsafe-assignment': 'off',
 				'@typescript-eslint/no-unsafe-member-access': 'off',
 				'@typescript-eslint/no-unsafe-argument': 'off',
+				'@typescript-eslint/no-unsafe-return': 'off',
 			},
 			languageOptions: {
 				parserOptions: {
@@ -440,6 +441,7 @@ export default [
 			'@typescript-eslint/no-unsafe-assignment': 'off',
 			'@typescript-eslint/no-unsafe-member-access': 'off',
 			'@typescript-eslint/no-unsafe-argument': 'off',
+			'@typescript-eslint/no-unsafe-return': 'off',
 		},
 	},
 	{

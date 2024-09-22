@@ -1,6 +1,8 @@
 <template>
 	<router-link
+		v-if="!disabled"
 		:class="{
+			'disabled': disabled,
 			'button-link': true,
 			'button-link-button': isButton ?? false,
 			'button-link-inverted': hasInvertedStyle ?? false,
@@ -9,6 +11,18 @@
 	>
 		<slot />
 	</router-link>
+	<a
+		v-else
+		:class="{
+			'disabled': disabled,
+			'button-link': true,
+			'button-link-button': isButton ?? false,
+			'button-link-inverted': hasInvertedStyle ?? false,
+		}"
+		href="javascript:void(0)"
+	>
+		<slot />
+	</a>
 </template>
 
 <script setup lang="ts">
@@ -17,6 +31,7 @@ defineProps<{
 	targetUrl: RouterLinkProps['to'];
 	isButton?: boolean;
 	hasInvertedStyle?: boolean;
+	disabled?: boolean;
 }>();
 </script>
 
@@ -31,6 +46,15 @@ defineProps<{
 
 	&:hover {
 		text-decoration: underline;
+	}
+
+	&.disabled {
+		cursor: not-allowed;
+		opacity: 0.5;
+
+		&:hover {
+			text-decoration: none;
+		}
 	}
 }
 

@@ -151,6 +151,7 @@ section {
 	display: flex;
 	flex-direction: column;
 	gap: 24px;
+
 }
 
 h2.section-title {
@@ -168,7 +169,7 @@ h2.section-title {
 
 .section-text {
 	text-align: left;
-	font-size: 1.5em;
+	font-size: 1.5rem;
 }
 
 </style>

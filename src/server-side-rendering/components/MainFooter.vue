@@ -56,7 +56,7 @@ footer {
 	gap: 30px;
 	padding: 30px 50px 20px 50px;
 	background-color: #d9d9d9;
-	font-size: 1.2em;
+	font-size: 1.2rem;
 
 	nav {
 		display: grid;

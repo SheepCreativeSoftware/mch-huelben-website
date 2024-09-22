@@ -92,14 +92,14 @@ form {
 	gap: 2px;
 
 	label {
-		font-size: 1.0em;
+		font-size: 1.0rem;
 		font-weight: bold;
 		align-self: flex-start;
 		margin-top: 10px;
 	}
 
 	input, textarea {
-		font-size: 1.5em;
+		font-size: 1.5rem;
 		background-color: #D9D9D9;
 		border: 1px solid #F5F5F5;
 		border-radius: 5px
@@ -114,7 +114,7 @@ form {
 		margin-top: 10px;
 		display: flex;
 		align-items: flex-start;
-		gap: 2px;
+		gap: 10px;
 
 		input[type="checkbox"] {
 			transform: scale(1.5);
@@ -122,12 +122,12 @@ form {
 
 		label[for="confirmation"] {
 			margin-top: 0;
-			font-size: 0.95em;
+			font-size: 0.95rem;
 			font-weight: normal;
 
 			.button-link {
 				color: var(--text-dark);
-				font-size: 1.0em;
+				font-size: 1.0rem;
 				font-weight: bold;
 			}
 		}
@@ -138,7 +138,7 @@ form {
 		align-self: center;
 		background-color: var(--accent-color);
 		color: var(--text-light);
-		font-size: 2em;
+		font-size: 2rem;
 		font-weight: bold;
 		padding: 10px 24px;
 		border-radius: 20px;

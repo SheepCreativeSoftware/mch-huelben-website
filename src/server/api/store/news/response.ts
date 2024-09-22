@@ -9,6 +9,7 @@ const ResponseNewsBodyValidator = zod.object({
 		updateAt: zod.date().nullish(),
 	})),
 	offset: zod.number().min(0),
+	totalCount: zod.number(),
 });
 
 export { ResponseNewsBodyValidator };

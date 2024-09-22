@@ -1,8 +1,8 @@
 <template>
-	<header :class="{ 'scrolled': isScrolled }">
+	<header :class="{ 'scrolled': isScrolled || props.isBlock }">
 		<div class="header-logo">
 			<img
-				:class="{ 'scrolled': isScrolled }"
+				:class="{ 'scrolled': isScrolled || props.isBlock }"
 				src="../assets/logo/mch-logo-light-transparent.svg"
 				alt="MCH Hülben e.v. Logo"
 			>
@@ -17,7 +17,7 @@
 			<ButtonLink
 				:target-url="{path: '/', hash: '#aktuelles'}"
 			>
-				Akutelles
+				Aktuelles
 			</ButtonLink>
 			<ButtonLink
 				target-url="/ueber"
@@ -37,7 +37,7 @@
 			<ButtonLink
 				:target-url="{ path: '/', hash: '#kontakt' }"
 				:is-button="true"
-				:has-inverted-style="isScrolled"
+				:has-inverted-style="isScrolled || props.isBlock"
 			>
 				Kontakt
 			</ButtonLink>
@@ -49,6 +49,10 @@
 import { computed, ref } from 'vue';
 import ButtonLink from './base/ButtonLink.vue';
 import { useRoute } from 'vue-router';
+
+const props = defineProps<{
+	isBlock?: boolean;
+}>();
 
 const route = useRoute();
 

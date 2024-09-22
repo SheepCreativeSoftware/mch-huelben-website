@@ -1,27 +1,51 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
 	<div>
+		<div class="header-container">
+			<HeaderNav :is-block="true" />
+			<div class="head-image">
+				<img
+					src="../assets/overall/overall-1.png"
+					alt="Overall Image"
+				>
+			</div>
+		</div>
 		<main>
-			<ContainerComponent>
-				<section id="aktuelles">
+			<ContainerComponent
+				class="news-section-container"
+			>
+				<section>
 					<h2 class="section-title">
-						Aktuelles
+						Aktuelles rund um den Verein
 					</h2>
+					<div class="section-text">
+						Hier werden wir in unregelmässigen abständen Neuigkeiten veröffentlicht.
+					</div>
+				</section>
+				<section id="aktuelles">
 					<NewsView
 						:key="`${count}-${offset}`"
 						:count="count"
 						:offset="offset"
 					/>
 				</section>
+			</ContainerComponent>
+			<ContainerComponent
+				class="navigation-button-container"
+				columns="1fr 1fr"
+				justify="center"
+				gap="32px"
+			>
 				<ButtonLink
-					:disabled="offset === 0"
-					:target-url="{ path: '/aktuelles', query: { offset: offsetForNext } }"
+					:disabled="currentPage === 0"
+					:target-url="{ path: '/aktuelles', query: { page: previousPage } }"
 					is-button
 				>
 					Neuer Nachrichten
 				</ButtonLink>
 				<ButtonLink
-					:target-url="{ path: '/aktuelles', query: { offset: offsetForPrevious } }"
+					:disabled="currentPage === lastPage"
+					:target-url="{ path: '/aktuelles', query: { page: nextPage } }"
 					is-button
 				>
 					Ältere Nachrichten
@@ -35,33 +59,71 @@
 import ButtonLink from '../components/base/ButtonLink.vue';
 import { computed } from 'vue';
 import ContainerComponent from '../components/base/ContainerComponent.vue';
+import HeaderNav from '../components/HeaderNav.vue';
 import NewsView from '../components/NewsView.vue';
+import { useNewsStore } from '../stores/news-store';
 import { useRoute } from 'vue-router';
 
+const totalCount = computed(() => useNewsStore().totalCount);
 const DEFAULT_COUNT = 10;
+const count = DEFAULT_COUNT;
+
+const lastPage = computed(() => {
+	const newValue = Math.floor(totalCount.value / count) - 1;
+	return newValue < 0 ? 0 : newValue;
+});
 
 const route = useRoute();
 
-const count = DEFAULT_COUNT;
+const currentPage = computed(() => {
+	const page = Number(route.query.page);
+	if (!page || page <= 0) return 0;
+	return page;
+});
+
 const offset = computed(() => {
-	return route.query.offset ? Number(route.query.offset) : 0;
+	if (currentPage.value <= 0) return 0;
+	return currentPage.value * count;
 });
 
-const offsetForNext = computed(() => {
+const nextPage = computed(() => {
+	if (offset.value + count >= totalCount.value
+		|| currentPage.value >= lastPage.value
+	) return lastPage.value;
+	return currentPage.value + 1;
+});
+
+const previousPage = computed(() => {
 	if (offset.value <= 0) return 0;
-	return offset.value - count;
+	return currentPage.value - 1;
 });
-
-const offsetForPrevious = computed(() => {
-	return offset.value + count;
-});
-
 </script>
 
 <style scoped>
-.container-component {
-	padding: 75px 10%;
+.head-image img {
+	object-fit: cover;
+	width: 100%;
+}
+
+.news-section-container {
+	padding: 75px 10% 24px 10%;
 	width: calc(100% - 20%);
+}
+
+.navigation-button-container {
+	padding: 24px 10% 75px 10%;
+	width: calc(100% - 20%);
+
+	:first-child {
+		justify-self: end;
+	}
+	:last-child {
+		justify-self: start;
+	}
+}
+
+#aktuelles {
+	padding-top: 50px;
 }
 
 section {
@@ -85,6 +147,6 @@ h2.section-title {
 
 .section-text {
 	text-align: left;
-	font-size: 1.5em;
+	font-size: 1.5rem;
 }
 </style>

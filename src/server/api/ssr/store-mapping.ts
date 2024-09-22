@@ -6,9 +6,11 @@ const DEFAULT_COUNT = 10;
 
 const getNewsStoreTree = async (count?: number): Promise<StateTree> => {
 	const news = await NewsRepository.getLatestNews(count);
+	const totalCount = await NewsRepository.getNewsTotalCount();
 	return {
 		news,
 		offset: 0,
+		totalCount,
 	};
 };
 

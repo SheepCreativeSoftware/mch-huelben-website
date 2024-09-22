@@ -57,5 +57,24 @@ onMounted(() => {
 }
 article {
 	text-align: left;
+	/* border: 1px solid grey; */
+    border-radius: 16px;
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    padding: 24px;
+    background-color: #fcfcff;
+
+	@media(prefers-color-scheme: dark) {
+		background-color: #1a1a1a;
+	}
+}
+
+.creation-date {
+	display: block;
+	font-size: 1rem;
+	padding-top: 0.5rem;
+
+	.update-time {
+		font-size: 1rem;
+	}
 }
 </style>

@@ -8,10 +8,10 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { computed } from 'vue';
 
 const {
-	columns = '', rows = '', gap = '', justify = 'strech', align = 'stretch',
+	columns, rows, gap, justify, align,
 } = defineProps<{
 	columns?: string;
 	rows?: string;
@@ -20,74 +20,32 @@ const {
 	align?: 'start' | 'end' | 'center' | 'stretch';
 }>();
 
-const cssGridDefaults = () => {
+const cssGridDefaults = computed(() => {
 	return {
-		columns,
-		rows,
-		gap,
-		justify,
-		align,
+		columns: columns ?? '',
+		rows: rows ?? '',
+		gap: gap ?? '',
+		justify: justify ?? 'stretch',
+		align: align ?? 'stretch',
 	};
-};
+});
 
-const buildCssGridProps = () => {
-	const grid = cssGridDefaults();
+const currentCssGrid = computed(() => {
+	const grid = cssGridDefaults;
 
 	return {
-		'grid-template-columns': grid.columns,
-		'grid-template-rows': grid.rows,
-		'grid-gap': grid.gap,
-		'justify-items': grid.justify,
-		'align-items': grid.align,
+		'grid-template-columns': grid.value.columns,
+		'grid-template-rows': grid.value.rows,
+		'grid-gap': grid.value.gap,
+		'justify-items': grid.value.justify,
+		'align-items': grid.value.align,
 	};
-};
-
-const buildCssGrid = () => {
-	const cssGrid = buildCssGridProps();
-
-	return cssGrid;
-};
-
-const currentCssGrid = reactive(buildCssGrid());
-
+});
 </script>
 
 <style scoped>
 .container-component {
     display: grid;
     width: 100%;
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        font-weight: normal;
-    }
-
-    h1 {
-        font-size: var(--font-size-xl);
-    }
-
-    h2 {
-        font-size: 22px;
-    }
-
-    h3 {
-        font-size: var(--font-size-l);
-    }
-
-    h4,
-    h5,
-    h6 {
-        font-size: var(--font-size-m);
-    }
-
-    p {
-        font-size: var(--font-size-xs);
-        line-height: var(--line-height-sm);
-        color: var(--color-darkgray-200);
-    }
 }
 </style>
