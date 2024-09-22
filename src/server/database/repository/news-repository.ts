@@ -1,5 +1,5 @@
-import { dataSource } from '../datasource';
-import { News } from '../entities/News';
+import { dataSource } from '../datasource.js';
+import { News } from '../entities/News.js';
 
 const NewsRepository = dataSource.getRepository(News).extend({
 	getLatestNews(count?: number, offset?: number): Promise<News[]> {

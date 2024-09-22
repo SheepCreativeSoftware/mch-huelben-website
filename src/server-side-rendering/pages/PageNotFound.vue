@@ -74,7 +74,16 @@ section {
 	a {
 		font-size: 1.5rem;
 		font-weight: bold;
-		text-decoration: underline;
+		color: var(--accent-color);
+
+		&:hover {
+			text-decoration: underline;
+			cursor: pointer;
+		}
+
+		@media(prefers-color-scheme: dark) {
+			color: var(--text-light);
+		}
 	}
 }
 

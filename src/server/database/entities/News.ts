@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { Events } from './Events';
+import { Events } from './Events.js';
 
 /* eslint-disable new-cap -- This is not a constructor */
 @Entity()

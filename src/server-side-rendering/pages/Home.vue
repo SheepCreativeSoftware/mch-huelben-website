@@ -33,6 +33,7 @@
 			</ContainerComponent>
 			<div class="overall-image">
 				<img
+					loading="lazy"
 					src="../assets/overall/overall-1.png"
 					alt="Overall Image"
 				>
@@ -65,6 +66,7 @@
 			</ContainerComponent>
 			<div class="overall-image">
 				<img
+					loading="lazy"
 					src="../assets/overall/overall-2.png"
 					alt="Overall Image 2"
 				>
@@ -90,6 +92,7 @@
 			</ContainerComponent>
 			<div class="overall-image">
 				<img
+					loading="lazy"
 					src="../assets/overall/overall-3.png"
 					alt="Overall Image 3"
 				>

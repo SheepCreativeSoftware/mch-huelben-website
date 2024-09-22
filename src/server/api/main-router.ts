@@ -1,6 +1,6 @@
-import { clientErrorHandler, errorHandler, logOnError, notFoundHandler } from '../modules/handler/errorHandlers';
+import { clientErrorHandler, errorHandler, logOnError, notFoundHandler } from '../modules/handler/errorHandlers.js';
 import express from 'express';
-import { newsRouter } from './store/router';
+import { newsRouter } from './store/router.js';
 import type { Router } from 'express';
 
 const getMainRouter = (): Router => {

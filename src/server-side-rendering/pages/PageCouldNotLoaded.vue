@@ -86,6 +86,13 @@ section {
 		font-size: 1.5rem;
 		font-weight: bold;
 		text-decoration: underline;
+		color: var(--accent-color);
+	}
+
+	@media(prefers-color-scheme: dark) {
+		a {
+			color: var(--text-light);
+		}
 	}
 }
 

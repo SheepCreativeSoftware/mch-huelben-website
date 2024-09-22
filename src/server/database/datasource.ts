@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
-import { Events } from './entities/Events';
-import { News } from './entities/News';
+import { Events } from './entities/Events.js';
+import { News } from './entities/News.js';
 
 const MARIADB_PORT = 3306;
 
@@ -10,7 +10,7 @@ const dataSource = new DataSource({
 	entities: [Events, News],
 	host: process.env.DATABASE_HOST,
 	logging: false,
-	migrations: ['src/server/database/migration/*.ts'],
+	migrations: ['./migration/**/*'],
 	password: process.env.DATABASE_PASSWORD,
 	port: Number(process.env.DATABASE_PORT) || MARIADB_PORT,
 	subscribers: [],

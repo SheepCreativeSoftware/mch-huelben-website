@@ -18,7 +18,7 @@ const NewsResponseBodyValidator = zod.object({
 });
 type News = zod.infer<typeof NewsResponseBodyValidator>;
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.SSR ? import.meta.env.VITE_BASE_URL : window.location.origin;
 
 const useNewsStore = defineStore('news-store', {
 	actions: {

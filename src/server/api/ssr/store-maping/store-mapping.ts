@@ -1,1 +1,1 @@
-import './news-store-mapping.ts';
+import './news-store-mapping.js';
