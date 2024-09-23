@@ -117,9 +117,10 @@ import NewsView from '../components/NewsView.vue';
 	display: flex;
 	position: absolute;
 	text-align: center;
+	z-index: 0;
 
 	img {
-		z-index: 0;
+
 		height: 100vh;
 	}
 

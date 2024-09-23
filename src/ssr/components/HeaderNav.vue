@@ -1,9 +1,7 @@
 <template>
 	<header :class="{ 'scrolled': isScrolled || props.isBlock }">
 		<div class="header-logo">
-			<ButtonLink
-				target-url="/"
-			>
+			<ButtonLink target-url="/">
 				<img
 					:class="{ 'scrolled': isScrolled || props.isBlock }"
 					src="../assets/logo/mch-logo-light-transparent.svg"
@@ -11,24 +9,28 @@
 				>
 			</ButtonLink>
 		</div>
-		<nav>
+		<nav :class="{ 'menu-open': isMenuOpen }">
 			<ButtonLink
-				:target-url="$route.path === '/' ? {path: '/', hash: '#aktuelles'} : {path: '/aktuelles'}"
+				:target-url="$route.path === '/' ? { path: '/', hash: '#aktuelles' } : { path: '/aktuelles' }"
+				@click="isMenuOpen = false"
 			>
 				Aktuelles
 			</ButtonLink>
 			<ButtonLink
 				target-url="/ueber"
+				@click="isMenuOpen = false"
 			>
 				Über
 			</ButtonLink>
 			<ButtonLink
 				target-url="/gallerie"
+				@click="isMenuOpen = false"
 			>
 				Gallerie
 			</ButtonLink>
 			<ButtonLink
 				target-url="/impressum"
+				@click="isMenuOpen = false"
 			>
 				Impressum
 			</ButtonLink>
@@ -36,10 +38,21 @@
 				:target-url="{ path: '/', hash: '#kontakt' }"
 				:is-button="true"
 				:has-inverted-style="isScrolled || props.isBlock"
+				@click="isMenuOpen = false"
 			>
 				Kontakt
 			</ButtonLink>
 		</nav>
+		<button
+			aria-label="Menü öffnen"
+			class="hamburger-menu"
+			@click="isMenuOpen = !isMenuOpen"
+		>
+			<img
+				src="../assets/hamburger.svg"
+				alt="Hamburger Menü"
+			>
+		</button>
 	</header>
 </template>
 
@@ -47,19 +60,27 @@
 import ButtonLink from './base/ButtonLink.vue';
 import { ref } from 'vue';
 
+const MIN_SCREEN_WIDTH = 768;
+
 const props = defineProps<{
 	isBlock?: boolean;
 }>();
 
 const isScrolled = ref(false);
+const isMenuOpen = ref(false);
 
 if (!import.meta.env.SSR) {
 	const handleScroll = () => {
-		if (window.scrollY > 0) isScrolled.value = true;
+		if (window.scrollY > 0 || window.innerWidth < MIN_SCREEN_WIDTH) isScrolled.value = true;
 		else isScrolled.value = false;
 	};
 
+	const closeMenu = () => {
+		if (window.innerWidth >= MIN_SCREEN_WIDTH) isMenuOpen.value = false;
+	};
+
 	window.addEventListener('scroll', handleScroll);
+	window.addEventListener('resize', closeMenu);
 }
 
 </script>
@@ -87,12 +108,59 @@ header {
 		justify-content: space-between;
 		gap: var(--space-300);
 		align-items: center;
-	}
-}
 
-.button-link {
-	color: var(--bg-color-100);
-	font-size: var(--fs-500);
+		.button-link {
+			color: var(--bg-color-100);
+			font-size: var(--fs-500);
+		}
+	}
+
+	@media(width <=768px) {
+		background-color: var(--primary-color-500);
+		padding: 0.5rem 2rem 0.5rem 2rem;
+
+		nav {
+			display: flex;
+			flex-direction: column;
+			position: absolute;
+			top: -100vh;
+			left: 0;
+			width: 100%;
+			background-color: var(--primary-color-500);
+			z-index: -1;
+			transition: all 1.0s ease;
+
+			.button-link {
+				width: 100%;
+				text-align: center;
+				font-size: var(--fs-700);
+			}
+
+			.button-link-button.button-link-inverted {
+				color: var(--bg-color-100);
+				background-color: var(--primary-color-500);
+			}
+
+			&.menu-open {
+				top: 100%;
+			}
+		}
+	}
+
+	.hamburger-menu {
+		display: none;
+		cursor: pointer;
+		border: none;
+		background: none;
+
+		@media(width <=768px) {
+			display: block;
+
+			&:hover {
+				filter: drop-shadow(1px 1px 3px #ffffff);
+			}
+		}
+	}
 }
 
 .header-logo img {
@@ -100,6 +168,10 @@ header {
 	transition: all 0.5s ease;
 
 	&.scrolled {
+		max-width: 125px;
+	}
+
+	@media(width <=768px) {
 		max-width: 125px;
 	}
 }
