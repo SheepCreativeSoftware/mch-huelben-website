@@ -1,21 +1,19 @@
 <template>
 	<header :class="{ 'scrolled': isScrolled || props.isBlock }">
 		<div class="header-logo">
-			<img
-				:class="{ 'scrolled': isScrolled || props.isBlock }"
-				src="../assets/logo/mch-logo-light-transparent.svg"
-				alt="MCH Hülben e.v. Logo"
+			<ButtonLink
+				target-url="/"
 			>
+				<img
+					:class="{ 'scrolled': isScrolled || props.isBlock }"
+					src="../assets/logo/mch-logo-light-transparent.svg"
+					alt="MCH Hülben e.v. Logo"
+				>
+			</ButtonLink>
 		</div>
 		<nav>
 			<ButtonLink
-				v-if="isNotHome"
-				target-url="/"
-			>
-				Start
-			</ButtonLink>
-			<ButtonLink
-				:target-url="{path: '/', hash: '#aktuelles'}"
+				:target-url="$route.path === '/' ? {path: '/', hash: '#aktuelles'} : {path: '/aktuelles'}"
 			>
 				Aktuelles
 			</ButtonLink>
@@ -46,19 +44,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
 import ButtonLink from './base/ButtonLink.vue';
-import { useRoute } from 'vue-router';
+import { ref } from 'vue';
 
 const props = defineProps<{
 	isBlock?: boolean;
 }>();
-
-const route = useRoute();
-
-const isNotHome = computed(() => {
-	return route.path !== '/';
-});
 
 const isScrolled = ref(false);
 
@@ -78,41 +69,38 @@ header {
 	position: fixed;
 	top: 0;
 	z-index: 1;
-	width: calc(100% - 96px);
-	max-width: calc(2000px - 96px);
+	width: calc(100% - 4rem);
 	display: flex;
-	padding: 0 48px;
-	padding-top: 16px;
+	padding: 1rem 2rem 0 2rem;
 	justify-content: space-between;
 	align-items: center;
 	transition: all 0.5s ease;
-	box-sizing: unset;
 
 	&.scrolled {
 		background-color: var(--primary-color-500);
-		padding-top: 8px;
-		padding-bottom: 8px;
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+		padding: 0.5rem 2rem 0.5rem 2rem;
+		box-shadow: var(--box-shadow-lg);
+	}
+
+	nav {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-300);
+		align-items: center;
 	}
 }
 
 .button-link {
 	color: var(--bg-color-100);
+	font-size: var(--fs-500);
 }
 
 .header-logo img {
-	height: 80px;
+	max-width: 200px;
 	transition: all 0.5s ease;
 
 	&.scrolled {
-		height: 50px;
+		max-width: 125px;
 	}
-}
-
-nav {
-	display: flex;
-	justify-content: space-between;
-	gap: 40px;
-	align-items: center;
 }
 </style>

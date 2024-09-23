@@ -136,6 +136,30 @@
     --gradient: linear-gradient(180deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
   }
 
+  @media(width <= 850px) {
+    /* Font sizes */
+    --fs-300: 1rem;
+    --fs-400: 1.125rem;
+    --fs-500: 1.25rem;
+    --fs-600: 1.5rem;
+    --fs-700: 1.75rem;
+    --fs-800: 2rem;
+    --fs-900: 3rem;
+
+    /* Spacing */
+    --space-100: 0.5rem;
+    --space-200: 1rem;
+    --space-300: 1.5rem;
+    --space-400: 2rem;
+    --space-500: 3rem;
+    --space-600: 4rem;
+
+    /* Body Defaults */
+    --body-font-size: 0.875rem;
+    --body-line-height: 1.75;
+
+  }
+
   @media(width > 850px) {
     /* Font sizes */
     --fs-300: 1.125rem;
@@ -271,8 +295,9 @@ img {
 }
 
 #app {
-  margin: 0 auto;
-  max-width: 2000px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 2500px;
 }
 

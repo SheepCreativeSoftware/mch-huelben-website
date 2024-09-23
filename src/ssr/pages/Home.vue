@@ -2,10 +2,13 @@
 <template>
 	<div>
 		<div class="header-container">
-			<HeaderNav />
 			<div class="headline">
+				<img
+					src="../assets/Heading.png"
+					alt="Naturbild mit Dampflok"
+				>
 				<h1 class="headline-title">
-					Modellbahnclub Hülben e.V.
+					Modell<wbr>bahn<wbr>club <span>Hülben e.V.</span>
 				</h1>
 			</div>
 		</div>
@@ -105,7 +108,6 @@
 import ButtonLink from '../components/base/ButtonLink.vue';
 import ContactForm from '../components/ContactForm.vue';
 import ContainerComponent from '../components/base/ContainerComponent.vue';
-import HeaderNav from '../components/HeaderNav.vue';
 import NewsView from '../components/NewsView.vue';
 
 </script>
@@ -114,15 +116,31 @@ import NewsView from '../components/NewsView.vue';
 .headline {
 	display: flex;
 	position: absolute;
-    top: 45vh;
-	padding: 0 20%;
-	width: calc(100% - 40%);
-}
-
-.headline-title {
-	color: var(--bg-color-300);
 	text-align: center;
-	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+
+	img {
+		z-index: 0;
+		height: 100vh;
+	}
+
+	h1 {
+		position: absolute;
+		top: 45vh;
+		left: 0;
+		right: 0;
+		margin: 0 var(--space-2) 0 var(--space-2);
+		color: var(--bg-color-200);
+		text-align: center;
+		text-shadow: var(--box-shadow-lg);
+		span {
+			font-size: inherit;
+			white-space: nowrap;
+		}
+
+		@media(width < 680px) {
+			font-size: 4.5rem;
+		}
+	}
 }
 
 .header-container {
@@ -130,10 +148,10 @@ import NewsView from '../components/NewsView.vue';
 	top: 0;
 	width: 100%;
 	height: 100vh;
-	background-image: url('../assets/Heading.png');
+	/* background-image: url('../assets/Heading.png');
 	background-size: cover;
 	background-position: center;
-	background-repeat: no-repeat;
+	background-repeat: no-repeat; */
 }
 
 #events-container {

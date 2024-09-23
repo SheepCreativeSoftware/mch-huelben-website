@@ -1,5 +1,6 @@
 <template>
-	<div id="main-view-container">
+	<div>
+		<HeaderNav />
 		<router-view v-slot="{ Component }">
 			<component :is="Component" />
 		</router-view>
@@ -8,14 +9,9 @@
 </template>
 
 <script setup lang="ts">
+import HeaderNav from './components/HeaderNav.vue';
 import MainFooter from './components/MainFooter.vue';
 </script>
 
 <style lang="css" scoped>
-#main-view-container {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	min-height: 100vh;
-}
 </style>
