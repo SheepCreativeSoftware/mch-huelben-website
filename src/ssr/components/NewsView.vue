@@ -7,12 +7,12 @@
 		>
 			<h3>{{ article.title }}</h3>
 			<p>{{ article.content }}</p>
-			<span class="creation-date">{{ article.createdAt.toLocaleString('de-DE', getDateFormatOptions()) }}
+			<span class="creation-date">{{ new Date(article.createdAt).toLocaleString('de-DE', getDateFormatOptions()) }}
 				<span
 					v-if="article.updateAt"
 					class="update-time"
 				>
-					(Aktualisiert: {{ article.updateAt.toLocaleString('de-DE', getDateFormatOptions()) }})
+					(Aktualisiert: {{ new Date(article.updateAt).toLocaleString('de-DE', getDateFormatOptions()) }})
 				</span>
 			</span>
 		</article>
@@ -20,12 +20,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onServerPrefetch, ref } from 'vue';
-import { type News, useNewsStore } from '../stores/news-store';
+import { computed, onBeforeMount } from 'vue';
 import { getDateFormatOptions } from '../../modules/transform/config/date-format-config';
 import { routeOnError } from './route-on-error';
+import { useNewsStore } from '../stores/news-store';
 import { useRouter } from 'vue-router';
 
+const newsStore = useNewsStore();
 const router = useRouter();
 
 const props = defineProps<{
@@ -33,31 +34,29 @@ const props = defineProps<{
 	offset?: number;
 }>();
 
-const news = ref<News['news']>([]);
-
 const currentOffset = computed(() => {
 	return props.offset ?? 0;
 });
 
-const updateNews = () => {
-	useNewsStore().getNews(props.count, currentOffset.value).then((newsData) => {
-		news.value = newsData;
-	}).catch(async (error: unknown) => {
+const news = computed(() => {
+	return newsStore.getNews(props.count);
+});
+
+const updateNews = async () => {
+	try {
+		await newsStore.fetchNewsData(props.count, currentOffset.value);
+	} catch (error) {
 		if (error instanceof Error) {
 			await routeOnError(router, error);
 			return;
 		}
 		// eslint-disable-next-line no-console -- error handling
 		console.error(error);
-	});
+	}
 };
 
-onServerPrefetch(() => {
-	updateNews();
-});
-
-onMounted(() => {
-	updateNews();
+onBeforeMount(async() => {
+	await updateNews();
 });
 </script>
 

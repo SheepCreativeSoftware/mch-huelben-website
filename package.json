@@ -5,6 +5,7 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
+		"browser-open": "open 'http://localhost:3000/'",
 		"clean": "rm -rf dist/",
 		"prebuild": "yarn run clean",
 		"dev": "tsx watch --ignore 'vite.config*' --clear-screen=false --env-file=.env.local src/app.mts",

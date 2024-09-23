@@ -17,9 +17,9 @@ const createApp = function ({ store }: { store?: Record<string, StateTree> }) {
 	const router = RouterInstance.getInstance();
 	app.use(router);
 
-	router.beforeEach(() => {
-		if (import.meta.env.SSR && store) pinia.state.value = store;
+	if (import.meta.env.SSR && store) pinia.state.value = store;
 
+	router.beforeEach(() => {
 		/* eslint-disable no-underscore-dangle -- This custom property will be set somwhere else - No type error  */
 		if (!import.meta.env.SSR && typeof window.__pinia === 'string') {
 			const initialState = JSON.parse(window.__pinia);

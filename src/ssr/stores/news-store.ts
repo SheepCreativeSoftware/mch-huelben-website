@@ -1,17 +1,13 @@
 import { defineStore } from 'pinia';
-import { stringToValidDateTransformer } from '../../modules/transform/validation-transformer';
 import { z as zod } from 'zod';
 
 const NewsResponseBodyValidator = zod.object({
 	news: zod.array(zod.object({
 		content: zod.string(),
-		createdAt: zod.string().transform(stringToValidDateTransformer),
+		createdAt: zod.string().datetime(),
 		identifier: zod.string().uuid(),
 		title: zod.string(),
-		updateAt: zod.string().nullish().transform((value, ctx): Date | null => {
-			if (!value) return null;
-			return stringToValidDateTransformer(value, ctx) as Date;
-		}),
+		updateAt: zod.string().datetime().nullish(),
 	})),
 	offset: zod.number().min(0),
 	totalCount: zod.number(),
@@ -23,6 +19,12 @@ const baseUrl = import.meta.env.SSR ? import.meta.env.VITE_BASE_URL : window.loc
 const useNewsStore = defineStore('news-store', {
 	actions: {
 		async fetchNewsData(count?: number, offset?: number): Promise<void> {
+			if (import.meta.env.SSR) return;
+
+			if (this.news.length >= Number(count)
+				&& this.offset === offset
+			) return;
+
 			const url = new URL('/api/store/get-news', baseUrl);
 			if (count) url.searchParams.append('count', String(count));
 			if (offset) url.searchParams.append('offset', String(offset));
@@ -43,14 +45,7 @@ const useNewsStore = defineStore('news-store', {
 			this.$state.offset = response.offset;
 			this.$state.totalCount = response.totalCount;
 		},
-		async getNews(count?: number, offset?: number): Promise<News['news']> {
-			if (
-				this.news.length === 0
-				// eslint-disable-next-line @stylistic/no-extra-parens -- This is not a mistake
-				|| (typeof offset === 'number' && this.offset !== offset)
-				|| this.news.length < Number(count)
-			) await this.fetchNewsData(count, offset);
-
+		getNews(count?: number): News['news'] {
 			return this.news.slice(0, count);
 		},
 	},

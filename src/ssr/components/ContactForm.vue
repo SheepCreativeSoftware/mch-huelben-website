@@ -10,9 +10,10 @@
 			Dein Name:<span class="required-form-input">*</span>
 		</label>
 		<input
-			id="constact-form-name"
+			id="name"
 			type="text"
 			name="name"
+			autocomplete="name"
 			required
 		>
 		<label
@@ -21,9 +22,10 @@
 			Deine E-Mail:<span class="required-form-input">*</span>
 		</label>
 		<input
-			id="constact-form-email"
+			id="email"
 			type="email"
 			name="email"
+			autocomplete="email"
 			required
 		>
 		<label
@@ -32,7 +34,7 @@
 			Betreff:<span class="required-form-input">*</span>
 		</label>
 		<input
-			id="constact-form-subject"
+			id="subject"
 			type="text"
 			name="subject"
 			required
@@ -43,13 +45,13 @@
 			Deine Nachricht:<span class="required-form-input">*</span>
 		</label>
 		<textarea
-			id="constact-form-message"
+			id="message"
 			name="message"
 			required
 		/>
 		<div class="contact-form-confirmation-container">
 			<input
-				id="constact-form-confirmation"
+				id="confirmation"
 				type="checkbox"
 				name="confirmation"
 			>

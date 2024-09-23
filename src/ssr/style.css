@@ -24,17 +24,17 @@
   /* Colors */
   --accent-color: #953A49;
 
-  --primary-color-300: hsl(355, 44%, 75%);
-  --primary-color-400: hsl(355, 44%, 50%);
-  --primary-color-500: hsl(355, 44%, 35%);
-  --primary-color-600: hsl(355, 44%, 25%);
-  --primary-color-700: hsl(355, 44%, 15%);
+  --primary-color-300: #dba3a8;
+  --primary-color-400: #b84751;
+  --primary-color-500: #813239;
+  --primary-color-600: #5c2428;
+  --primary-color-700: #371518;
 
-  --secondary-color-300: hsl(220, 75%, 75%);
-  --secondary-color-400: hsl(220, 75%, 50%);
-  --secondary-color-500: hsl(220, 75%, 35%);
-  --secondary-color-600: hsl(220, 75%, 25%);
-  --secondary-color-700: hsl(220, 75%, 15%);
+  --secondary-color-300: #8fafef;
+  --secondary-color-400: #2060df;
+  --secondary-color-500: #16439c;
+  --secondary-color-600: #103070;
+  --secondary-color-700: #0a1d43;
 
   --success-color: #4CAF50;
   --info-color: #2196F3;
@@ -46,15 +46,15 @@
   --bg-gray: #6c757d;
   --bg-gray-dark: #343a40;
 
-  --bg-color-100: hsl(0, 0%, 100%);
-  --bg-color-200: hsl(0, 0%, 90%);
-  --bg-color-300: hsl(0, 0%, 80%);
-  --bg-color-400: hsl(0, 0%, 70%);
-  --bg-color-500: hsl(0, 0%, 60%);
-  --bg-color-600: hsl(0, 0%, 50%);
-  --bg-color-700: hsl(0, 0%, 40%);
-  --bg-color-800: hsl(0, 0%, 30%);
-  --bg-color-900: hsl(0, 0%, 20%);
+  --bg-color-100: #ffffff;
+  --bg-color-200: #e6e6e6;
+  --bg-color-300: #cccccc;
+  --bg-color-400: #b3b3b3;
+  --bg-color-500: #999999;
+  --bg-color-600: #808080;
+  --bg-color-700: #666666;
+  --bg-color-800: #4d4d4d;
+  --bg-color-900: #333333;
 
   /* Font sizes */
   --fs-300: 1rem;
@@ -101,27 +101,27 @@
 
   @media(prefer-color-scheme: dark) {
     /* Colors */
-    --primary-color-300: hsl(355, 44%, 15%);
-    --primary-color-400: hsl(355, 44%, 25%);
-    --primary-color-500: hsl(355, 44%, 35%);
-    --primary-color-600: hsl(355, 44%, 50%);
-    --primary-color-700: hsl(355, 44%, 75%);
+    --primary-color-300: #371518;
+    --primary-color-400: #5c2428;
+    --primary-color-500: #813239;
+    --primary-color-600: #b84751;
+    --primary-color-700: #dba3a8;
 
-    --secondary-color-300: hsl(220, 75%, 15%);
-    --secondary-color-400: hsl(220, 75%, 25%);
-    --secondary-color-500: hsl(220, 75%, 35%);
-    --secondary-color-600: hsl(220, 75%, 50%);
-    --secondary-color-700: hsl(220, 75%, 75%);
+    --secondary-color-300: #0a1d43;
+    --secondary-color-400: #103070;
+    --secondary-color-500: #16439c;
+    --secondary-color-600: #2060df;
+    --secondary-color-700: #8fafef;
 
-    --bg-color-100: hsl(0, 0%, 10%);
-    --bg-color-200: hsl(0, 0%, 20%);
-    --bg-color-300: hsl(0, 0%, 30%);
-    --bg-color-400: hsl(0, 0%, 40%);
-    --bg-color-500: hsl(0, 0%, 50%);
-    --bg-color-600: hsl(0, 0%, 60%);
-    --bg-color-700: hsl(0, 0%, 70%);
-    --bg-color-800: hsl(0, 0%, 80%);
-    --bg-color-900: hsl(0, 0%, 90%);
+    --bg-color-100: #1a1a1a;
+    --bg-color-200: #333333;
+    --bg-color-300: #4d4d4d;
+    --bg-color-400: #666666;
+    --bg-color-500: #808080;
+    --bg-color-600: #999999;
+    --bg-color-700: #b3b3b3;
+    --bg-color-800: #cccccc;
+    --bg-color-900: #e6e6e6;
 
     /* Body Defaults */
     --body-color: #f8f9fa;
@@ -260,6 +260,14 @@ a:visited, a:active, a:focus {
 a:hover {
   text-decoration: underline;
   cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  color: var();
 }
 
 #app {

@@ -1,6 +1,13 @@
 import './style.css';
 import { createApp } from './main.ts';
 
-const { app } = createApp({});
+const entryClient = async () => {
+	const { app, router } = createApp({});
 
-app.mount('#app');
+	await router.isReady();
+	app.mount('#app');
+};
+
+entryClient().catch((error: unknown) => {
+	throw new Error('Could not mount app', { cause: error });
+});
