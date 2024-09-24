@@ -1,7 +1,6 @@
 <template>
 	<div>
 		<div class="header-container">
-			<HeaderNav :is-block="true" />
 			<div class="head-image">
 				<img
 					src="../assets/overall/overall-3.png"
@@ -12,7 +11,6 @@
 		<main>
 			<ContainerComponent
 				class="section-container"
-
 				gap="24px"
 			>
 				<section>
@@ -47,7 +45,6 @@
 
 <script setup lang="ts">
 import ContainerComponent from '../components/base/ContainerComponent.vue';
-import HeaderNav from '../components/HeaderNav.vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -62,27 +59,22 @@ const router = useRouter();
 }
 
 .section-container {
-	padding: 75px 10%;
-	width: calc(100% - 20%);
+	padding: 4rem 4vw;
+	width: calc(100% - 8vw);
 }
 
 section {
 	display: flex;
 	flex-direction: column;
-	gap: 24px;
+	gap: var(--space-200);
 
 	a {
-		font-size: 1.5rem;
+		font-size: var(--fs-400);
 		font-weight: bold;
-		color: var(--primary-color-500);
 
 		&:hover {
 			text-decoration: underline;
 			cursor: pointer;
-		}
-
-		@media(prefers-color-scheme: dark) {
-			color: var(--bg-color-300);
 		}
 	}
 }
@@ -103,11 +95,10 @@ h2.section-title {
 h3.section-title {
 	display: flex;
 	flex-direction: row;
-	font-size: 2rem;
 }
 
 .section-text {
 	text-align: left;
-	font-size: 1.5rem;
+	font-size: var(--fs-400);
 }
 </style>

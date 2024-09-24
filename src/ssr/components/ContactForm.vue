@@ -88,35 +88,38 @@ import ButtonLink from './base/ButtonLink.vue';
 form {
 	display: flex;
 	flex-direction: column;
-	padding: 0 50px;
-	max-width: 700px;
+	padding: 0 4vw;
+	max-width: 800px;
 	margin: auto;
 	gap: 2px;
 
 	label {
-		font-size: 1.0rem;
+		font-size: var(--fs-300);
 		font-weight: bold;
 		align-self: flex-start;
 		margin-top: 10px;
 	}
 
 	input, textarea {
-		font-size: 1.5rem;
-		background-color: #D9D9D9;
-		border: 1px solid #F5F5F5;
-		border-radius: 5px
+		font-family: var(--font-sans-serif);
+		font-size: var(--fs-500);
+		padding: 0.2rem 0.3rem;
+		line-height: var(--space-300);
+		background-color: var(--bg-color-300);
+		border: 1px solid var(--bg-color-700);
+		border-radius: var(--border-radius-md);
 	}
 
 	textarea {
 		resize: none;
-		height: 200px;
+		height: 15rem;
 	}
 
 	.contact-form-confirmation-container {
 		margin-top: 10px;
 		display: flex;
 		align-items: flex-start;
-		gap: 10px;
+		gap: var(--space-100);
 
 		input[type="checkbox"] {
 			transform: scale(1.5);
@@ -124,12 +127,12 @@ form {
 
 		label[for="confirmation"] {
 			margin-top: 0;
-			font-size: 0.95rem;
+			font-size: var(--fs-200);
 			font-weight: normal;
 
 			.button-link {
 				color: var(--bg-color-900);
-				font-size: 1.0rem;
+				font-size: var(--fs-200);
 				font-weight: bold;
 			}
 		}
@@ -142,8 +145,8 @@ form {
 		color: var(--bg-color-300);
 		font-size: 2rem;
 		font-weight: bold;
-		padding: 10px 24px;
-		border-radius: 20px;
+		padding: 0.8rem 1.6rem;
+		border-radius: var(--border-radius-xl);
 		border: none;
 		cursor: pointer;
 		width: max-content;
@@ -155,18 +158,10 @@ form {
 	}
 
 	@media(prefers-color-scheme: dark) {
-		input, textarea {
-			background-color: #505050;
-			color: var(--bg-color-300);
-		}
-
-		label[for="confirmation"] {
-			.button-link {
-				color: var(--bg-color-300) !important;
-			}
+		.button-submit {
+			color: var(--bg-color-900);
 		}
 	}
-
 }
 
 </style>

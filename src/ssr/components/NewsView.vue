@@ -64,19 +64,15 @@ onBeforeMount(async() => {
 .news-container {
 	display: flex;
 	flex-direction: column;
-	gap: 25px;
+	gap: var(--space-400);
 }
 article {
 	text-align: left;
 	/* border: 1px solid grey; */
-    border-radius: 16px;
-	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    padding: 24px;
-    background-color: #fcfcff;
-
-	@media(prefers-color-scheme: dark) {
-		background-color: #1a1a1a;
-	}
+    border-radius: var(--border-radius-lg);
+	box-shadow: var(--box-shadow);
+    padding: 1.5rem;
+    background-color: var(--bg-color-200);
 }
 
 .creation-date {

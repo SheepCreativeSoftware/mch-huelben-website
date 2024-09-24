@@ -56,6 +56,7 @@
 	--bg-color-900: #333333;
 
 	/* Font sizes */
+	--fs-200: 0.8rem;
 	--fs-300: 1rem;
 	--fs-400: 1.125rem;
 	--fs-500: 1.325rem;
@@ -106,7 +107,7 @@
 	--body-line-height: 1.5;
 	--body-color: #212529;
 
-	@media (prefer-color-scheme: dark) {
+	@media (prefers-color-scheme: dark) {
 		/* Colors */
 		--primary-color-300: #371518;
 		--primary-color-400: #5c2428;
@@ -214,29 +215,6 @@
 		/* Body Defaults */
 		--body-font-size: 1rem;
 		--body-line-height: 1.5;
-	}
-
-	@media (width > 1600px) {
-		/* Font sizes */
-		--fs-300: 1.5rem;
-		--fs-400: 1.625rem;
-		--fs-500: 1.875rem;
-		--fs-600: 2.5rem;
-		--fs-700: 2.875rem;
-		--fs-800: 3.375rem;
-		--fs-900: 4.75rem;
-
-		/* Spacing */
-		--space-100: 1rem;
-		--space-200: 1.5rem;
-		--space-300: 2.25rem;
-		--space-400: 3rem;
-		--space-500: 4rem;
-		--space-600: 5.5rem;
-
-		/* Body Defaults */
-		--body-font-size: 1.125rem;
-		--body-line-height: 1.25;
 	}
 }
 

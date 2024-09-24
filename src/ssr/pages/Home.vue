@@ -13,7 +13,7 @@
 			</div>
 		</div>
 		<main>
-			<ContainerComponent>
+			<article class="article-container">
 				<section id="willkommen">
 					<h2 class="section-title">
 						Herzlich Willkommen!
@@ -33,7 +33,7 @@
 						Über uns
 					</ButtonLink>
 				</section>
-			</ContainerComponent>
+			</article>
 			<div class="overall-image">
 				<img
 					loading="lazy"
@@ -41,7 +41,7 @@
 					alt="Overall Image"
 				>
 			</div>
-			<ContainerComponent>
+			<article class="article-container">
 				<section id="aktuelles">
 					<h2 class="section-title">
 						Aktuelles
@@ -56,8 +56,11 @@
 						Weitere Nachrichten
 					</ButtonLink>
 				</section>
-			</ContainerComponent>
-			<ContainerComponent id="events-container">
+			</article>
+			<article
+				id="events-container"
+				class="article-container"
+			>
 				<section id="termine">
 					<h2 class="section-title">
 						Aktuelle Termine
@@ -66,7 +69,7 @@
 						Leider können wir aufgrund der aktuellen Situation keine Termine anbieten.
 					</div>
 				</section>
-			</ContainerComponent>
+			</article>
 			<div class="overall-image">
 				<img
 					loading="lazy"
@@ -74,7 +77,7 @@
 					alt="Overall Image 2"
 				>
 			</div>
-			<ContainerComponent>
+			<article class="article-container">
 				<section id="kontakt">
 					<h2 class="section-title">
 						Kontakt
@@ -92,7 +95,7 @@
 						<ContactForm />
 					</div>
 				</section>
-			</ContainerComponent>
+			</article>
 			<div class="overall-image">
 				<img
 					loading="lazy"
@@ -107,21 +110,20 @@
 <script setup lang="ts">
 import ButtonLink from '../components/base/ButtonLink.vue';
 import ContactForm from '../components/ContactForm.vue';
-import ContainerComponent from '../components/base/ContainerComponent.vue';
 import NewsView from '../components/NewsView.vue';
 
 </script>
 
 <style scoped>
 .headline {
-	display: flex;
-	position: absolute;
+
 	text-align: center;
 	z-index: 0;
 
 	img {
-
 		height: 100vh;
+		min-width: 100%;
+		object-fit: cover;
 	}
 
 	h1 {
@@ -141,6 +143,9 @@ import NewsView from '../components/NewsView.vue';
 		@media(width < 680px) {
 			font-size: 4.5rem;
 		}
+		@media(prefers-color-scheme: dark) {
+			color: var(--bg-color-800);
+		}
 	}
 }
 
@@ -149,10 +154,6 @@ import NewsView from '../components/NewsView.vue';
 	top: 0;
 	width: 100%;
 	height: 100vh;
-	/* background-image: url('../assets/Heading.png');
-	background-size: cover;
-	background-position: center;
-	background-repeat: no-repeat; */
 }
 
 #events-container {
@@ -162,12 +163,13 @@ import NewsView from '../components/NewsView.vue';
 .overall-image img {
 	object-fit: cover;
 	width: 100%;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+	max-height: 50vh;
+	box-shadow: var(--box-shadow-lg);
 }
 
-.container-component {
-	padding: 75px 10%;
-	width: calc(100% - 20%);
+.article-container {
+	padding: 3rem 4vw;
+	width: calc(100% - 8vw);
 }
 
 section {
@@ -192,7 +194,7 @@ h2.section-title {
 
 .section-text {
 	text-align: left;
-	font-size: 1.5rem;
+	font-size: var(--fs-500);
 }
 
 </style>

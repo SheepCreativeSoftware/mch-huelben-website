@@ -61,18 +61,21 @@ defineProps<{
 .button-link-button {
 	color: var(--bg-color-100);
 	background-color: var(--primary-color-500);
-	padding: 10px 24px;
-	border-radius: 20px;
-	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	padding: 0.8rem 1.5rem;
+	border-radius: var(--border-radius-xl);
+	box-shadow: var(--box-shadow-sm);
 
 	&.button-link-inverted {
-		color: var(--bg-color-100);
 		background-color: var(--bg-color-900);
 	}
 
 	&:active {
-		transform: translateY(3px);
+		transform: translateY(0.15rem);
 		transition: all 0.1s ease;
+	}
+
+	@media(prefers-color-scheme: dark) {
+		color: var(--bg-color-900);
 	}
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<HeaderNav />
+		<HeaderNav :is-block="$route.path !== '/'" />
 		<router-view v-slot="{ Component }">
 			<component :is="Component" />
 		</router-view>

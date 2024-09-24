@@ -111,7 +111,12 @@ header {
 
 		.button-link {
 			color: var(--bg-color-100);
-			font-size: var(--fs-500);
+			font-size: var(--fs-400);
+		}
+		@media(prefers-color-scheme: dark) {
+			.button-link:not(.button-link-inverted) {
+				color: var(--bg-color-900);
+			}
 		}
 	}
 
@@ -139,6 +144,11 @@ header {
 			.button-link-button.button-link-inverted {
 				color: var(--bg-color-100);
 				background-color: var(--primary-color-500);
+			}
+			@media(prefers-color-scheme: dark) {
+				.button-link.button-link-inverted {
+					color: var(--bg-color-900);
+				}
 			}
 
 			&.menu-open {
