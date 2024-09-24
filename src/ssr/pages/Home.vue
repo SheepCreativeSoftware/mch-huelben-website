@@ -13,39 +13,39 @@
 			</div>
 		</div>
 		<main>
-			<article class="article-container">
-				<section id="willkommen">
-					<h2 class="section-title">
-						Herzlich Willkommen!
-					</h2>
-					<div class="section-text">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit.<br>
-						<br>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit.<br>
-						doloremque iste debitis error, accusantium ex eaque molestiae qui.<br>
-						<br>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, suscipit.<br>
-					</div>
+			<MainArticleBase>
+				<template #title>
+					Herzlich Willkommen!
+				</template>
+				<template #text>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit.<br>
+					<br>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit.<br>
+					doloremque iste debitis error, accusantium ex eaque molestiae qui.<br>
+					<br>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, suscipit.<br>
+				</template>
+				<template #additional>
 					<ButtonLink
 						target-url="/ueber"
 						is-button
 					>
 						Über uns
 					</ButtonLink>
-				</section>
-			</article>
-			<div class="overall-image">
+				</template>
+			</MainArticleBase>
+			<OverallImage>
 				<img
 					loading="lazy"
 					src="../assets/overall/overall-1.png"
-					alt="Overall Image"
+					alt="Overall Image 1"
 				>
-			</div>
-			<article class="article-container">
-				<section id="aktuelles">
-					<h2 class="section-title">
-						Aktuelles
-					</h2>
+			</OverallImage>
+			<MainArticleBase id="aktuelles">
+				<template #title>
+					Aktuelles
+				</template>
+				<template #additional>
 					<NewsView
 						:count="3"
 					/>
@@ -55,54 +55,47 @@
 					>
 						Weitere Nachrichten
 					</ButtonLink>
-				</section>
-			</article>
-			<article
-				id="events-container"
-				class="article-container"
-			>
-				<section id="termine">
-					<h2 class="section-title">
-						Aktuelle Termine
-					</h2>
-					<div class="section-text">
-						Leider können wir aufgrund der aktuellen Situation keine Termine anbieten.
-					</div>
-				</section>
-			</article>
-			<div class="overall-image">
+				</template>
+			</MainArticleBase>
+			<MainArticleBase id="termine">
+				<template #title>
+					Aktuelle Termine
+				</template>
+				<template #text>
+					Leider können wir aufgrund der aktuellen Situation keine Termine anbieten.
+				</template>
+			</MainArticleBase>
+			<OverallImage>
 				<img
 					loading="lazy"
 					src="../assets/overall/overall-2.png"
 					alt="Overall Image 2"
 				>
-			</div>
-			<article class="article-container">
-				<section id="kontakt">
-					<h2 class="section-title">
-						Kontakt
-					</h2>
-					<div class="section-text">
-						Hier kannst du mit uns in Kontakt treten<br>
-						Wir freuen uns über jegliche Fragen, Anregungen, Lob oder Kritik.<br>
-						<br>
-						Oder komm doch einfach Mal bei uns vorbei!<br>
-						<br>
-						Bitte füllen sie alle Felder aus und geben sie eine korrekte E-Mail Adresse an, damit<br>
-						wir dir antworten können.
-					</div>
-					<div class="section-form">
-						<ContactForm />
-					</div>
-				</section>
-			</article>
-			<div class="overall-image">
+			</OverallImage>
+			<MainArticleBase>
+				<template #title>
+					Kontakt
+				</template>
+				<template #text>
+					Hier kannst du mit uns in Kontakt treten<br>
+					Wir freuen uns über jegliche Fragen, Anregungen, Lob oder Kritik.<br>
+					<br>
+					Oder komm doch einfach Mal bei uns vorbei!<br>
+					<br>
+					Bitte füllen sie alle Felder aus und geben sie eine korrekte E-Mail Adresse an, damit<br>
+					wir dir antworten können.
+				</template>
+				<template #additional>
+					<ContactForm />
+				</template>
+			</MainArticleBase>
+			<OverallImage>
 				<img
 					loading="lazy"
 					src="../assets/overall/overall-3.png"
 					alt="Overall Image 3"
 				>
-			</div>
+			</OverallImage>
 		</main>
 	</div>
 </template>
@@ -110,8 +103,9 @@
 <script setup lang="ts">
 import ButtonLink from '../components/base/ButtonLink.vue';
 import ContactForm from '../components/ContactForm.vue';
+import MainArticleBase from '../components/base/MainArticleBase.vue';
 import NewsView from '../components/NewsView.vue';
-
+import OverallImage from '../components/base/OverallImage.vue';
 </script>
 
 <style scoped>
@@ -156,7 +150,7 @@ import NewsView from '../components/NewsView.vue';
 	height: 100vh;
 }
 
-#events-container {
+#termine {
 	padding-top: 0;
 }
 
@@ -166,35 +160,4 @@ import NewsView from '../components/NewsView.vue';
 	max-height: 50vh;
 	box-shadow: var(--box-shadow-lg);
 }
-
-.article-container {
-	padding: 3rem 4vw;
-	width: calc(100% - 8vw);
-}
-
-section {
-	display: flex;
-	flex-direction: column;
-	gap: 24px;
-
-}
-
-h2.section-title {
-	display: flex;
-	flex-direction: row;
-
-	&::after {
-		content: '';
-		flex: 1;
-		border-bottom: 2px solid var(--primary-color-500);
-		margin: auto;
-		margin-left: 10px;
-	}
-}
-
-.section-text {
-	text-align: left;
-	font-size: var(--fs-500);
-}
-
 </style>

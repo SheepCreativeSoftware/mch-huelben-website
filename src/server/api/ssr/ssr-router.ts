@@ -1,4 +1,5 @@
 import './store-maping/store-mapping.js';
+import { buntstift } from 'buntstift';
 import express from 'express';
 import { getViteMiddleware } from '../../middleware/vite.js';
 import path from 'node:path';
@@ -59,7 +60,10 @@ const getSSRRouter = async (): Promise<Router> => {
 
 			res.status(StatusCodes.OK).set({ 'Content-Type': 'text/html' }).end(html);
 		} catch (error) {
-			if (error instanceof Error) vite.ssrFixStacktrace(error);
+			if (error instanceof Error) {
+				buntstift.error(`Error rendering SSR: ${error.message}\n${error.stack}`);
+				vite.ssrFixStacktrace(error);
+			}
 			next(error);
 		}
 	});
