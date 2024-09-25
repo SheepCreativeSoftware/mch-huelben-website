@@ -21,7 +21,7 @@
 		"lint:tsc:ssr": "vue-tsc --noEmit",
 		"lint:tsc:server": "yarn tsc --project tsconfig.server.json --noEmit",
 		"lint:tsc": "yarn lint:tsc:ssr && yarn lint:tsc:server",
-		"test": "tsx --test \"**/*.test.ts\"",
+		"test": "tsx --test 'src/**/*.test.ts'",
 		"test:watch": "tsx --test --watch \"**/*.test.ts\"",
 		"test:coverage": "tsx --test --experimental-test-coverage \"**/*.test.ts\"",
 		"production": "node dist/app.mjs",

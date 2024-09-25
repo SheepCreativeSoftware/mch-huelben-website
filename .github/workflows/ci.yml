@@ -57,6 +57,6 @@ jobs:
                   cache-dependency-path: 'yarn.lock'
                   registry-url: 'https://registry.npmjs.com'
             - name: Install dependencies
-              run: yarn install --frozen-lockfile
+              run: yarn install --frozen-lockfile --ignore-scripts --network-concurrency 1 --child-concurrency 1
             - name: Run Unit Tests
               run: yarn test
