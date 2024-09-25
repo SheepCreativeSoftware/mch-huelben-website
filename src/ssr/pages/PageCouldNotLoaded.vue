@@ -11,30 +11,29 @@
 		<main>
 			<ContainerComponent
 				class="section-container"
-
 				gap="24px"
 			>
-				<section>
-					<h2 class="section-title">
+				<MainArticleBase>
+					<template #title>
 						Server Error
-					</h2>
-					<p class="section-text">
+					</template>
+					<template #text>
 						<strong>400 - Fehlerhafte Anfrage</strong>
-					</p>
-				</section>
-				<section>
-					<h3 class="section-title">
+					</template>
+				</MainArticleBase>
+				<SubArticleBase>
+					<template #title>
 						Die Seite oder der Seiteninhalt konnte nicht geladen werden
-					</h3>
-					<div class="section-text">
+					</template>
+					<template #text>
 						Die von dir gesuchte Seite konnte nicht geladen werden.<br>
 						Bei der Anfrage ist ein Fehler aufgetreten.<br>
 						Versuche es zu einem späteren Zeitpunkt erneut.<br>
 						<br>
 						Alternativ kannst du auch auf <a @click="router.push('/')">die Startseite zurückkehren</a>.<br>
 						Oder zurückkehren <a @click="router.back()">zur vorherigen Seite</a>.<br>
-					</div>
-				</section>
+					</template>
+				</SubArticleBase>
 				<section>
 					<p class="section-text">
 						<strong>Details zur Anfrage:</strong>
@@ -55,6 +54,8 @@
 
 <script setup lang="ts">
 import ContainerComponent from '../components/base/ContainerComponent.vue';
+import MainArticleBase from '../components/base/MainArticleBase.vue';
+import SubArticleBase from '../components/base/SubArticleBase.vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -85,24 +86,6 @@ section {
 		font-weight: bold;
 		text-decoration: underline;
 	}
-}
-
-h2.section-title {
-	display: flex;
-	flex-direction: row;
-
-	&::after {
-		content: '';
-		flex: 1;
-		border-bottom: 2px solid var(--primary-color-500);
-		margin: auto;
-		margin-left: 10px;
-	}
-}
-
-h3.section-title {
-	display: flex;
-	flex-direction: row;
 }
 
 .section-text {

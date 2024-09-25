@@ -13,19 +13,19 @@
 				class="section-container"
 				gap="24px"
 			>
-				<section>
-					<h2 class="section-title">
+				<MainArticleBase>
+					<template #title>
 						Server Error
-					</h2>
-					<p class="section-text">
+					</template>
+					<template #text>
 						<strong>404 - Seite nicht gefunden</strong>
-					</p>
-				</section>
-				<section>
-					<h3 class="section-title">
+					</template>
+				</MainArticleBase>
+				<SubArticleBase>
+					<template #title>
 						Die Seite konnte nicht gefunden werden
-					</h3>
-					<div class="section-text">
+					</template>
+					<template #text>
 						Die von dir gesuchte Seite konnte nicht gefunden werden.<br>
 						Die Seite existiert nicht oder wurde an einen anderen Ort verschoben.<br>
 						Bitte überprüfe die <abbr
@@ -36,8 +36,8 @@
 						<br>
 						Alternativ kannst du auch auf <a @click="router.push('/')">die Startseite zurückkehren</a>.<br>
 						Oder zurückkehren <a @click="router.back()">zur vorherigen Seite</a>.<br>
-					</div>
-				</section>
+					</template>
+				</SubArticleBase>
 			</ContainerComponent>
 		</main>
 	</div>
@@ -45,6 +45,8 @@
 
 <script setup lang="ts">
 import ContainerComponent from '../components/base/ContainerComponent.vue';
+import MainArticleBase from '../components/base/MainArticleBase.vue';
+import SubArticleBase from '../components/base/SubArticleBase.vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -61,44 +63,5 @@ const router = useRouter();
 .section-container {
 	padding: 4rem 4vw;
 	width: calc(100% - 8vw);
-}
-
-section {
-	display: flex;
-	flex-direction: column;
-	gap: var(--space-200);
-
-	a {
-		font-size: var(--fs-400);
-		font-weight: bold;
-
-		&:hover {
-			text-decoration: underline;
-			cursor: pointer;
-		}
-	}
-}
-
-h2.section-title {
-	display: flex;
-	flex-direction: row;
-
-	&::after {
-		content: '';
-		flex: 1;
-		border-bottom: 2px solid var(--primary-color-500);
-		margin: auto;
-		margin-left: 10px;
-	}
-}
-
-h3.section-title {
-	display: flex;
-	flex-direction: row;
-}
-
-.section-text {
-	text-align: left;
-	font-size: var(--fs-400);
 }
 </style>

@@ -12,7 +12,7 @@
 		<main>
 			<MainArticleBase>
 				<template #title>
-					Über unseren Verein
+					Datenschutz
 				</template>
 				<template #text>
 					Lorem ipsum dolor sit amet consectetur adipisicing elit.<br>
@@ -41,67 +41,13 @@
 					alt="Overall Image 1"
 				>
 			</OverallImage>
-			<MainArticleBase>
-				<template #title>
-					Unser Vereinsheim
-				</template>
-				<template #text>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit.<br>
-					<br>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit.<br>
-					doloremque iste debitis error, accusantium ex eaque molestiae qui.<br>
-					<br>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, suscipit.<br>
-				</template>
-				<template #additional>
-					<SubArticleBase>
-						<template #title>
-							Anfahrt
-						</template>
-						<template #text>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit.<br>
-							<br>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit.<br>
-							doloremque iste debitis error, accusantium ex eaque molestiae qui.<br>
-							<br>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, suscipit.<br>
-						</template>
-					</SubArticleBase>
-				</template>
-			</MainArticleBase>
-			<OverallImage>
-				<img
-					loading="lazy"
-					src="../assets/overall/overall-2.png"
-					alt="Overall Image 1"
-				>
-			</OverallImage>
-			<MainArticleBase>
-				<template #title>
-					Kontakt
-				</template>
-				<template #text>
-					Hier kannst du mit uns in Kontakt treten<br>
-					Wir freuen uns über jegliche Fragen, Anregungen, Lob oder Kritik.<br>
-					<br>
-					Oder komm doch einfach Mal bei uns vorbei!<br>
-					<br>
-					Bitte füllen sie alle Felder aus und geben sie eine korrekte E-Mail Adresse an, damit<br>
-					wir dir antworten können.
-				</template>
-				<template #additional>
-					<ContactForm />
-				</template>
-			</MainArticleBase>
 		</main>
 	</div>
 </template>
 
 <script setup lang="ts">
-import ContactForm from '../components/ContactForm.vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import OverallImage from '../components/base/OverallImage.vue';
-import SubArticleBase from '../components/base/SubArticleBase.vue';
 </script>
 
 <style lang="css" scoped>
