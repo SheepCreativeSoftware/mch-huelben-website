@@ -1,4 +1,4 @@
-import { BadRequestException, UnauthorizedException } from '../misc/customErrors.js';
+import { BadRequestException, UnauthorizedException } from '../misc/custom-errors.js';
 import type { Handler } from 'express';
 import { verifyJwtToken } from './jwtHandling.js';
 

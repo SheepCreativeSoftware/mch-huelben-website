@@ -1,7 +1,7 @@
 import type { ErrorRequestHandler, Handler } from 'express';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { buntstift } from 'buntstift';
-import { NetworkException } from '../misc/customErrors.js';
+import { NetworkException } from '../misc/custom-errors.js';
 import { ZodError } from 'zod';
 
 const logOnError: ErrorRequestHandler = (error, _req, _res, next) => {
