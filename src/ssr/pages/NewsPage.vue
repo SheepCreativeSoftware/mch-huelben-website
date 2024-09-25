@@ -10,25 +10,23 @@
 			</div>
 		</div>
 		<main>
-			<article
-				class="article-container news-section-container"
-			>
-				<section>
-					<h2 class="section-title">
-						Aktuelles rund um den Verein
-					</h2>
-					<div class="section-text">
-						Hier werden wir in unregelmässigen abständen Neuigkeiten veröffentlicht.
-					</div>
-				</section>
-				<section id="aktuelles">
-					<NewsView
-						:key="`${count}-${offset}`"
-						:count="count"
-						:offset="offset"
-					/>
-				</section>
-			</article>
+			<MainArticleBase>
+				<template #title>
+					Aktuelles rund um den Verein
+				</template>
+				<template #text>
+					Hier werden wir in unregelmässigen abständen Neuigkeiten veröffentlicht.
+				</template>
+				<template #additional>
+					<section id="aktuelles">
+						<NewsView
+							:key="`${count}-${offset}`"
+							:count="count"
+							:offset="offset"
+						/>
+					</section>
+				</template>
+			</MainArticleBase>
 			<ContainerComponent
 				class="navigation-button-container"
 				columns="1fr 1fr"
@@ -58,6 +56,7 @@
 import ButtonLink from '../components/base/ButtonLink.vue';
 import { computed } from 'vue';
 import ContainerComponent from '../components/base/ContainerComponent.vue';
+import MainArticleBase from '../components/base/MainArticleBase.vue';
 import NewsView from '../components/NewsView.vue';
 import { useNewsStore } from '../stores/news-store';
 import { useRoute } from 'vue-router';
@@ -103,16 +102,6 @@ const previousPage = computed(() => {
 	width: 100%;
 }
 
-.article-container {
-	padding: 3rem 4vw;
-	width: calc(100% - 8vw);
-}
-
-.news-section-container {
-	padding: 5rem 4vw 1.5rem 4vw;
-	width: calc(100% - 8vw);
-}
-
 .navigation-button-container {
 	padding: 1.5rem 4vw 5rem 4vw;
 	width: calc(100% - 8vw);
@@ -127,29 +116,5 @@ const previousPage = computed(() => {
 
 #aktuelles {
 	padding-top: 50px;
-}
-
-section {
-	display: flex;
-	flex-direction: column;
-	gap: var(--space-400);
-}
-
-h2.section-title {
-	display: flex;
-	flex-direction: row;
-
-	&::after {
-		content: '';
-		flex: 1;
-		border-bottom: 2px solid var(--primary-color-500);
-		margin: auto;
-		margin-left: 10px;
-	}
-}
-
-.section-text {
-	text-align: left;
-	font-size: var(--fs-500);
 }
 </style>

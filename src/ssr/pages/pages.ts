@@ -1,10 +1,10 @@
 import About from './About.vue';
+import Gallery from './Gallery.vue';
 import Home from './Home.vue';
 import NewsPage from './NewsPage.vue';
 import PageCouldNotLoaded from './PageCouldNotLoaded.vue';
 import PageNotFound from './PageNotFound.vue';
 import { RouterInstance } from '../router.js';
-import Store from './Store.vue';
 
 RouterInstance.getInstance().addRoute({
 	component: Home,
@@ -20,21 +20,25 @@ RouterInstance.getInstance().addRoute({
 
 RouterInstance.getInstance().addRoute({
 	component: About,
-	path: '/about',
+	name: 'about',
+	path: '/ueber',
 });
 
 RouterInstance.getInstance().addRoute({
-	component: Store,
-	path: '/store',
+	component: Gallery,
+	name: 'gallerie',
+	path: '/gallerie',
 });
 
 RouterInstance.getInstance().addRoute({
 	component: PageCouldNotLoaded,
+	name: 'could-not-load',
 	path: '/could-not-load',
 });
 
 RouterInstance.getInstance().addRoute({
 	component: PageNotFound,
+	name: 'not-found',
 	path: '/:pathMatch(.*)*',
 });
 
