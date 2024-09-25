@@ -1,37 +1,27 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, type Relation, UpdateDateColumn } from 'typeorm';
-import { Events } from './Events.js';
+import { Pages } from './Pages.js';
 
 /* eslint-disable new-cap -- This is not a constructor */
-@Entity()
-class News {
+@Entity('meta')
+class Meta {
 	@PrimaryGeneratedColumn('uuid', {
 		name: 'id',
 	})
 	identifier: string;
 
 	@Column({
-		default: '',
-		name: 'title',
-		type: 'tinytext',
-	})
-	title: string;
-
-	@Column({
-		default: '',
-		name: 'content',
+		name: 'keywords',
 		type: 'text',
 	})
-	content: string;
+	keywords: string;
 
 	@Column({
-		default: true,
-		name: 'is_active',
-		type: 'boolean',
+		name: 'description',
+		type: 'text',
 	})
-	isActive: boolean;
+	description: string;
 
 	@CreateDateColumn({
-		default: new Date(),
 		name: 'created_at',
 		type: 'timestamp',
 	})
@@ -43,14 +33,14 @@ class News {
 	})
 	updatedAt: Date;
 
-	@OneToOne(() => Events)
+	@OneToOne(() => Pages, (page) => page.meta)
 	@JoinColumn({
-		foreignKeyConstraintName: 'fk_news_events',
-		name: 'event_id',
+		foreignKeyConstraintName: 'fk_meta_pages',
+		name: 'page_id',
 		referencedColumnName: 'identifier',
 	})
-	event: Relation<Events>;
+	page: Relation<Pages>;
 }
-
 /* eslint-enable new-cap -- This is not a constructor */
-export { News };
+
+export { Meta };

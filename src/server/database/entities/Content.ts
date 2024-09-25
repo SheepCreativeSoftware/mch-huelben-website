@@ -1,37 +1,27 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, type Relation, UpdateDateColumn } from 'typeorm';
-import { Events } from './Events.js';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, type Relation, UpdateDateColumn } from 'typeorm';
+import { Pages } from './Pages.js';
 
 /* eslint-disable new-cap -- This is not a constructor */
-@Entity()
-class News {
+@Entity('content')
+class Content {
 	@PrimaryGeneratedColumn('uuid', {
 		name: 'id',
 	})
 	identifier: string;
 
 	@Column({
-		default: '',
-		name: 'title',
-		type: 'tinytext',
-	})
-	title: string;
-
-	@Column({
-		default: '',
 		name: 'content',
 		type: 'text',
 	})
 	content: string;
 
 	@Column({
-		default: true,
 		name: 'is_active',
 		type: 'boolean',
 	})
 	isActive: boolean;
 
 	@CreateDateColumn({
-		default: new Date(),
 		name: 'created_at',
 		type: 'timestamp',
 	})
@@ -43,14 +33,14 @@ class News {
 	})
 	updatedAt: Date;
 
-	@OneToOne(() => Events)
+	@ManyToOne(() => Pages, (page) => page.contents)
 	@JoinColumn({
-		foreignKeyConstraintName: 'fk_news_events',
-		name: 'event_id',
+		foreignKeyConstraintName: 'fk_content_pages',
+		name: 'page_id',
 		referencedColumnName: 'identifier',
 	})
-	event: Relation<Events>;
+	page: Relation<Pages>;
 }
-
 /* eslint-enable new-cap -- This is not a constructor */
-export { News };
+
+export { Content };

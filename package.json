@@ -24,6 +24,7 @@
 		"test": "tsx --test 'src/**/*.test.ts'",
 		"test:watch": "tsx --test --watch \"**/*.test.ts\"",
 		"test:coverage": "tsx --test --experimental-test-coverage \"**/*.test.ts\"",
+		"typeorm": "typeorm-ts-node-esm",
 		"production": "node dist/app.mjs",
 		"preview": "NODE_ENV=production node --env-file=.env.local dist/app.mjs",
 		"prepare": "husky"
@@ -69,6 +70,7 @@
 		"mysql": "^2.18.1",
 		"prettier": "^3.3.3",
 		"reflect-metadata": "^0.2.2",
+		"ts-node": "^10.9.2",
 		"tsx": "^4.19.1",
 		"typescript": "^5.5.4",
 		"typescript-eslint": "^8.4.0",
