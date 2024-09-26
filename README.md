@@ -1,7 +1,7 @@
 # mch-huelben-website [WIP]
 # PG5GlobalSymbolFileConverter
 
-![CI](https://github.com/SheepCreativeSoftware/mch-huelben-website/actions/workflows/ci.yml/badge.svg)
+[![CI](https://github.com/SheepCreativeSoftware/mch-huelben-website/actions/workflows/ci.yml/badge.svg)](https://github.com/SheepCreativeSoftware/mch-huelben-website/actions/workflows/ci.yml)
 [![GitHub](https://img.shields.io/github/license/SheepCreativeSoftware/mch-huelben-website)](https://github.com/SheepCreativeSoftware/mch-huelben-website)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=RG6PSXR828X94)
 
