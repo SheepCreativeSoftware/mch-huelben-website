@@ -1,4 +1,10 @@
 # mch-huelben-website [WIP]
+# PG5GlobalSymbolFileConverter
+
+![CI](https://github.com/SheepCreativeSoftware/mch-huelben-website/actions/workflows/ci.yml/badge.svg)
+[![GitHub](https://img.shields.io/github/license/SheepCreativeSoftware/mch-huelben-website)](https://github.com/SheepCreativeSoftware/mch-huelben-website)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=RG6PSXR828X94)
+
 This project is currently work in progress. The current code base is partly a proof of concept and will be changed in future.
 
 ## Motivation
