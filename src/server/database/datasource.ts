@@ -16,7 +16,7 @@ const dataSource = new DataSource({
 	],
 	host: process.env.DATABASE_HOST,
 	logging: false,
-	migrations: [path.resolve(process.cwd(), './src/server/database/migration/**/*')],
+	migrations: [path.resolve(import.meta.dirname, './migration/**/*')],
 	password: process.env.DATABASE_PASSWORD,
 	port: Number(process.env.DATABASE_PORT) || MARIADB_PORT,
 	subscribers: [],
