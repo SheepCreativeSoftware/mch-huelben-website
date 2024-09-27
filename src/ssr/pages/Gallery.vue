@@ -27,4 +27,8 @@ import MainArticleBase from '../components/base/MainArticleBase.vue';
 </script>
 
 <style lang="css" scoped>
+.head-image img {
+	object-fit: cover;
+	width: 100%;
+}
 </style>

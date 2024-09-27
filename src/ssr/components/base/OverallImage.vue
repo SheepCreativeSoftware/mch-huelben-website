@@ -7,7 +7,7 @@
 <script setup lang="ts">
 </script>
 
-<style lang="css" scoped>
+<style lang="css">
 .overall-image img {
 	object-fit: cover;
 	width: 100%;

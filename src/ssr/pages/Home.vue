@@ -153,11 +153,4 @@ import OverallImage from '../components/base/OverallImage.vue';
 #termine {
 	padding-top: 0;
 }
-
-.overall-image img {
-	object-fit: cover;
-	width: 100%;
-	max-height: 50vh;
-	box-shadow: var(--box-shadow-lg);
-}
 </style>
