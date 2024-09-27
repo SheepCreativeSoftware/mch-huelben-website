@@ -7,6 +7,7 @@ export class CreateContentTable1727302115148 implements MigrationInterface {
 				id UUID DEFAULT UUID(),
 				title TINYTEXT NOT NULL,
 				content TEXT NOT NULL,
+				is_active BOOLEAN NOT NULL DEFAULT true,
 				created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 				page_id UUID NOT NULL,

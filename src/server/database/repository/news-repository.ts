@@ -2,8 +2,8 @@ import { dataSource } from '../datasource.js';
 import { News } from '../entities/News.js';
 
 const NewsRepository = dataSource.getRepository(News).extend({
-	getLatestNews(count?: number, offset?: number): Promise<News[]> {
-		return this.find({
+	async getLatestNews(count?: number, offset?: number): Promise<{ news: News[], totalCount: number }> {
+		const [news, totalCount] = await this.findAndCount({
 			order: {
 				createdAt: 'DESC',
 			},
@@ -16,6 +16,8 @@ const NewsRepository = dataSource.getRepository(News).extend({
 				isActive: true,
 			},
 		});
+
+		return { news, totalCount };
 	},
 	getNewsTotalCount(): Promise<number> {
 		return this.count({

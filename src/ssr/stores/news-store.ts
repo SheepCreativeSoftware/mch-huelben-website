@@ -25,7 +25,7 @@ const useNewsStore = defineStore('news-store', {
 				&& this.offset === offset
 			) return;
 
-			const url = new URL('/api/store/get-news', baseUrl);
+			const url = new URL('/api/store/news', baseUrl);
 			if (count) url.searchParams.append('count', String(count));
 			if (offset) url.searchParams.append('offset', String(offset));
 
