@@ -8,6 +8,7 @@ import type { Router } from 'express';
 import type { StateTree } from 'pinia';
 import { StatusCodes } from 'http-status-codes';
 import { StoreInstance } from './store-instance.js';
+import type { ViteDevServer } from 'vite';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -25,9 +26,12 @@ const getSSRRouter = async (): Promise<Router> => {
 	// eslint-disable-next-line new-cap -- This is not a constructor
 	const router = express.Router();
 
-	const vite = await getViteMiddleware();
+	let vite: ViteDevServer | null = null;
 
-	if (!isProduction) router.use(vite.middlewares);
+	if (!isProduction) {
+		vite = await getViteMiddleware();
+		router.use(vite.middlewares);
+	}
 
 	router.use('*', async (req, res, next) => {
 		try {
@@ -42,6 +46,7 @@ const getSSRRouter = async (): Promise<Router> => {
 				render = (await import(path.resolve(process.cwd(), 'dist', 'ssr', 'server', 'entry-server.js')))
 					.entryServer;
 			} else {
+				if (!vite) throw new Error('Vite is not initialized');
 				// Always read fresh template in dev
 				template = readFileSync(path.resolve(process.cwd(), 'index.html'), 'utf-8');
 				template = await vite.transformIndexHtml('/', template);
@@ -60,10 +65,8 @@ const getSSRRouter = async (): Promise<Router> => {
 
 			res.status(StatusCodes.OK).set({ 'Content-Type': 'text/html' }).end(html);
 		} catch (error) {
-			if (error instanceof Error) {
-				buntstift.error(`Error rendering SSR: ${error.message}\n${error.stack}`);
-				vite.ssrFixStacktrace(error);
-			}
+			if (error instanceof Error) buntstift.error(`Error rendering SSR: ${error.message}\n${error.stack}`);
+
 			next(error);
 		}
 	});
