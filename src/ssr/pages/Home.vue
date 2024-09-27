@@ -72,7 +72,7 @@
 					alt="Overall Image 2"
 				>
 			</OverallImage>
-			<MainArticleBase>
+			<MainArticleBase id="kontakt">
 				<template #title>
 					Kontakt
 				</template>
