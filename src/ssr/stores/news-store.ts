@@ -7,7 +7,7 @@ const NewsResponseBodyValidator = zod.object({
 		createdAt: zod.string().datetime(),
 		identifier: zod.string().uuid(),
 		title: zod.string(),
-		updateAt: zod.string().datetime().nullish(),
+		updatedAt: zod.string().datetime().nullish(),
 	})),
 	offset: zod.number().min(0),
 	totalCount: zod.number(),

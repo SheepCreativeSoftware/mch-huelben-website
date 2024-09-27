@@ -9,10 +9,10 @@
 			<p>{{ article.content }}</p>
 			<span class="creation-date">{{ new Date(article.createdAt).toLocaleString('de-DE', getDateFormatOptions()) }}
 				<span
-					v-if="article.updateAt"
+					v-if="article.updatedAt"
 					class="update-time"
 				>
-					(Aktualisiert: {{ new Date(article.updateAt).toLocaleString('de-DE', getDateFormatOptions()) }})
+					(Aktualisiert: {{ new Date(article.updatedAt).toLocaleString('de-DE', getDateFormatOptions()) }})
 				</span>
 			</span>
 		</article>
