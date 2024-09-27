@@ -13,10 +13,10 @@ import type { ViteDevServer } from 'vite';
 const isProduction = process.env.NODE_ENV === 'production';
 
 let indexProd = '';
-const manifest: Record<string, string[] | undefined> = {};
+let manifest: Record<string, string[] | undefined> = {};
 if (isProduction) {
 	indexProd = readFileSync(path.resolve(process.cwd(), 'dist/ssr/client/index.html'), 'utf-8');
-	JSON.parse(readFileSync(
+	manifest = JSON.parse(readFileSync(
 		path.resolve(process.cwd(), 'dist/ssr/client/.vite/ssr-manifest.json'),
 		'utf-8',
 	));

@@ -4,7 +4,7 @@
 		<div class="header-container">
 			<div class="headline">
 				<img
-					src="../assets/Heading.png"
+					:src="HeadingImage"
 					alt="Naturbild mit Dampflok"
 				>
 				<h1 class="headline-title">
@@ -103,6 +103,7 @@
 <script setup lang="ts">
 import ButtonLink from '../components/base/ButtonLink.vue';
 import ContactForm from '../components/ContactForm.vue';
+import HeadingImage from '../assets/Heading.png';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import NewsView from '../components/NewsView.vue';
 import OverallImage from '../components/base/OverallImage.vue';
