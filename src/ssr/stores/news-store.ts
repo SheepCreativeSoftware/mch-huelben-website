@@ -30,16 +30,18 @@ const useNewsStore = defineStore('news-store', {
 			if (offset) url.searchParams.append('offset', String(offset));
 
 			const result = await fetch(url);
+			const body = await result.json();
 
 			if (!result.ok) {
 				throw new Error('Could not fetch news', {
 					cause: {
+						response: JSON.stringify(body),
 						status: result.status,
 						statusText: result.statusText,
 					},
 				});
 			}
-			const response = NewsResponseBodyValidator.parse(await result.json());
+			const response = NewsResponseBodyValidator.parse(body);
 
 			this.$state.news = response.news;
 			this.$state.offset = response.offset;

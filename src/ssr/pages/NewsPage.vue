@@ -10,12 +10,13 @@
 			</div>
 		</div>
 		<main>
-			<MainArticleBase>
+			<MainArticleBase v-if="contents.at(0)">
 				<template #title>
-					Aktuelles rund um den Verein
+					{{ contents.at(0)?.title }}
 				</template>
 				<template #text>
-					Hier werden wir in unregelmässigen abständen Neuigkeiten veröffentlicht.
+					<!--eslint-disable-next-line vue/no-v-html -- this is an html content-->
+					<div v-html="contents.at(0)?.content" />
 				</template>
 				<template #additional>
 					<section id="aktuelles">
@@ -53,13 +54,17 @@
 </template>
 
 <script setup lang="ts">
+import { computed, onBeforeMount } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import ButtonLink from '../components/base/ButtonLink.vue';
-import { computed } from 'vue';
 import ContainerComponent from '../components/base/ContainerComponent.vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import NewsView from '../components/NewsView.vue';
+import { routeOnError } from '../components/route-on-error';
 import { useNewsStore } from '../stores/news-store';
-import { useRoute } from 'vue-router';
+import { usePagesStore } from '../stores/pages-store';
+
+const pagesStore = usePagesStore();
 
 const totalCount = computed(() => useNewsStore().totalCount);
 const DEFAULT_COUNT = 10;
@@ -71,6 +76,8 @@ const lastPage = computed(() => {
 });
 
 const route = useRoute();
+const router = useRouter();
+const technicalName = route.name;
 
 const currentPage = computed(() => {
 	const page = Number(route.query.page);
@@ -93,6 +100,31 @@ const nextPage = computed(() => {
 const previousPage = computed(() => {
 	if (offset.value <= 0) return 0;
 	return currentPage.value - 1;
+});
+
+const contents = computed(() => {
+	if (typeof technicalName !== 'string') return [];
+
+	return pagesStore.getPage(technicalName);
+});
+
+const updatePages = async () => {
+	try {
+		if (typeof technicalName !== 'string') return;
+
+		await pagesStore.fetchPageData(technicalName);
+	} catch (error) {
+		if (error instanceof Error) {
+			await routeOnError(router, error);
+			return;
+		}
+		// eslint-disable-next-line no-console -- unknown error handling
+		console.error(error);
+	}
+};
+
+onBeforeMount(async() => {
+	await updatePages();
 });
 </script>
 

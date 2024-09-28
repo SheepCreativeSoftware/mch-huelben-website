@@ -5,8 +5,10 @@ import { Meta } from '../entities/Meta.js';
 const MetaRepository = dataSource.getRepository(Meta).extend({
 	getMetaByPage(pageTechnicalName: string): Promise<Meta | null> {
 		return this.findOneBy({
-			// eslint-disable-next-line new-cap -- this is not a constructor
-			page: Like(pageTechnicalName),
+			page: {
+				// eslint-disable-next-line new-cap -- this is not a constructor
+				technicalName: Like(pageTechnicalName),
+			},
 		});
 	},
 });

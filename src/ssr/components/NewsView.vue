@@ -6,7 +6,8 @@
 			class="news-item"
 		>
 			<h3>{{ article.title }}</h3>
-			<p>{{ article.content }}</p>
+			<!-- eslint-disable-next-line vue/no-v-html -- this is a html content -->
+			<div v-html="article.content" />
 			<span class="creation-date">{{ new Date(article.createdAt).toLocaleString('de-DE', getDateFormatOptions()) }}
 				<span
 					v-if="article.updatedAt"
@@ -50,7 +51,7 @@ const updateNews = async () => {
 			await routeOnError(router, error);
 			return;
 		}
-		// eslint-disable-next-line no-console -- error handling
+		// eslint-disable-next-line no-console -- unknown error handling
 		console.error(error);
 	}
 };

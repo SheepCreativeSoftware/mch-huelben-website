@@ -11,27 +11,15 @@
 		</div>
 		<main>
 			<MainArticleBase>
-				<template #title>
-					Über unseren Verein
+				<template
+					v-if="contents.at(0)"
+					#title
+				>
+					{{ contents.at(0)?.title }}
 				</template>
 				<template #text>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit.<br>
-					<br>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit.<br>
-					doloremque iste debitis error, accusantium ex eaque molestiae qui.<br>
-					<br>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, suscipit.<br>
-					<br>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit.
-					Ex repudiandae est ab dolores veritatis natus deserunt, nisi voluptatum error mollitia!
-					Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-					Aperiam ad natus ab tempora sequi eligendi explicabo neque, incidunt quo est id necessitatibus?
-					Quas odit aspernatur illum debitis beatae nam est excepturi rerum deleniti dolorem reprehenderit
-					itaque tenetur fugiat sequi culpa possimus consequuntur eos non quisquam natus a, eveniet delectus ea.
-					Fugit, vero, fuga totam eaque quis expedita voluptatum, ex quae at quibusdam consequatur
-					dolores magni repudiandae dolore quo similique officia animi itaque odit adipisci aliquam!
-					Ipsam doloribus illo commodi provident aut minima odio deserunt quaerat sunt accusamus?
-					Repudiandae saepe deleniti itaque. Delectus quos perspiciatis quibusdam ad explicabo quaerat quasi. Molestiae!
+					<!--eslint-disable-next-line vue/no-v-html -- this is an html content-->
+					<div v-html="contents.at(0)?.content" />
 				</template>
 			</MainArticleBase>
 			<OverallImage>
@@ -42,29 +30,27 @@
 				>
 			</OverallImage>
 			<MainArticleBase>
-				<template #title>
-					Unser Vereinsheim
+				<template
+					v-if="contents.at(1)"
+					#title
+				>
+					{{ contents.at(1)?.title }}
 				</template>
 				<template #text>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit.<br>
-					<br>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit.<br>
-					doloremque iste debitis error, accusantium ex eaque molestiae qui.<br>
-					<br>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, suscipit.<br>
+					<!--eslint-disable-next-line vue/no-v-html -- this is an html content-->
+					<div v-html="contents.at(1)?.content" />
 				</template>
-				<template #additional>
+				<template
+					v-if="contents.at(2)"
+					#additional
+				>
 					<SubArticleBase>
 						<template #title>
-							Anfahrt
+							{{ contents.at(2)?.title }}
 						</template>
 						<template #text>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit.<br>
-							<br>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit.<br>
-							doloremque iste debitis error, accusantium ex eaque molestiae qui.<br>
-							<br>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, suscipit.<br>
+							<!--eslint-disable-next-line vue/no-v-html -- this is an html content-->
+							<div v-html="contents.at(2)?.content" />
 						</template>
 					</SubArticleBase>
 				</template>
@@ -77,17 +63,15 @@
 				>
 			</OverallImage>
 			<MainArticleBase>
-				<template #title>
-					Kontakt
+				<template
+					v-if="contents.at(3)"
+					#title
+				>
+					{{ contents.at(3)?.title }}
 				</template>
 				<template #text>
-					Hier kannst du mit uns in Kontakt treten<br>
-					Wir freuen uns über jegliche Fragen, Anregungen, Lob oder Kritik.<br>
-					<br>
-					Oder komm doch einfach Mal bei uns vorbei!<br>
-					<br>
-					Bitte füllen sie alle Felder aus und geben sie eine korrekte E-Mail Adresse an, damit<br>
-					wir dir antworten können.
+					<!--eslint-disable-next-line vue/no-v-html -- this is an html content-->
+					<div v-html="contents.at(3)?.content" />
 				</template>
 				<template #additional>
 					<ContactForm />
@@ -98,10 +82,43 @@
 </template>
 
 <script setup lang="ts">
+import { computed, onBeforeMount } from 'vue';
 import ContactForm from '../components/ContactForm.vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import OverallImage from '../components/base/OverallImage.vue';
+import { routeOnError } from '../components/route-on-error';
 import SubArticleBase from '../components/base/SubArticleBase.vue';
+import { usePagesStore } from '../stores/pages-store';
+import { useRouter } from 'vue-router';
+
+const pagesStore = usePagesStore();
+const router = useRouter();
+const technicalName = router.currentRoute.value.name;
+
+const contents = computed(() => {
+	if (typeof technicalName !== 'string') return [];
+
+	return pagesStore.getPage(technicalName);
+});
+
+const updatePages = async () => {
+	try {
+		if (typeof technicalName !== 'string') return;
+
+		await pagesStore.fetchPageData(technicalName);
+	} catch (error) {
+		if (error instanceof Error) {
+			await routeOnError(router, error);
+			return;
+		}
+		// eslint-disable-next-line no-console -- unknown error handling
+		console.error(error);
+	}
+};
+
+onBeforeMount(async() => {
+	await updatePages();
+});
 </script>
 
 <style lang="css" scoped>

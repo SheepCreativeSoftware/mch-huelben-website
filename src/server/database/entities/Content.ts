@@ -10,6 +10,12 @@ class Content {
 	identifier: string;
 
 	@Column({
+		name: 'title',
+		type: 'text',
+	})
+	title: string;
+
+	@Column({
 		name: 'content',
 		type: 'text',
 	})

@@ -5,12 +5,13 @@ const ResponsePagesBodyValidator = zod.object({
 		content: zod.string(),
 		createdAt: zod.date(),
 		identifier: zod.string().uuid(),
-		updatedAt: zod.date(),
+		title: zod.string(),
+		updatedAt: zod.date().nullish(),
 	})),
 	createdAt: zod.date(),
 	identifier: zod.string().uuid(),
 	technicalName: zod.string(),
-	updatedAt: zod.date(),
+	updatedAt: zod.date().nullish(),
 });
 
 export { ResponsePagesBodyValidator };

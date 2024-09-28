@@ -13,17 +13,13 @@
 			</div>
 		</div>
 		<main>
-			<MainArticleBase>
+			<MainArticleBase v-if="content.at(0)">
 				<template #title>
-					Herzlich Willkommen!
+					{{ content.at(0)?.title }}
 				</template>
 				<template #text>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit.<br>
-					<br>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit.<br>
-					doloremque iste debitis error, accusantium ex eaque molestiae qui.<br>
-					<br>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, suscipit.<br>
+					<!--eslint-disable-next-line vue/no-v-html -- this is an html content-->
+					<div v-html="content.at(0)?.content" />
 				</template>
 				<template #additional>
 					<ButtonLink
@@ -62,7 +58,7 @@
 					Aktuelle Termine
 				</template>
 				<template #text>
-					Leider können wir aufgrund der aktuellen Situation keine Termine anbieten.
+					Aktuell sind keine Termine geplant.
 				</template>
 			</MainArticleBase>
 			<OverallImage>
@@ -72,18 +68,16 @@
 					alt="Overall Image 2"
 				>
 			</OverallImage>
-			<MainArticleBase id="kontakt">
+			<MainArticleBase
+				v-if="content.at(1)"
+				id="kontakt"
+			>
 				<template #title>
-					Kontakt
+					{{ content.at(1)?.title }}
 				</template>
 				<template #text>
-					Hier kannst du mit uns in Kontakt treten<br>
-					Wir freuen uns über jegliche Fragen, Anregungen, Lob oder Kritik.<br>
-					<br>
-					Oder komm doch einfach Mal bei uns vorbei!<br>
-					<br>
-					Bitte füllen sie alle Felder aus und geben sie eine korrekte E-Mail Adresse an, damit<br>
-					wir dir antworten können.
+					<!--eslint-disable-next-line vue/no-v-html -- this is an html content-->
+					<div v-html="content.at(1)?.content" />
 				</template>
 				<template #additional>
 					<ContactForm />
@@ -101,11 +95,11 @@
 </template>
 
 <script setup lang="ts">
+import { computed, onBeforeMount } from 'vue';
 import ButtonLink from '../components/base/ButtonLink.vue';
 import ContactForm from '../components/ContactForm.vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import NewsView from '../components/NewsView.vue';
-import { onBeforeMount } from 'vue';
 import OverallImage from '../components/base/OverallImage.vue';
 import { routeOnError } from '../components/route-on-error';
 import { usePagesStore } from '../stores/pages-store';
@@ -114,6 +108,12 @@ import { useRouter } from 'vue-router';
 const pagesStore = usePagesStore();
 const router = useRouter();
 const technicalName = router.currentRoute.value.name;
+
+const content = computed(() => {
+	if (typeof technicalName !== 'string') return [];
+
+	return pagesStore.getPage(technicalName);
+});
 
 const updatePages = async () => {
 	try {
