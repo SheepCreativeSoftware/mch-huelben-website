@@ -35,17 +35,17 @@
 					</template>
 				</SubArticleBase>
 				<section>
-					<p class="section-text">
-						<strong>Details zur Anfrage:</strong>
-					</p>
-					<ul class="error-list">
-						<li
-							v-for="(value, key) in route.query"
-							:key="`${key}`"
-						>
-							<strong>{{ `${key}`.toUpperCase() }}:</strong> {{ `${value}` }}
-						</li>
-					</ul>
+					<details class="section-text">
+						<summary><strong>Details zur Anfrage:</strong></summary>
+						<ul class="error-list">
+							<li
+								v-for="(value, key) in route.query"
+								:key="`${key}`"
+							>
+								<strong>{{ `${key}`.toUpperCase() }}:</strong> {{ `${value}` }}
+							</li>
+						</ul>
+					</details>
 				</section>
 			</ContainerComponent>
 		</main>

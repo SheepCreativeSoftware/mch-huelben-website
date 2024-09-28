@@ -22,7 +22,14 @@ const createApp = function ({ store }: { store?: Record<string, StateTree> }) {
 	router.beforeEach(() => {
 		if (!import.meta.env.SSR) {
 			const initialState = JSON.parse(document.querySelector('#pinia')?.innerHTML ?? '{}');
-			if (typeof initialState === 'object') pinia.state.value = initialState;
+			if (typeof initialState === 'object') {
+				for (const key of Object.keys(initialState)) {
+					if (typeof pinia.state.value[key] === 'undefined') {
+						//
+						pinia.state.value[key] = initialState[key];
+					}
+				}
+			}
 		}
 	});
 
