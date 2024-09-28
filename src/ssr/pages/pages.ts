@@ -34,13 +34,13 @@ RouterInstance.getInstance().addRoute({
 
 RouterInstance.getInstance().addRoute({
 	component: Imprint,
-	name: 'impressum',
+	name: 'imprint',
 	path: '/impressum',
 });
 
 RouterInstance.getInstance().addRoute({
 	component: PrivacyPolicy,
-	name: 'datenschutz',
+	name: 'privacy-policy',
 	path: '/datenschutz',
 });
 

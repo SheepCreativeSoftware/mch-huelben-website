@@ -1,30 +1,33 @@
 import type { StateTree } from 'pinia';
 
-type StoreService = (count: number, offset?: number) => Promise<StateTree>;
+interface StoreServiceOptions {
+	count?: number,
+	offset?: number,
+	technicalName?: string
+}
+type StoreService = (options: StoreServiceOptions) => Promise<StateTree>;
 
 class StoreInstance {
 	static #instance: StoreInstance;
 	private stores: Record<string, string[]> = {};
 	private storeServices: Record<string, Record<string, StoreService>> = {};
-	private storeValueCount: Record<string, Record<string, number>> = {};
-	private storeValueOffset: Record<string, Record<string, number>> = {};
+	private storeOptions: Record<string, Record<string, StoreServiceOptions>> = {};
 	static getInstance(): StoreInstance {
 		if (typeof StoreInstance.#instance === 'undefined') StoreInstance.#instance = new StoreInstance();
 
 		return StoreInstance.#instance;
 	}
 
-	public registerStoreOnRoute(route: string, storeName: string, storeService: StoreService, count: number, offset?: number): void {
-		this.stores[route] = {
+	public registerStoreOnRoute(route: string, storeName: string, storeService: StoreService, options: StoreServiceOptions): void {
+		if (typeof this.stores[route] === 'undefined') this.stores[route] = [];
+		this.stores[route] = [
 			...this.stores[route],
 			...[storeName],
-		};
+		];
 		if (typeof this.storeServices[route] === 'undefined') this.storeServices[route] = {};
-		if (typeof this.storeValueCount[route] === 'undefined') this.storeValueCount[route] = {};
-		if (typeof this.storeValueOffset[route] === 'undefined') this.storeValueOffset[route] = {};
+		if (typeof this.storeOptions[route] === 'undefined') this.storeOptions[route] = {};
 		this.storeServices[route][storeName] = storeService;
-		this.storeValueCount[route][storeName] = count;
-		if (typeof offset === 'number') this.storeValueOffset[route][storeName] = offset;
+		this.storeOptions[route][storeName] = options;
 	}
 
 	public async getStoresForRoute(route: string): Promise<Record<string, StateTree>> {
@@ -32,7 +35,7 @@ class StoreInstance {
 		if (typeof this.stores[route] === 'undefined') return stores;
 		for (const store of Object.values(this.stores[route])) {
 			// Load all data for each store
-			stores[store] = await this.storeServices[route][store](this.storeValueCount[route][store], this.storeValueOffset[route][store]);
+			stores[store] = await this.storeServices[route][store](this.storeOptions[route][store]);
 		};
 
 		return stores;
