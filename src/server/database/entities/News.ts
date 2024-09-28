@@ -41,7 +41,7 @@ class News {
 		name: 'updated_at',
 		type: 'timestamp',
 	})
-	updatedAt: Date;
+	updatedAt: Date | null;
 
 	@OneToOne(() => Events)
 	@JoinColumn({

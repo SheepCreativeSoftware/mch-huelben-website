@@ -62,7 +62,7 @@ const entryServer = async function render(url: string, manifest: Record<string, 
 	 * request.
 	 */
 	const preloadLinks = renderPreloadLinks(ctx.modules, manifest);
-	return [html, preloadLinks, store];
+	return [html, preloadLinks, router.currentRoute.value];
 };
 
 export { entryServer };

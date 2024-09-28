@@ -26,7 +26,7 @@ class Pages {
 		name: 'updated_at',
 		type: 'timestamp',
 	})
-	updatedAt: Date;
+	updatedAt: Date | null;
 
 	@OneToMany(() => Content, (content) => content.page)
 	contents: Relation<Content[]>;

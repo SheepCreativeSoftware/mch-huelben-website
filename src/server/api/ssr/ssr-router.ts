@@ -1,9 +1,11 @@
 import './store-maping/store-mapping.js';
 import { buntstift } from 'buntstift';
 import express from 'express';
+import { getMetaData } from '../../services/meta-service.js';
 import { getViteMiddleware } from '../../middleware/vite.js';
 import path from 'node:path';
 import { readFileSync } from 'node:fs';
+import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router';
 import type { Router } from 'express';
 import type { StateTree } from 'pinia';
 import { StatusCodes } from 'http-status-codes';
@@ -38,8 +40,8 @@ const getSSRRouter = async (): Promise<Router> => {
 			const url = req.originalUrl;
 
 			let template = '';
-			// eslint-disable-next-line init-declarations, no-shadow -- Typescript cannot infer the type of render in this case
-			let render: (url: string, manifest: Record<string, string[] | undefined>, stores: Record<string, StateTree>) => Promise<[string, string]>;
+			// eslint-disable-next-line init-declarations, no-shadow, @stylistic/max-len -- Typescript cannot infer the type of render in this case
+			let render: (url: string, manifest: Record<string, string[] | undefined>, stores: Record<string, StateTree>) => Promise<[string, string, RouteLocationNormalizedLoadedGeneric]>;
 			if (isProduction) {
 				template = indexProd;
 
@@ -56,9 +58,12 @@ const getSSRRouter = async (): Promise<Router> => {
 
 			const stores = await StoreInstance.getInstance().getStoresForRoute(url);
 
-			const [appHtml, preloadLinks] = await render(url, manifest, stores);
+			const [appHtml, preloadLinks, currentRoute] = await render(url, manifest, stores);
+
+			const preloadedMeta = await getMetaData(currentRoute);
 
 			const html = template
+				.replace('<!--app-meta-->', preloadedMeta)
 				.replace('<!--app-head-->', preloadLinks)
 				.replace('<!--app-store-->', `<script>window.__pinia = '${JSON.stringify(stores)}';</script>`)
 				.replace('<!--app-html-->', appHtml);

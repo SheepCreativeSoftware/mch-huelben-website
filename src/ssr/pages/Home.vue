@@ -4,7 +4,7 @@
 		<div class="header-container">
 			<div class="headline">
 				<img
-					:src="HeadingImage"
+					src="../assets/Heading.png"
 					alt="Naturbild mit Dampflok"
 				>
 				<h1 class="headline-title">
@@ -103,10 +103,36 @@
 <script setup lang="ts">
 import ButtonLink from '../components/base/ButtonLink.vue';
 import ContactForm from '../components/ContactForm.vue';
-import HeadingImage from '../assets/Heading.png';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import NewsView from '../components/NewsView.vue';
+import { onBeforeMount } from 'vue';
 import OverallImage from '../components/base/OverallImage.vue';
+import { routeOnError } from '../components/route-on-error';
+import { usePagesStore } from '../stores/pages-store';
+import { useRouter } from 'vue-router';
+
+const pagesStore = usePagesStore();
+const router = useRouter();
+const technicalName = router.currentRoute.value.name;
+
+const updatePages = async () => {
+	try {
+		if (typeof technicalName !== 'string') return;
+
+		await pagesStore.fetchPageData(technicalName);
+	} catch (error) {
+		if (error instanceof Error) {
+			await routeOnError(router, error);
+			return;
+		}
+		// eslint-disable-next-line no-console -- unknown error handling
+		console.error(error);
+	}
+};
+
+onBeforeMount(async() => {
+	await updatePages();
+});
 </script>
 
 <style scoped>

@@ -10,16 +10,28 @@ class Meta {
 	identifier: string;
 
 	@Column({
-		name: 'keywords',
+		name: 'title',
 		type: 'text',
 	})
-	keywords: string;
+	title: string | null;
+
+	@Column({
+		name: 'type',
+		type: 'tinytext',
+	})
+	type: string | null;
+
+	@Column({
+		name: 'image',
+		type: 'text',
+	})
+	image: string | null;
 
 	@Column({
 		name: 'description',
 		type: 'text',
 	})
-	description: string;
+	description: string | null;
 
 	@CreateDateColumn({
 		name: 'created_at',
@@ -31,7 +43,7 @@ class Meta {
 		name: 'updated_at',
 		type: 'timestamp',
 	})
-	updatedAt: Date;
+	updatedAt: Date | null;
 
 	@OneToOne(() => Pages, (page) => page.meta)
 	@JoinColumn({

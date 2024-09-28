@@ -47,7 +47,7 @@ class Events {
 		name: 'updated_at',
 		type: 'timestamp',
 	})
-	updatedAt: Date;
+	updatedAt: Date | null;
 }
 /* eslint-enable new-cap -- This is not a constructor */
 

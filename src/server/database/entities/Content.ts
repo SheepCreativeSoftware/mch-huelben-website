@@ -31,7 +31,7 @@ class Content {
 		name: 'updated_at',
 		type: 'timestamp',
 	})
-	updatedAt: Date;
+	updatedAt: Date | null;
 
 	@ManyToOne(() => Pages, (page) => page.contents)
 	@JoinColumn({
