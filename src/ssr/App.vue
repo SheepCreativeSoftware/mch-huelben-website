@@ -1,7 +1,10 @@
 <template>
 	<div>
 		<HeaderNav :is-block="$route.path !== '/'" />
-		<router-view v-slot="{ Component }">
+		<router-view
+			v-slot="{ Component }"
+			:class="{ 'not-home': $route.path !== '/'}"
+		>
 			<component :is="Component" />
 		</router-view>
 		<MainFooter />
@@ -14,4 +17,7 @@ import MainFooter from './components/MainFooter.vue';
 </script>
 
 <style lang="css" scoped>
+.not-home {
+	margin-top: 4rem;
+}
 </style>

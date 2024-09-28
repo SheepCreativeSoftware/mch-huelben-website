@@ -96,6 +96,7 @@ header {
 	justify-content: space-between;
 	align-items: center;
 	transition: all 0.5s ease;
+	max-width: calc(2000px - 4rem);
 
 	&.scrolled {
 		background-color: var(--primary-color-500);

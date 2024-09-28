@@ -105,6 +105,8 @@ import SubArticleBase from '../components/base/SubArticleBase.vue';
 </script>
 
 <style lang="css" scoped>
+.header-container {}
+
 .head-image img {
 	object-fit: cover;
 	width: 100%;
