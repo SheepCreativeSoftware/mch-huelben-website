@@ -23,6 +23,8 @@ const baseUrl = import.meta.env.SSR ? import.meta.env.VITE_BASE_URL : window.loc
 const usePagesStore = defineStore('pages-store', {
 	actions: {
 		async fetchPageData(technicalName: string): Promise<void> {
+			if (typeof this.$state[technicalName] !== 'undefined') return;
+
 			const url = new URL('/api/store/pages', baseUrl);
 			url.searchParams.append('technicalName', technicalName);
 			const response = await fetch(url);
