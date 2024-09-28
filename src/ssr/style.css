@@ -244,7 +244,8 @@ button,
 input,
 label,
 select,
-textarea {
+textarea,
+li {
 	font-size: var(--fs-300);
 }
 
@@ -274,13 +275,14 @@ h4 {
 }
 
 a {
-	text-decoration: none;
+	text-decoration: underline;
 }
 
+a,
 a:visited,
 a:active,
 a:focus {
-	color: var(--body-color);
+	color: var(--secondary-color-500);
 }
 
 a:hover {
@@ -297,8 +299,7 @@ img {
 }
 
 #app {
-	display: flex;
-	flex-direction: column;
+	display: grid;
 	min-height: 100vh;
 	max-width: 2000px;
 	margin: 0 auto;

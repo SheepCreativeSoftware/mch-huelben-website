@@ -12,10 +12,10 @@
 		<main>
 			<MainArticleBase>
 				<template #title>
-					Aktuelles rund um den Verein
+					Gallerie
 				</template>
 				<template #text>
-					Hier werden wir in unregelmässigen abständen Neuigkeiten veröffentlicht.
+					Hier gibt es leider noch keine Inhalte.
 				</template>
 			</MainArticleBase>
 		</main>

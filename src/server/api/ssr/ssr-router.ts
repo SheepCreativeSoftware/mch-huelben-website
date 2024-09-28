@@ -65,7 +65,7 @@ const getSSRRouter = async (): Promise<Router> => {
 			const html = template
 				.replace('<!--app-meta-->', preloadedMeta)
 				.replace('<!--app-head-->', preloadLinks)
-				.replace('<!--app-store-->', `<script>window.__pinia = '${JSON.stringify(stores)}';</script>`)
+				.replace('<!--app-store-->', `<script>window.__pinia = ${JSON.stringify(stores)};</script>`)
 				.replace('<!--app-html-->', appHtml);
 
 			res.status(StatusCodes.OK).set({ 'Content-Type': 'text/html' }).end(html);

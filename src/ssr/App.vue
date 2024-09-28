@@ -1,14 +1,12 @@
 <template>
-	<div>
-		<HeaderNav :is-block="$route.path !== '/'" />
-		<router-view
-			v-slot="{ Component }"
-			:class="{ 'not-home': $route.path !== '/'}"
-		>
-			<component :is="Component" />
-		</router-view>
-		<MainFooter />
-	</div>
+	<HeaderNav :is-block="$route.path !== '/'" />
+	<router-view
+		v-slot="{ Component }"
+		:class="{ 'not-home': $route.path !== '/'}"
+	>
+		<component :is="Component" />
+	</router-view>
+	<MainFooter />
 </template>
 
 <script setup lang="ts">

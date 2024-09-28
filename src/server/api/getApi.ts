@@ -35,6 +35,7 @@ const getApi = async (): Promise<Application> => {
 		app.set('trust proxy', true);
 		app.use(compression());
 		app.use(base, sirv('./dist/ssr/client', { extensions: [] }));
+		app.use(base, sirv('./public', { extensions: [] }));
 	}
 
 	app.use('/api', getMainRouter());

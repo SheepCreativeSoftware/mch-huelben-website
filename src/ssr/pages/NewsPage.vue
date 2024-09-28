@@ -42,7 +42,7 @@
 					Neuer Nachrichten
 				</ButtonLink>
 				<ButtonLink
-					:disabled="currentPage === lastPage"
+					:disabled="currentPage >= lastPage"
 					:target-url="{ path: '/aktuelles', query: { page: nextPage } }"
 					is-button
 				>
@@ -71,7 +71,7 @@ const DEFAULT_COUNT = 10;
 const count = DEFAULT_COUNT;
 
 const lastPage = computed(() => {
-	const newValue = Math.floor(totalCount.value / count) - 1;
+	const newValue = Math.ceil(totalCount.value / count) - 1;
 	return newValue < 0 ? 0 : newValue;
 });
 
