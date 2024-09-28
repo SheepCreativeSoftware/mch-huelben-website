@@ -11,6 +11,13 @@
 		</div>
 		<nav :class="{ 'menu-open': isMenuOpen }">
 			<ButtonLink
+				v-if="$route.path !== '/'"
+				target-url="/"
+				@click="isMenuOpen = false"
+			>
+				Startseite
+			</ButtonLink>
+			<ButtonLink
 				:target-url="$route.path === '/' ? { path: '/', hash: '#aktuelles' } : { path: '/aktuelles' }"
 				@click="isMenuOpen = false"
 			>
@@ -107,12 +114,12 @@ header {
 	nav {
 		display: flex;
 		justify-content: space-between;
-		gap: var(--space-300);
+		gap: var(--space-500);
 		align-items: center;
 
 		.button-link {
 			color: var(--bg-color-100);
-			font-size: var(--fs-400);
+			font-size: var(--fs-500);
 		}
 		@media(prefers-color-scheme: dark) {
 			.button-link:not(.button-link-inverted) {
