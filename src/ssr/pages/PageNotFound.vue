@@ -15,7 +15,7 @@
 			>
 				<MainArticleBase>
 					<template #title>
-						Server Error
+						Client Error
 					</template>
 					<template #text>
 						<strong>404 - Seite nicht gefunden</strong>

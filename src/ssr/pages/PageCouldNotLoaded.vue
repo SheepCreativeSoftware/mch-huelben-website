@@ -15,7 +15,7 @@
 			>
 				<MainArticleBase>
 					<template #title>
-						Server Error
+						Client Error
 					</template>
 					<template #text>
 						<strong>400 - Fehlerhafte Anfrage</strong>

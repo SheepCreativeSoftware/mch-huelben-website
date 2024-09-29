@@ -68,10 +68,11 @@ const getSSRRouter = async (): Promise<Router> => {
 				.replace('<!--app-store-->', `<script type="application/json" id="pinia">${JSON.stringify(stores)}</script>`)
 				.replace('<!--app-html-->', appHtml);
 
-			res.status(StatusCodes.OK).set({ 'Content-Type': 'text/html' }).end(html);
+			if (currentRoute.name === 'not-found') res.status(StatusCodes.NOT_FOUND).set({ 'Content-Type': 'text/html' }).end(html);
+			else if (currentRoute.name === 'could-not-load') res.status(StatusCodes.BAD_REQUEST).set({ 'Content-Type': 'text/html' }).end(html);
+			else res.status(StatusCodes.OK).set({ 'Content-Type': 'text/html' }).end(html);
 		} catch (error) {
 			if (error instanceof Error) buntstift.error(`Error rendering SSR: ${error.message}\n${error.stack}`);
-
 			next(error);
 		}
 	});
