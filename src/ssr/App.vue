@@ -12,6 +12,33 @@
 <script setup lang="ts">
 import HeaderNav from './components/HeaderNav.vue';
 import MainFooter from './components/MainFooter.vue';
+import { useMetaStore } from './stores/meta-store';
+import { useRouter } from 'vue-router';
+
+const metaStore = useMetaStore();
+const router = useRouter();
+
+const updateMeta = async () => {
+	try {
+		const technicalName = router.currentRoute.value.name;
+		if (typeof technicalName !== 'string') return;
+
+		await metaStore.fetchMetaData(technicalName);
+		const meta = metaStore.getMetaData(technicalName);
+
+		if (meta) document.title = meta.title;
+	} catch (error) {
+		// eslint-disable-next-line no-console -- unknown error handling
+		console.error(error);
+	}
+};
+
+if (!import.meta.env.SSR) {
+	router.afterEach(async(destinationPath, previousRoute) => {
+		if (destinationPath.path === previousRoute.path) return;
+		await updateMeta();
+	});
+}
 </script>
 
 <style lang="css" scoped>

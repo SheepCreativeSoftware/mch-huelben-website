@@ -8,12 +8,12 @@
 			<h3>{{ article.title }}</h3>
 			<!-- eslint-disable-next-line vue/no-v-html -- this is a html content -->
 			<div v-html="article.content" />
-			<span class="creation-date">{{ new Date(article.createdAt).toLocaleString('de-DE', getDateFormatOptions()) }}
+			<span class="creation-date">{{ new Date(article.createdAt).toLocaleString('de-DE', getDateTimeFormatOptions()) }}
 				<span
 					v-if="article.updatedAt"
 					class="update-time"
 				>
-					(Aktualisiert: {{ new Date(article.updatedAt).toLocaleString('de-DE', getDateFormatOptions()) }})
+					(Aktualisiert: {{ new Date(article.updatedAt).toLocaleString('de-DE', getDateTimeFormatOptions()) }})
 				</span>
 			</span>
 		</article>
@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 import { computed, onBeforeMount } from 'vue';
-import { getDateFormatOptions } from '../../modules/transform/config/date-format-config';
+import { getDateTimeFormatOptions } from '../../modules/transform/config/date-format-config';
 import { routeOnError } from './route-on-error';
 import { useNewsStore } from '../stores/news-store';
 import { useRouter } from 'vue-router';

@@ -58,7 +58,22 @@
 					Aktuelle Termine
 				</template>
 				<template #text>
-					Aktuell sind keine Termine geplant.
+					<template v-if="events.length > 0">
+						<table>
+							<tbody>
+								<tr
+									v-for="event in events"
+									:key="event.identifier"
+								>
+									<td>{{ getFormattedDate(event.fromDate, event.toDate) }}</td>
+									<td>{{ event.title }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</template>
+					<template v-else>
+						Aktuell sind keine Termine geplant.
+					</template>
 				</template>
 			</MainArticleBase>
 			<OverallImage>
@@ -98,14 +113,17 @@
 import { computed, onBeforeMount } from 'vue';
 import ButtonLink from '../components/base/ButtonLink.vue';
 import ContactForm from '../components/ContactForm.vue';
+import { getDateFormatOptions } from '../../modules/transform/config/date-format-config';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import NewsView from '../components/NewsView.vue';
 import OverallImage from '../components/base/OverallImage.vue';
 import { routeOnError } from '../components/route-on-error';
+import { useEventsStore } from '../stores/events-store';
 import { usePagesStore } from '../stores/pages-store';
 import { useRouter } from 'vue-router';
 
 const pagesStore = usePagesStore();
+const eventsStore = useEventsStore();
 const router = useRouter();
 const technicalName = router.currentRoute.value.name;
 
@@ -114,6 +132,8 @@ const content = computed(() => {
 
 	return pagesStore.getPage(technicalName);
 });
+
+const events = computed(() => eventsStore.getEvents());
 
 const updatePages = async () => {
 	try {
@@ -130,8 +150,29 @@ const updatePages = async () => {
 	}
 };
 
+const updateEvents = async () => {
+	try {
+		await eventsStore.fetchEventsData();
+	} catch (error) {
+		if (error instanceof Error) {
+			await routeOnError(router, error);
+			return;
+		}
+		// eslint-disable-next-line no-console -- unknown error handling
+		console.error(error);
+	}
+};
+
+const getFormattedDate = (fromDate: string, toDate?: string | null): string => {
+	let result = new Date(fromDate).toLocaleDateString('de-DE', getDateFormatOptions());
+	if (toDate) result += ` - ${new Date(toDate).toLocaleDateString('de-DE', getDateFormatOptions())}`;
+
+	return result;
+};
+
 onBeforeMount(async() => {
 	await updatePages();
+	await updateEvents();
 });
 </script>
 
@@ -179,5 +220,15 @@ onBeforeMount(async() => {
 
 #termine {
 	padding-top: 0;
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+
+		td {
+			padding: var(--space-100);
+			border-bottom: 2px solid var(--primary-color-500);
+		}
+	}
 }
 </style>

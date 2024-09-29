@@ -67,7 +67,7 @@
 import ButtonLink from './base/ButtonLink.vue';
 import { ref } from 'vue';
 
-const MIN_SCREEN_WIDTH = 768;
+const MIN_SCREEN_WIDTH = 900;
 
 const props = defineProps<{
 	isBlock?: boolean;
@@ -128,7 +128,7 @@ header {
 		}
 	}
 
-	@media(width <=768px) {
+	@media(width <= 900px) {
 		background-color: var(--primary-color-500);
 		padding: 0.5rem 2rem 0.5rem 2rem;
 
@@ -171,7 +171,7 @@ header {
 		border: none;
 		background: none;
 
-		@media(width <=768px) {
+		@media(width <= 900px) {
 			display: block;
 
 			&:hover {
@@ -189,7 +189,7 @@ header {
 		max-width: 125px;
 	}
 
-	@media(width <=768px) {
+	@media(width <= 900px) {
 		max-width: 125px;
 	}
 }

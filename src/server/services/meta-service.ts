@@ -60,7 +60,7 @@ const ResponseMetaValidator = zod.object({
 	identifier: zod.string().uuid(),
 	image: zod.string().url().nullish(),
 	title: zod.string(),
-	type: zod.string().optional(),
+	type: zod.string().nullish(),
 	updatedAt: zod.date().nullish(),
 });
 

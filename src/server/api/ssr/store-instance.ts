@@ -1,11 +1,5 @@
+import type { StoreService, StoreServiceOptions } from '../../services/StoreServiceInterface.js';
 import type { StateTree } from 'pinia';
-
-interface StoreServiceOptions {
-	count?: number,
-	offset?: number,
-	technicalName?: string
-}
-type StoreService = (options: StoreServiceOptions) => Promise<StateTree>;
 
 class StoreInstance {
 	static #instance: StoreInstance;
