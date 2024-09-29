@@ -37,4 +37,3 @@ class StoreInstance {
 }
 
 export { StoreInstance };
-export type { StoreService };

@@ -68,7 +68,7 @@ footer {
 			justify-content: space-between;
 			margin: 0;
 			padding: 0;
-			gap: var(--space-300);
+			gap: var(--space-500);
 			list-style: disc;
 			max-width: fit-content;
             justify-self: center;

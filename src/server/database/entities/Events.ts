@@ -24,10 +24,9 @@ class Events {
 
 	@Column({
 		name: 'to_date',
-		nullable: false,
 		type: 'timestamp',
 	})
-	toDate: Date;
+	toDate: Date | null;
 
 	@Column({
 		default: true,

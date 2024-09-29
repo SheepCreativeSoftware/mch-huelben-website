@@ -2,7 +2,6 @@ import { dataSource } from '../database/datasource.js';
 import { Events } from '../database/entities/Events.js';
 import { InternalServerException } from '../modules/misc/custom-errors.js';
 import { MoreThanOrEqual } from 'typeorm';
-import type { StoreService } from './StoreServiceInterface.js';
 import { z as zod } from 'zod';
 
 const ResponseEventsValidator = zod.array(zod.object({
@@ -11,11 +10,11 @@ const ResponseEventsValidator = zod.array(zod.object({
 	identifier: zod.string().uuid(),
 	isActive: zod.boolean(),
 	title: zod.string(),
-	toDate: zod.date().nullish(),
-	updatedAt: zod.date().nullish(),
+	toDate: zod.date().nullable(),
+	updatedAt: zod.date().nullable(),
 }));
 
-const getCurrentEvents: StoreService = async () => {
+const getCurrentEvents = async (): Promise<Events[]> => {
 	const currentDate = new Date();
 	const events = await dataSource.getRepository(Events).find({
 		order: {
