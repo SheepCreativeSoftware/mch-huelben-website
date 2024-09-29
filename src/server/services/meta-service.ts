@@ -1,7 +1,11 @@
-import { MetaRepository } from '../database/repository/meta-repository.js';
+import { InternalServerException, NotFoundException } from '../modules/misc/custom-errors.js';
+import { dataSource } from '../database/datasource.js';
+import { Like } from 'typeorm';
+import { Meta } from '../database/entities/Meta.js';
 import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router';
+import { z as zod } from 'zod';
 
-const getMetaData = async (currentRoute: RouteLocationNormalizedLoadedGeneric): Promise<string> => {
+const getMetaDataTags = async (currentRoute: RouteLocationNormalizedLoadedGeneric): Promise<string> => {
 	let metaTags = '';
 
 	const canonicalUrl = currentRoute.fullPath;
@@ -13,7 +17,12 @@ const getMetaData = async (currentRoute: RouteLocationNormalizedLoadedGeneric): 
 
 	if (typeof technicalName !== 'string') return metaTags;
 
-	const metaData = await MetaRepository.getMetaByPage(technicalName);
+	const metaData = await dataSource.getRepository(Meta).findOneBy({
+		page: {
+			// eslint-disable-next-line new-cap -- this is not a constructor
+			technicalName: Like(technicalName),
+		},
+	});
 
 	if (!metaData) return metaTags;
 
@@ -45,4 +54,29 @@ const getMetaData = async (currentRoute: RouteLocationNormalizedLoadedGeneric): 
 	return metaTags;
 };
 
-export { getMetaData };
+const ResponseMetaValidator = zod.object({
+	createdAt: zod.date(),
+	description: zod.string(),
+	identifier: zod.string().uuid(),
+	image: zod.string().url().nullish(),
+	title: zod.string(),
+	type: zod.string().optional(),
+	updatedAt: zod.date().nullish(),
+});
+
+const getMetaData = async ({ technicalName }: { technicalName: string }) => {
+	const metaData = await dataSource.getRepository(Meta).findOneBy({
+		page: {
+			// eslint-disable-next-line new-cap -- this is not a constructor
+			technicalName: Like(technicalName),
+		},
+	});
+
+	if (!metaData) throw new NotFoundException('Meta data not found');
+	const result = ResponseMetaValidator.safeParse(metaData);
+	if (!result.success) throw new InternalServerException('Failed to validate meta data', { cause: result.error.errors });
+
+	return result.data;
+};
+
+export { getMetaData, getMetaDataTags };

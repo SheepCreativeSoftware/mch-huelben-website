@@ -1,7 +1,7 @@
 import './store-maping/store-mapping.js';
 import { buntstift } from 'buntstift';
 import express from 'express';
-import { getMetaData } from '../../services/meta-service.js';
+import { getMetaDataTags } from '../../services/meta-service.js';
 import { getViteMiddleware } from '../../middleware/vite.js';
 import path from 'node:path';
 import { readFileSync } from 'node:fs';
@@ -60,7 +60,7 @@ const getSSRRouter = async (): Promise<Router> => {
 
 			const [appHtml, preloadLinks, currentRoute] = await render(url, manifest, stores);
 
-			const preloadedMeta = await getMetaData(currentRoute);
+			const preloadedMeta = await getMetaDataTags(currentRoute);
 
 			const html = template
 				.replace('<!--app-meta-->', preloadedMeta)

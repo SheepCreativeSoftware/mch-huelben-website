@@ -1,8 +1,6 @@
-import { InternalServerException, NotFoundException } from '../../../modules/misc/custom-errors.js';
+import { getPagesData } from '../../../services/pages-service.js';
 import type { Handler } from 'express';
-import { PagesRepository } from '../../../database/repository/pages-repository.js';
 import { RequestPagesQueryValidator } from './request.js';
-import { ResponsePagesBodyValidator } from './response.js';
 import { StatusCodes } from 'http-status-codes';
 
 const getPagesHandle = (): Handler => {
@@ -10,12 +8,9 @@ const getPagesHandle = (): Handler => {
 		try {
 			const requestQuery = RequestPagesQueryValidator.parse(req.query);
 
-			const page = await PagesRepository.getPageContent(requestQuery.technicalName);
-			if (!page) throw new NotFoundException(`Page ${requestQuery.technicalName} not found`);
-			const results = ResponsePagesBodyValidator.safeParse(page);
-			if (!results.success) throw new InternalServerException('Failed to validate response', { cause: results.error.errors });
+			const results = await getPagesData({ technicalName: requestQuery.technicalName });
 
-			res.status(StatusCodes.ACCEPTED).send(results.data);
+			res.status(StatusCodes.OK).send(results);
 		} catch (error) {
 			next(error);
 		}
