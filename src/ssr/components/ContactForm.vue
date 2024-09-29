@@ -88,9 +88,8 @@ import ButtonLink from './base/ButtonLink.vue';
 form {
 	display: flex;
 	flex-direction: column;
-	padding: 0 4vw;
 	max-width: 800px;
-	margin: auto;
+	width: 100%;
 	gap: 2px;
 
 	label {
