@@ -1,7 +1,7 @@
 <template>
 	<footer>
 		<nav class="flex-space-center">
-			<span id="copyright">MCH-Hülben e.V. &copy; 2014-2024</span>
+			<span id="copyright">MCH-Hülben e.V.<wbr> &copy; 2014-2024</span>
 			<ul>
 				<li>
 					<ButtonLink
@@ -25,9 +25,7 @@
 					</ButtonLink>
 				</li>
 			</ul>
-			<span id="created-by">
-				Created by M.Egner<br>
-			</span>
+			<span id="created-by">Created by M.Egner</span>
 		</nav>
 		<div class="logo-conatiner">
 			<ButtonLink
@@ -56,12 +54,14 @@ footer {
 	gap: var(--space-400);
 	padding: 2rem;
 	background-color: var(--bg-color-400);
+	span, li, a {font-size: var(--fs-300);}
 
 	nav {
 		display: grid;
         grid-template-columns: 1fr 1fr 1fr;
 		width: 100%;
 		max-width: 1200px;
+		gap: var(--space-400);
 
 		ul {
 			display: flex;
@@ -73,17 +73,21 @@ footer {
 			max-width: fit-content;
             justify-self: center;
 
+			li {
+				text-align: center;
+			}
+
 			li:first-child {
 				list-style: none;
 			}
 		}
 
-		:first-child {
-			justify-self: start;
+		:first-child:not(li) {
+			text-align: start;
 		}
 
-		:last-child {
-			justify-self: end;
+		:last-child:not(li) {
+			text-align: end;
 		}
 
 		.button-link {

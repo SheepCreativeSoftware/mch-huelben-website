@@ -67,6 +67,7 @@ onBeforeMount(async() => {
 	flex-direction: column;
 	gap: var(--space-400);
 }
+
 article {
 	text-align: left;
 	/* border: 1px solid grey; */
@@ -74,6 +75,10 @@ article {
 	box-shadow: var(--box-shadow);
     padding: 1.5rem;
     background-color: var(--bg-color-200);
+}
+
+.news-item {
+	font-size: var(--fs-400) !important;
 }
 
 .creation-date {

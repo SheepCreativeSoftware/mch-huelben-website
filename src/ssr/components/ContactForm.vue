@@ -102,9 +102,8 @@ form {
 
 	input, textarea {
 		font-family: var(--font-sans-serif);
-		font-size: var(--fs-500);
+		font-size: var(--fs-400);
 		padding: 0.2rem 0.3rem;
-		line-height: var(--space-300);
 		background-color: var(--bg-color-300);
 		border: 1px solid var(--bg-color-700);
 		border-radius: var(--border-radius-md);
@@ -119,7 +118,7 @@ form {
 		margin-top: 10px;
 		display: flex;
 		align-items: flex-start;
-		gap: var(--space-100);
+		gap: var(--space-200);
 
 		input[type="checkbox"] {
 			transform: scale(1.5);
@@ -142,8 +141,7 @@ form {
 		margin-top: 10px;
 		align-self: center;
 		background-color: var(--primary-color-500);
-		color: var(--bg-color-300);
-		font-size: 2rem;
+		color: var(--bg-color-100);
 		font-weight: bold;
 		padding: 0.8rem 1.6rem;
 		border-radius: var(--border-radius-xl);

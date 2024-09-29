@@ -53,6 +53,6 @@ h3.section-title {
 
 .section-text {
 	text-align: left;
-	font-size: var(--fs-500);
+	font-size: var(--fs-400);
 }
 </style>

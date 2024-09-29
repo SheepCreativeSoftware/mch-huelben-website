@@ -56,14 +56,14 @@
 	--bg-color-900: #333333;
 
 	/* Font sizes */
-	--fs-200: 0.8rem;
-	--fs-300: 1rem;
-	--fs-400: 1.125rem;
-	--fs-500: 1.325rem;
-	--fs-600: 1.625rem;
-	--fs-700: 2rem;
-	--fs-800: 2.325rem;
-	--fs-900: 3rem;
+	--fs-200: clamp(0.5rem, 5vw, 0.8rem);
+	--fs-300: clamp(0.75rem, 5vw, 1rem);
+	--fs-400: clamp(1rem, 5vw, 1.125rem);
+	--fs-500: clamp(1.125rem, 5vw, 1.325rem);
+	--fs-600: clamp(1.325rem, 5vw, 1.625rem);
+	--fs-700: clamp(1.8rem, 5vw, 2rem);
+	--fs-800: clamp(2rem, 5vw, 2.325rem);
+	--fs-900: clamp(2.325rem, 5vw, 3rem);
 
 	/* Spacing */
 	--space-100: 0.25rem;
@@ -102,7 +102,7 @@
 
 	/* Body Defaults */
 	--body-font-family: var(--font-sans-serif);
-	--body-font-size: var(--fs-300);
+	--body-font-size: var(--fs-400);
 	--body-font-weight: 400;
 	--body-line-height: 1.5;
 	--body-color: #212529;
@@ -177,12 +177,13 @@ label,
 select,
 textarea,
 li {
-	font-size: var(--fs-300);
+	font-family: var(--body-font-family);
+	font-size: var(--fs-400);
 }
 
 p,
 span {
-	color: var(--fs-300);
+	color: var(--fs-400);
 }
 
 h1 {

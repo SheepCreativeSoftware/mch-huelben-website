@@ -29,6 +29,8 @@
 .article-container {
 	padding: 3rem 4vw;
 	width: calc(100% - 8vw);
+	max-width: 1000px;
+	margin: 0 auto;
 }
 
 section {
@@ -53,6 +55,6 @@ h2.section-title {
 
 .section-text {
 	text-align: left;
-	font-size: var(--fs-500);
+	font-size: var(--fs-400);
 }
 </style>

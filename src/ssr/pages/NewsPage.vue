@@ -30,8 +30,7 @@
 			</MainArticleBase>
 			<ContainerComponent
 				class="navigation-button-container"
-				columns="1fr 1fr"
-				justify="center"
+				columns="repeat(auto-fit, minmax(min-content, 250px))"
 				gap="2rem"
 			>
 				<ButtonLink
@@ -137,12 +136,13 @@ onBeforeMount(async() => {
 .navigation-button-container {
 	padding: 1.5rem 4vw 5rem 4vw;
 	width: calc(100% - 8vw);
+	justify-content: center;
 
 	:first-child {
-		justify-self: end;
+		justify-self: center;
 	}
 	:last-child {
-		justify-self: start;
+		justify-self: center;
 	}
 }
 
