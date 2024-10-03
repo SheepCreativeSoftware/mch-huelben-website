@@ -9,43 +9,26 @@ if (typeof process.env.SESSION_SECRET === 'undefined') throw new Error('Missing 
 
 const secretKey = process.env.SESSION_SECRET;
 
-type Payload =
-	| {
-		role: 'Creator';
-	}
-	| {
-		role: 'Answerer';
-		surveyId: UUID;
-		endDate: string;
-		exp: number;
-	};
+type Payload = {
+	role: 'User' | 'Admin';
+	userId: string | UUID;
+};
 
-const signJwtToken = (options:
-	| { role: 'Creator'; userId: UUID | string }
-	| { role: 'Answerer'; surveyId: UUID; endDate: Date }): Promise<string> => {
+const signJwtToken = (options: Payload): Promise<string> => {
 	const payload = {
 		role: options.role,
+		userId: options.userId,
+
 	} as Payload;
 
 	const signOptions: jwt.SignOptions = {
 		algorithm: 'HS256',
 		issuer: process.env.HOST,
 		jwtid: crypto.randomUUID(),
+		expiresIn: '1h',
+		subject: options.userId,
 	};
 
-	// Check both otherwise typescript will not understand
-	if (options.role === 'Answerer' && payload.role === 'Answerer') {
-		payload.surveyId = options.surveyId;
-		payload.endDate = options.endDate.toISOString();
-
-		// Expiration of Answerer token is based on the end of a survey + 14 days
-		payload.exp = options.endDate.getTime() / 1000 + 14 * 24 * 60 * 60;
-	}
-
-	if (options.role === 'Creator' && payload.role === 'Creator') {
-		signOptions.expiresIn = '30m';
-		signOptions.subject = options.userId;
-	}
 	return new Promise((resolve, reject) => {
 		jwt.sign(payload, secretKey, signOptions, (error, jwt) => {
 			if (error) {
@@ -67,30 +50,16 @@ const verifyJwtToken = (token: string): Promise<Express.User> => {
 		jwt.verify(token, secretKey, { issuer: process.env.HOST }, (error, payload) => {
 			if (error) {
 				buntstift.error(error.message);
-				reject(error);
-				return;
+				return reject(error);
 			}
 			if (typeof payload === 'undefined' || typeof payload === 'string') {
-				reject(new Error('JWT is not an object'));
-				return;
+				return reject(new Error('JWT is not an object'));
 			}
 
-			if (payload.role === 'Creator') {
-				resolve({
-					role: payload.role,
-					userId: payload.sub as UUID,
-				});
-				return;
-			}
-
-			if (payload.role === 'Answerer') {
-				resolve({
-					role: payload.role,
-					surveyId: payload.surveyId,
-					endDate: payload.endDate,
-					answererId: payload.jti as UUID,
-				});
-			}
+			return resolve({
+				role: payload.role,
+				userId: payload.sub as UUID,
+			});
 		});
 	});
 };

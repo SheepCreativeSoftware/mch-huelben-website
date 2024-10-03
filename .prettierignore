@@ -151,3 +151,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Public files
+public/

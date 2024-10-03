@@ -1,12 +1,10 @@
-import { ForbiddenException, UnauthorizedException } from '../misc/custom-errors.js';
-import { buntstift } from 'buntstift';
+import { ForbiddenException, InternalServerException, UnauthorizedException } from '../misc/custom-errors.js';
 import type { Handler } from 'express';
 
 const userAuthorizedHandler = (): Handler => {
 	return (req, _res, next) => {
 		if (typeof req.isLoggedIn !== 'function') {
-			buntstift.error('isLoggedIn is not a function');
-			next(new Error('Internal Server Error'));
+			next(new InternalServerException('isLoggedIn is not a function'));
 			return;
 		}
 		if (req.isLoggedIn() === false) {
@@ -18,9 +16,9 @@ const userAuthorizedHandler = (): Handler => {
 	};
 };
 
-const creatorAuthorizedHandler = (): Handler => {
+const userRoleAuthorizedHandler = (): Handler => {
 	return (req, _res, next) => {
-		if (req.user?.role === 'Creator') {
+		if (req.user?.role === 'User' || req.user?.role === 'Admin') {
 			next();
 			return;
 		}
@@ -29,20 +27,9 @@ const creatorAuthorizedHandler = (): Handler => {
 	};
 };
 
-const answererAuthorizedHandler = (): Handler => {
+const adminRoleAuthorizedHandler = (): Handler => {
 	return (req, _res, next) => {
-		if (req.user?.role === 'Answerer') {
-			next();
-			return;
-		}
-
-		next(new ForbiddenException('User has no access privilidges'));
-	};
-};
-
-const creatorOrAnswererAuthorizedHandler = (): Handler => {
-	return (req, _res, next) => {
-		if (req.user?.role === 'Answerer' || req.user?.role === 'Creator') {
+		if (req.user?.role === 'Admin') {
 			next();
 			return;
 		}
@@ -52,8 +39,7 @@ const creatorOrAnswererAuthorizedHandler = (): Handler => {
 };
 
 export {
-	answererAuthorizedHandler,
-	creatorAuthorizedHandler,
-	creatorOrAnswererAuthorizedHandler,
+	adminRoleAuthorizedHandler,
+	userRoleAuthorizedHandler,
 	userAuthorizedHandler,
 };

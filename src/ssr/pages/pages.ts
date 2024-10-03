@@ -1,5 +1,6 @@
+import './pages-old-mapping.js';
 import About from './About.vue';
-import Gallery from './Gallery.vue';
+import GalleryOverview from './GalleryOverview.vue';
 import Home from './Home.vue';
 import Imprint from './Imprint.vue';
 import NewsPage from './NewsPage.vue';
@@ -27,8 +28,8 @@ RouterInstance.getInstance().addRoute({
 });
 
 RouterInstance.getInstance().addRoute({
-	component: Gallery,
-	name: 'gallerie',
+	component: GalleryOverview,
+	name: 'gallerie-overview',
 	path: '/gallerie',
 });
 
@@ -55,4 +56,3 @@ RouterInstance.getInstance().addRoute({
 	name: 'not-found',
 	path: '/:pathMatch(.*)*',
 });
-
