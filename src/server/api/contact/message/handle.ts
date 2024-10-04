@@ -13,7 +13,7 @@ const getContactMessageHandle = (): Handler => {
 
 			await sendContactEmail({ email, message, name, subject });
 
-			res.status(StatusCodes.CREATED).send({ message: 'Message received' });
+			res.status(StatusCodes.CREATED).send({ message: 'Message successfuly sended' });
 		} catch (error) {
 			next(error);
 		}

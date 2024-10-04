@@ -1,8 +1,10 @@
 <template>
 	<form
+		ref="contact-form"
 		class="contact-form"
-		action="/api/contact"
+		action="/api/contact/message"
 		method="post"
+		@submit="submitForm"
 	>
 		<label
 			for="name"
@@ -53,7 +55,7 @@
 			<input
 				id="confirmation"
 				type="checkbox"
-				name="confirmation"
+				name="GDPRAcknowledged"
 			>
 			<label
 				for="confirmation"
@@ -78,6 +80,42 @@
 
 <script setup lang="ts">
 import ButtonLink from './base/ButtonLink.vue';
+import { useTemplateRef } from 'vue';
+
+const contactForm = useTemplateRef('contact-form');
+
+const submitForm = async (event: Event) => {
+	const form = contactForm.value;
+	if (!(form instanceof HTMLFormElement)) return;
+	event.preventDefault();
+
+	const formData = new FormData(form);
+	const bodyObject = {};
+	for (const [key, value] of formData.entries()) {
+		if (key === 'GDPRAcknowledged') {
+			Object.assign(bodyObject, { [key]: value === 'on' });
+			continue;
+		}
+		Object.assign(bodyObject, { [key]: value });
+	}
+	const url = form.action;
+	const options: RequestInit = {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		method: form.method,
+		body: JSON.stringify(bodyObject),
+	};
+
+	const response = await fetch(url, options);
+
+	if (response.ok) {
+		form.reset();
+		alert('Nachricht erfolgreich versendet!');
+	} else {
+		alert('Nachricht konnte nicht versendet werden!');
+	}
+};
 </script>
 
 <style lang="css" scoped>
