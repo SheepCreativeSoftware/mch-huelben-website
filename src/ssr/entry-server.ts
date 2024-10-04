@@ -40,8 +40,8 @@ const renderPreloadLinks = (modules: SSRContext['modules'], manifest: Record<str
 	return links;
 };
 
-const entryServer = async function render(url: string, manifest: Record<string, string[]>, store: Record<string, StateTree>) {
-	const { app, router } = createApp({ store });
+const entryServer = async function render(url: string, manifest: Record<string, string[]>, store: Record<string, StateTree>, user?: Express.User) {
+	const { app, router } = createApp({ store, user });
 
 	// Set the router to the desired URL before rendering
 	await router.push(url);

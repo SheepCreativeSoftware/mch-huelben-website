@@ -10,7 +10,7 @@ import type { StateTree } from 'pinia';
  * that creates a fresh app instance. If using Vuex, we'd also be creating a
  * fresh store here.
  */
-const createApp = function ({ store }: { store?: Record<string, StateTree> }) {
+const createApp = function ({ store, user }: { store?: Record<string, StateTree>, user?: Express.User }) {
 	const app = createSSRApp(App);
 	const pinia = createPinia();
 	app.use(pinia);
@@ -31,6 +31,14 @@ const createApp = function ({ store }: { store?: Record<string, StateTree> }) {
 				}
 			}
 		}
+	});
+
+	router.beforeEach((routeTo) => {
+		if (routeTo.meta.requiresAuthRole && routeTo.name !== 'login') {
+			// Check if the user is logged in
+			if (!user || !routeTo.meta.requiresAuthRole.includes(user.role)) return { name: 'login' };
+		}
+		return true;
 	});
 
 	return { app, router };

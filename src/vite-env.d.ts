@@ -1,5 +1,7 @@
 /// <reference types="vite/client" />
 
+import 'vue-router';
+
 /*
  * Declare module '*.vue' {
  * 	import type { DefineComponent } from 'vue';
@@ -15,5 +17,11 @@ export { };
 declare module '*.vue' {
 	interface ComponentCustomProperties {
 		$translate: (key: string) => string
+	}
+}
+
+declare module 'vue-router' {
+	interface RouteMeta {
+		requiresAuthRole?: Express.User['role'][]
 	}
 }
