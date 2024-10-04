@@ -1,5 +1,5 @@
 import { buntstift } from 'buntstift';
-import { getSmtpTransport } from './smtp-transport.ts';
+import { getSmtpTransport } from './smtp-transport.js';
 
 const baseEmailTemplate = `Hallo,
 
