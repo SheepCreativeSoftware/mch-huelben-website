@@ -76,13 +76,32 @@
 			Absenden
 		</button>
 	</form>
+	<dialog
+		ref="dialog"
+		class="modal"
+	>
+		<div>
+			<p>
+				{{ message }}
+			</p>
+			<button
+				@click="dialog?.close()"
+			>
+				Schließen
+			</button>
+		</div>
+	</dialog>
 </template>
 
 <script setup lang="ts">
+import { ref, useTemplateRef } from 'vue';
 import ButtonLink from './base/ButtonLink.vue';
-import { useTemplateRef } from 'vue';
+import type { ZodIssue } from 'zod';
 
+const CLOSE_MODAL_TIMEOUT = 5000;
 const contactForm = useTemplateRef('contact-form');
+const dialog = useTemplateRef('dialog');
+const message = ref<string>('');
 
 const submitForm = async (event: Event) => {
 	const form = contactForm.value;
@@ -111,16 +130,60 @@ const submitForm = async (event: Event) => {
 
 	if (response.ok) {
 		form.reset();
-		alert('Nachricht erfolgreich versendet!');
+		message.value = 'Nachricht erfolgreich versendet!';
+		dialog.value?.showModal();
 	} else {
-		alert('Nachricht konnte nicht versendet werden!');
+		const body: { message: string | ZodIssue[] } = await response.json();
+		if (Array.isArray(body.message) && body.message[0].message === 'Invalid email') message.value = 'Bitte gib eine gültige E-Mail-Adresse ein.';
+		else message.value = 'Nachricht konnte nicht versendet werden. Bitte versuche es später erneut.';
+
+		dialog.value?.showModal();
 	}
+
+	setTimeout(() => {
+		dialog.value?.close();
+	}, CLOSE_MODAL_TIMEOUT);
 };
 </script>
 
 <style lang="css" scoped>
 .required-form-input {
 	color: red;
+}
+
+button {
+	margin-top: 1rem;
+	align-self: center;
+	background-color: var(--primary-color-500);
+	color: var(--bg-color-100);
+	font-weight: bold;
+	padding: 0.8rem 1.6rem;
+	border-radius: var(--border-radius-xl);
+	border: none;
+	cursor: pointer;
+	width: max-content;
+
+		&:active {
+		transform: translateY(3px);
+		transition: all 0.1s ease;
+	}
+}
+
+@media(prefers-color-scheme: dark) {
+	button {
+		color: var(--bg-color-900);
+	}
+}
+
+.modal {
+	max-width: 500px;
+	border: 1px solid var(--bg-color-700);
+	border-radius: var(--border-radius-md);
+	div {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
 }
 
 form {
@@ -171,30 +234,6 @@ form {
 				font-size: var(--fs-200);
 				font-weight: bold;
 			}
-		}
-	}
-
-	.button-submit {
-		margin-top: 10px;
-		align-self: center;
-		background-color: var(--primary-color-500);
-		color: var(--bg-color-100);
-		font-weight: bold;
-		padding: 0.8rem 1.6rem;
-		border-radius: var(--border-radius-xl);
-		border: none;
-		cursor: pointer;
-		width: max-content;
-
-			&:active {
-			transform: translateY(3px);
-			transition: all 0.1s ease;
-		}
-	}
-
-	@media(prefers-color-scheme: dark) {
-		.button-submit {
-			color: var(--bg-color-900);
 		}
 	}
 }
