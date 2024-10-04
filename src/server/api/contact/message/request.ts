@@ -1,12 +1,12 @@
 import { z as zod } from 'zod';
 
 const RequestBodyContactFormValidator = zod.object({
-	GDPRAcknowledged: zod.boolean(),
+	GDPRConfirmation: zod.boolean(),
 	email: zod.string().email(),
 	message: zod.string().min(1),
 	name: zod.string().min(1),
 	subject: zod.string().min(1),
-}).transform(({ GDPRAcknowledged, email, message, name, subject }) => {
+}).transform(({ GDPRConfirmation, email, message, name, subject }) => {
 	const escapeString = (value: string): string => {
 		return value.replace(/</g, '&lt;')
 			.replace(/>/g, '&gt;')
@@ -20,7 +20,7 @@ const RequestBodyContactFormValidator = zod.object({
 	};
 
 	return {
-		GDPRAcknowledged,
+		GDPRConfirmation,
 		email: escapeString(email),
 		message: escapeString(message),
 		name: escapeString(name),

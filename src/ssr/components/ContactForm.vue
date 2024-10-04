@@ -55,7 +55,7 @@
 			<input
 				id="confirmation"
 				type="checkbox"
-				name="GDPRAcknowledged"
+				name="GDPRConfirmation"
 			>
 			<label
 				for="confirmation"
@@ -111,7 +111,7 @@ const submitForm = async (event: Event) => {
 	const formData = new FormData(form);
 	const bodyObject = {};
 	for (const [key, value] of formData.entries()) {
-		if (key === 'GDPRAcknowledged') {
+		if (key === 'GDPRConfirmation') {
 			Object.assign(bodyObject, { [key]: value === 'on' });
 			continue;
 		}

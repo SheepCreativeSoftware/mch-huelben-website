@@ -7,13 +7,13 @@ import { StatusCodes } from 'http-status-codes';
 const getContactMessageHandle = (): Handler => {
 	return async (req, res, next) => {
 		try {
-			const { GDPRAcknowledged, email, message, name, subject } = RequestBodyContactFormValidator.parse(req.body);
+			const { GDPRConfirmation, email, message, name, subject } = RequestBodyContactFormValidator.parse(req.body);
 
-			if (!GDPRAcknowledged) throw new BadRequestException('GDPR acknowledgement is required');
+			if (!GDPRConfirmation) throw new BadRequestException('GDPR acknowledgement is required');
 
 			await sendContactEmail({ email, message, name, subject });
 
-			res.status(StatusCodes.CREATED).send({ message: 'Message successfuly sended' });
+			res.status(StatusCodes.CREATED).send({ message: 'Message successfully sent' });
 		} catch (error) {
 			next(error);
 		}

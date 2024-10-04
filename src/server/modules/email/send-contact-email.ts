@@ -5,7 +5,7 @@ const baseEmailTemplate = `Hallo,
 
 Dies ist eine Anfrage vom Kontaktformular von ${process.env.HOST}.
 
-Nachricht von {{name}}:
+Nachricht von: {{name}}
 --------------------------------
 {{message}}
 --------------------------------
