@@ -27,10 +27,10 @@ const GalleryResponseBodyValidator = zod.array(zod.object({
 	updatedAt: zod.string().datetime().nullable(),
 }));
 
-type Gallery = zod.infer<typeof GalleryResponseBodyValidator>;
+type Category = zod.infer<typeof GalleryResponseBodyValidator>;
 
 interface GalleryStoreState {
-	categories: Gallery;
+	categories: Category;
 };
 
 const baseUrl = import.meta.env.SSR ? import.meta.env.VITE_BASE_URL : window.location.origin;
@@ -57,8 +57,12 @@ const useGalleryStore = defineStore('gallery-store', {
 			const response = GalleryResponseBodyValidator.parse(body);
 			this.$state.categories = response;
 		},
-		getGalleries(): Gallery {
-			return this.categories;
+		getGalleryByTechnicalName(technicalName: string): Category[0]['galleries'][0] | null {
+			const gallerySelection = this.categories.find((category) => {
+				return category.galleries.some((gallery) => gallery.page?.technicalName === technicalName);
+			});
+
+			return gallerySelection?.galleries[0] ?? null;
 		},
 	},
 	state: (): GalleryStoreState => ({
@@ -67,4 +71,4 @@ const useGalleryStore = defineStore('gallery-store', {
 });
 
 export { useGalleryStore };
-export type { Gallery, GalleryStoreState };
+export type { Category, GalleryStoreState };

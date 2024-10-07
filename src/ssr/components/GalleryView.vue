@@ -33,11 +33,11 @@
 </template>
 
 <script setup lang="ts">
-import type { Gallery } from '../stores/gallery-store';
-import { getDateTimeFormatOptions } from '../../modules/transform/config/date-format-config';
+import type { Category } from '../stores/gallery-store.ts';
+import { getDateTimeFormatOptions } from '../../modules/transform/config/date-format-config.ts';
 
 const props = defineProps<{
-	galleries: Gallery[0]['galleries'];
+	galleries: Category[0]['galleries'];
 }>();
 </script>
 
