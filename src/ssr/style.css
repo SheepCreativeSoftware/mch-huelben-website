@@ -56,14 +56,14 @@
 	--bg-color-900: #333333;
 
 	/* Font sizes */
-	--fs-200: clamp(0.5rem, 5vw, 0.8rem);
-	--fs-300: clamp(0.75rem, 5vw, 1rem);
-	--fs-400: clamp(1rem, 5vw, 1.125rem);
-	--fs-500: clamp(1.125rem, 5vw, 1.325rem);
-	--fs-600: clamp(1.325rem, 5vw, 1.625rem);
-	--fs-700: clamp(1.8rem, 5vw, 2rem);
-	--fs-800: clamp(2rem, 5vw, 2.325rem);
-	--fs-900: clamp(2.325rem, 5vw, 3rem);
+	--fs-200: clamp(0.5rem, 4.5vw, 0.8rem);
+	--fs-300: clamp(0.75rem, 4.5vw, 1rem);
+	--fs-400: clamp(0.825rem, 4.5vw, 1.125rem);
+	--fs-500: clamp(1.025rem, 4.5vw, 1.325rem);
+	--fs-600: clamp(1.325rem, 4.5vw, 1.625rem);
+	--fs-700: clamp(1.6rem, 4.5vw, 2rem);
+	--fs-800: clamp(1.9rem, 4.5vw, 2.325rem);
+	--fs-900: clamp(2.5rem, 4.5vw, 3rem);
 
 	/* Spacing */
 	--space-100: 0.25rem;
@@ -166,6 +166,7 @@ h1,
 h2,
 h3 {
 	margin: 0;
+	word-break: break-word;
 }
 
 p,
@@ -187,7 +188,7 @@ span {
 }
 
 h1 {
-	font-size: 6rem;
+	font-size: clamp(3rem, 4.5vw, 6rem);
 	font-weight: bold;
 }
 
