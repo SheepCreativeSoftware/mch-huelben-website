@@ -24,6 +24,7 @@
 
 <script setup lang="ts">
 import MainArticleBase from '../components/base/MainArticleBase.vue';
+
 </script>
 
 <style lang="css" scoped>

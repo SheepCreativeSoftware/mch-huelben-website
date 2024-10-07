@@ -1,5 +1,7 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Category } from './Category.js';
 import { GalleryImages } from './GalleryImages.js';
+import { Pages } from './Pages.js';
 
 /* eslint-disable new-cap -- This is not a constructor */
 @Entity('gallery')
@@ -34,6 +36,22 @@ class Gallery {
 
 	@OneToMany(() => GalleryImages, (image) => image.gallery)
 	images: GalleryImages[];
+
+	@ManyToOne(() => Category, (category) => category.galleries)
+	@JoinColumn({
+		foreignKeyConstraintName: 'fk_gallery_category',
+		name: 'category_id',
+		referencedColumnName: 'identifier',
+	})
+	category: Category;
+
+	@OneToOne(() => Pages)
+	@JoinColumn({
+		foreignKeyConstraintName: 'fk_gallery_page',
+		name: 'page_id',
+		referencedColumnName: 'identifier',
+	})
+	page: Pages | null;
 }
 /* eslint-enable new-cap -- This is not a constructor */
 

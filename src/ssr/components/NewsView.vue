@@ -70,7 +70,6 @@ onBeforeMount(async() => {
 
 article {
 	text-align: left;
-	/* border: 1px solid grey; */
     border-radius: var(--border-radius-lg);
 	box-shadow: var(--box-shadow);
     padding: 1.5rem;
@@ -83,11 +82,12 @@ article {
 
 .creation-date {
 	display: block;
-	font-size: 1rem;
+	font-size: var(--fs-300);
 	padding-top: 0.5rem;
+	color: var(--bg-color-700);
 
 	.update-time {
-		font-size: 1rem;
+		font-size: var(--fs-300);
 	}
 }
 </style>
