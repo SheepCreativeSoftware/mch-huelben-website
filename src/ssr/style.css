@@ -151,14 +151,17 @@
 
 html,
 body {
+	scroll-padding-top: 94px;
+	margin: 0;
+}
+
+body {
 	font-family: var(--body-font-family);
 	font-size: var(--body-font-size);
 	font-weight: var(--body-font-weight);
 	line-height: var(--body-line-height);
 	background-color: var(--bg-color-100);
 	color: var(--body-color);
-	scroll-padding-top: 94px;
-	margin: 0;
 }
 
 p,
@@ -188,7 +191,7 @@ span {
 }
 
 h1 {
-	font-size: clamp(3rem, 4.5vw, 6rem);
+	font-size: clamp(3rem, 7vw, 6rem);
 	font-weight: bold;
 }
 
