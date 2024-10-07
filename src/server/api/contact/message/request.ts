@@ -8,7 +8,7 @@ const RequestBodyContactFormValidator = zod.object({
 	subject: zod.string().min(1),
 }).transform(({ GDPRConfirmation, email, message, name, subject }) => {
 	const escapeString = (value: string): string => {
-		return value.replace(/&/g, '&amp')
+		return value.replace(/&/g, '&amp;')
 			.replace(/</g, '&lt;')
 			.replace(/>/g, '&gt;')
 			.replace(/"/g, '&quot;')
