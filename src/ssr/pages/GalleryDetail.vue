@@ -17,6 +17,23 @@
 				<template #text>
 					{{ gallery.description }}
 				</template>
+				<template #additional>
+					<div>
+						<div
+							v-for="images in imagesCollection"
+							:key="'group-' + images[0].identifier"
+							class="image-collection"
+						>
+							<img
+								v-for="(image, index) in images"
+								:key="image.identifier"
+								:class="`image-item-${index}`"
+								:src="image.imageUrl"
+								:alt="image.description"
+							>
+						</div>
+					</div>
+				</template>
 			</MainArticleBase>
 		</main>
 	</div>
@@ -29,6 +46,7 @@ import { routeOnError } from '../components/route-on-error.ts';
 import { useGalleryStore } from '../stores/gallery-store.ts';
 import { useRouter } from 'vue-router';
 
+const MAX_IMAGES_PER_COLLECTION = 12;
 const galleryStore = useGalleryStore();
 const router = useRouter();
 
@@ -37,6 +55,11 @@ if (typeof technicalName !== 'string') throw new Error('No technical name provid
 
 const gallery = computed(() => {
 	return galleryStore.getGalleryByTechnicalName(technicalName);
+});
+
+const imagesCollection = computed(() => {
+	const images = gallery.value?.images ?? [];
+	return Array.from(images, () => images.splice(0, MAX_IMAGES_PER_COLLECTION));
 });
 
 const updateGalleries = async () => {
@@ -61,5 +84,110 @@ onBeforeMount(async() => {
 .head-image img {
 	object-fit: cover;
 	width: 100%;
+}
+
+.image-collection {
+	display: grid;
+	grid-template-areas:
+		'a a b b c c d d e e'
+		'f f f f f f f f f f'
+		'g g g g h h h h h h'
+		'g g g g h h h h h h'
+		'i i j j h h h h h h'
+		'k k k k k l l l l l'
+}
+
+.image-collection:nth-child(even) {
+	grid-template-areas:
+		'a a b b c c d d e e'
+		'f f f f f f f f f f'
+		'g g g g g g h h h h'
+		'g g g g g g h h h h'
+		'g g g g g g i i j j'
+		'k k k k k l l l l l'
+}
+
+@media(width <= 800px) {
+	.image-collection {
+		display: grid;
+		grid-template-areas:
+			'a a a a a a a a a a b b b b b b b b b b c c c c c c c c c c'
+			'd d d d d d d d d d d d d d d e e e e e e e e e e e e e e e'
+			'f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f'
+			'g g g g g g g g g g g g h h h h h h h h h h h h h h h h h h'
+			'g g g g g g g g g g g g h h h h h h h h h h h h h h h h h h'
+			'i i i i i i j j j j j j h h h h h h h h h h h h h h h h h h'
+			'k k k k k k k k k k k k k k k l l l l l l l l l l l l l l l'
+	}
+
+	.image-collection:nth-child(even) {
+		grid-template-areas:
+			'a a a a a a a a a a b b b b b b b b b b c c c c c c c c c c'
+			'd d d d d d d d d d d d d d d e e e e e e e e e e e e e e e'
+			'f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f'
+			'g g g g g g g g g g g g g g g g g g h h h h h h h h h h h h'
+			'g g g g g g g g g g g g g g g g g g h h h h h h h h h h h h'
+			'g g g g g g g g g g g g g g g g g g i i i i i i j j j j j j'
+			'k k k k k k k k k k k k k k k l l l l l l l l l l l l l l l'
+	}
+}
+
+@media(width <= 700px) {
+	.image-collection, .image-collection:nth-child(even) {
+		display: grid;
+		grid-template-areas:
+			'a a b b'
+			'c c c c'
+			'd d e e'
+			'f f f f'
+			'g g h h'
+			'i i i i'
+			'j j k k'
+			'l l l l'
+	}
+}
+
+@media(width <= 550px) {
+	.image-collection, .image-collection:nth-child(even) {
+		grid-template-areas: unset;
+		grid-template-columns: 1fr;
+	}
+}
+
+.image-item-0 {
+	grid-area: a;
+}
+.image-item-1 {
+	grid-area: b;
+}
+.image-item-2 {
+	grid-area: c;
+}
+.image-item-3 {
+	grid-area: d;
+}
+.image-item-4 {
+	grid-area: e;
+}
+.image-item-5 {
+	grid-area: f;
+}
+.image-item-6 {
+	grid-area: g;
+}
+.image-item-7 {
+	grid-area: h;
+}
+.image-item-8 {
+	grid-area: i;
+}
+.image-item-9 {
+	grid-area: j;
+}
+.image-item-10 {
+	grid-area: k;
+}
+.image-item-11 {
+	grid-area: l;
 }
 </style>
