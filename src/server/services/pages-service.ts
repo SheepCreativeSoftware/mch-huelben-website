@@ -35,7 +35,7 @@ const getPagesData = async ({ technicalName }: StoreServiceOptions): Promise<Pag
 		},
 	});
 
-	if (!page) throw new NotFoundException(`Page ${technicalName} not found`);
+	if (!page) throw new NotFoundException(`Page or content of ${technicalName} not found`);
 	const results = ResponsePagesValidator.safeParse(page);
 	if (!results.success) throw new InternalServerException('Failed to validate response', { cause: results.error.errors });
 

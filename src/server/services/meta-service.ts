@@ -72,9 +72,9 @@ const getMetaData = async ({ technicalName }: { technicalName: string }) => {
 		},
 	});
 
-	if (!metaData) throw new NotFoundException('Meta data not found');
+	if (!metaData) throw new NotFoundException(`Meta data for: "${technicalName}" not found`);
 	const result = ResponseMetaValidator.safeParse(metaData);
-	if (!result.success) throw new InternalServerException('Failed to validate meta data', { cause: result.error.errors });
+	if (!result.success) throw new InternalServerException(`Failed to validate meta data for: ${technicalName}`, { cause: result.error.errors });
 
 	return result.data;
 };

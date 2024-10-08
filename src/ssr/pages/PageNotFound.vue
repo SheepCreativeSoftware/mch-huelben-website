@@ -57,7 +57,7 @@ const router = useRouter();
 .head-image img {
 	object-fit: cover;
 	width: 100%;
-	height: 40vh;
+	max-height: 45vh;
 }
 
 .section-container {
