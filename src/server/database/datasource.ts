@@ -15,7 +15,7 @@ const MARIADB_PORT = 3306;
 const dataSource = new DataSource({
 	database: process.env.DATABASE_NAME,
 	entities: [
-		Category, Content, Gallery, GalleryImages, Events, Meta, News, Pages,
+		Category, Content, Events, Gallery, GalleryImages, Meta, News, Pages,
 	],
 	host: process.env.DATABASE_HOST,
 	logging: false,

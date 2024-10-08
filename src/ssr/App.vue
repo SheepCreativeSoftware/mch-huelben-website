@@ -22,7 +22,7 @@ const updateMeta = async () => {
 	try {
 		let technicalName = router.currentRoute.value.name;
 		if (typeof technicalName !== 'string') return;
-		if (typeof router.currentRoute.value.params.technicalName === 'string') technicalName += `-${router.currentRoute.value.params.technicalName}`;
+		if (typeof router.currentRoute.value.params.technicalName === 'string') technicalName = router.currentRoute.value.params.technicalName;
 
 		await metaStore.fetchMetaData(technicalName);
 		const meta = metaStore.getMetaData(technicalName);

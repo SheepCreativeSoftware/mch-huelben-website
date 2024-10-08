@@ -30,7 +30,9 @@ const ResponseCategoryValidator = zod.array(zod.object({
 	updatedAt: zod.date().nullable(),
 }));
 
-const getGalleriesGroupedByCategory = async () => {
+type GalleriesByCategory = zod.infer<typeof ResponseCategoryValidator>;
+
+const getGalleriesGroupedByCategory = async (): Promise<GalleriesByCategory> => {
 	const categories = await dataSource.getRepository(Category).find({
 		relations: {
 			galleries: {
@@ -49,3 +51,4 @@ const getGalleriesGroupedByCategory = async () => {
 };
 
 export { getGalleriesGroupedByCategory };
+export type { GalleriesByCategory };

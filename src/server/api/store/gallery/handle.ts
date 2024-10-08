@@ -5,9 +5,9 @@ import { StatusCodes } from 'http-status-codes';
 const getGalleryGroupedByCategoryHandle = (): Handler => {
 	return async (_req, res, next) => {
 		try {
-			const galleries = await getGalleriesGroupedByCategory();
+			const galleriesByCategories = await getGalleriesGroupedByCategory();
 
-			res.status(StatusCodes.OK).send(galleries);
+			res.status(StatusCodes.OK).send(galleriesByCategories);
 		} catch (error) {
 			next(error);
 		};

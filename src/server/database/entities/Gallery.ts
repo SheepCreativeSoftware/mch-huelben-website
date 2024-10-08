@@ -1,4 +1,15 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+	Column,
+	CreateDateColumn,
+	Entity,
+	JoinColumn,
+	ManyToOne,
+	OneToMany,
+	OneToOne,
+	PrimaryGeneratedColumn,
+	type Relation,
+	UpdateDateColumn,
+} from 'typeorm';
 import { Category } from './Category.js';
 import { GalleryImages } from './GalleryImages.js';
 import { Pages } from './Pages.js';
@@ -35,7 +46,7 @@ class Gallery {
 	updatedAt: Date | null;
 
 	@OneToMany(() => GalleryImages, (image) => image.gallery)
-	images: GalleryImages[];
+	images: Relation<GalleryImages[]>;
 
 	@ManyToOne(() => Category, (category) => category.galleries)
 	@JoinColumn({
@@ -43,7 +54,7 @@ class Gallery {
 		name: 'category_id',
 		referencedColumnName: 'identifier',
 	})
-	category: Category;
+	category: Relation<Category>;
 
 	@OneToOne(() => Pages)
 	@JoinColumn({
@@ -51,7 +62,7 @@ class Gallery {
 		name: 'page_id',
 		referencedColumnName: 'identifier',
 	})
-	page: Pages | null;
+	page: Relation<Pages> | null;
 }
 /* eslint-enable new-cap -- This is not a constructor */
 

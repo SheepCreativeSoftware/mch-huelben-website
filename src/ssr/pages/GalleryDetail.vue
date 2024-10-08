@@ -31,6 +31,7 @@
 								:src="image.imageUrl"
 								:alt="image.description"
 								:title="image.description"
+								loading="lazy"
 							>
 						</div>
 					</div>
