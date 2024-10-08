@@ -4,7 +4,7 @@
 		<div class="header-container">
 			<div class="head-image">
 				<img
-					src="../assets/overall/overall-3.png"
+					src="../assets/overall/overall-8.jpg"
 					alt="Overall Image"
 				>
 			</div>
@@ -25,7 +25,7 @@
 			<OverallImage>
 				<img
 					loading="lazy"
-					src="../assets/overall/overall-1.png"
+					src="../assets/overall/overall-9.jpg"
 					alt="Overall Image 1"
 				>
 			</OverallImage>

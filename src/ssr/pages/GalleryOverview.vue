@@ -4,7 +4,7 @@
 		<div class="header-container">
 			<div class="head-image">
 				<img
-					src="../assets/overall/overall-1.png"
+					src="../assets/overall/overall-7.jpg"
 					alt="Overall Image"
 				>
 			</div>
