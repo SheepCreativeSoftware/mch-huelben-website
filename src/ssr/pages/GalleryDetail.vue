@@ -53,10 +53,12 @@ const galleryStore = useGalleryStore();
 const router = useRouter();
 
 const technicalName = router.currentRoute.value.params.technicalName;
+const category = router.currentRoute.value.params.category;
 if (typeof technicalName !== 'string') throw new Error('No technical name provided');
+if (typeof category !== 'string') throw new Error('No category provided');
 
 const gallery = computed(() => {
-	return galleryStore.getGalleryByTechnicalName(technicalName);
+	return galleryStore.getGallery(category, technicalName);
 });
 
 const imagesCollection = computed(() => {

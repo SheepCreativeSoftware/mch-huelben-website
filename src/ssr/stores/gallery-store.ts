@@ -58,12 +58,11 @@ const useGalleryStore = defineStore('gallery-store', {
 			const response = GalleryResponseBodyValidator.parse(body);
 			this.$state.categories = response;
 		},
-		getGalleryByTechnicalName(technicalName: string): Category[0]['galleries'][0] | null {
-			const gallerySelection = this.categories.find((category) => {
-				return category.galleries.some((gallery) => gallery.page?.technicalName === technicalName);
-			});
+		getGallery(category: string, technicalName: string): Category[0]['galleries'][0] | null {
+			const galleriesFromCategory = this.categories.find((targetCategory) => targetCategory.technicalName === category);
+			const gallery = galleriesFromCategory?.galleries.find((targetGallery) => targetGallery.page?.technicalName === technicalName);
 
-			return gallerySelection?.galleries[0] ?? null;
+			return gallery ?? null;
 		},
 	},
 	state: (): GalleryStoreState => ({
