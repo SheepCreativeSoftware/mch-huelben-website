@@ -25,7 +25,7 @@ RouterInstance.getInstance().addRoute({
 						return { name: 'gallery-detail', params: { category: 'ausflug', technicalName: 'schweiz-2008' }, query: undefined };
 					case 'neuffen2008':
 						return { name: 'gallery-detail', params: { category: 'ausflug', technicalName: 'neuffen-2008' }, query: undefined };
-					case 'heilbron2009':
+					case 'heilbronn2009':
 						return { name: 'gallery-detail', params: { category: 'ausflug', technicalName: 'heilbronn-2009' }, query: undefined };
 					case 'schweiz2010':
 						return { name: 'gallery-detail', params: { category: 'ausflug', technicalName: 'schweiz-2010' }, query: undefined };
