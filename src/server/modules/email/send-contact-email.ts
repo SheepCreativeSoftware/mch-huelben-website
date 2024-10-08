@@ -3,7 +3,7 @@ import { getSmtpTransport } from './smtp-transport.js';
 
 const baseEmailTemplate = `Hallo,
 
-Dies ist eine Anfrage vom Kontaktformular von ${process.env.HOST}.
+Dies ist eine Anfrage vom Kontaktformular.
 
 Nachricht von: {{name}}
 --------------------------------
@@ -13,6 +13,30 @@ Nachricht von: {{name}}
 -- 
 Gesendet durch Mail-Service von ${process.env.HOST}.`;
 
+const baseEmailHTMLTemplate = `<!DOCTYPE html>
+	<head>
+		<meta charset="utf-8">
+		<title>{{subject}}</title>
+	</head>
+	<body>
+		<p>
+			Hallo,
+			<br><br>
+			Dies ist eine Anfrage vom Kontaktformular.
+			<br><br>
+			<strong>Nachricht von:</strong> {{name}}
+			<br>
+			<hr>
+			{{message}}
+			<hr>
+			<br>
+			<small>
+				Gesendet durch Mail-Service von ${process.env.HOST}.
+			</small>
+		</p>
+	</body>
+</html>`;
+
 const sendContactEmail = async ({ email, message, name, subject }: {
 	email: string,
 	message: string,
@@ -20,9 +44,11 @@ const sendContactEmail = async ({ email, message, name, subject }: {
 	subject: string,
 }): Promise<void> => {
 	const emailInPlainText = baseEmailTemplate.replace('{{message}}', message).replace('{{name}}', name);
+	const emailInPlainHTML = baseEmailHTMLTemplate.replace('{{message}}', message).replace('{{name}}', name);;
 
 	const info = await getSmtpTransport().sendMail({
 		from: `"noreply" <${process.env.SMTP_USER}>`,
+		html: emailInPlainHTML,
 		replyTo: email,
 		subject,
 		text: emailInPlainText,
