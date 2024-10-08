@@ -18,7 +18,7 @@
 					{{ gallery.description }}
 				</template>
 				<template #additional>
-					<div>
+					<div class="image-collection-container">
 						<div
 							v-for="images in imagesCollection"
 							:key="'group-' + images[0].identifier"
@@ -86,6 +86,12 @@ onBeforeMount(async() => {
 .head-image img {
 	object-fit: cover;
 	width: 100%;
+	max-height: 45vh;
+}
+
+.image-collection-container {
+	display: grid;
+	gap: var(--space-200);
 }
 
 .image-collection {
@@ -97,7 +103,11 @@ onBeforeMount(async() => {
 		'g g g g h h h h h h'
 		'g g g g h h h h h h'
 		'i i j j h h h h h h'
-		'k k k k k l l l l l'
+		'k k k k k l l l l l';
+
+	img {
+		aspect-ratio: 2 / 1;
+	}
 }
 
 .image-collection:nth-child(even) {
@@ -107,7 +117,7 @@ onBeforeMount(async() => {
 		'g g g g g g h h h h'
 		'g g g g g g h h h h'
 		'g g g g g g i i j j'
-		'k k k k k l l l l l'
+		'k k k k k l l l l l';
 }
 
 @media(width <= 800px) {
@@ -118,7 +128,7 @@ onBeforeMount(async() => {
 			'f f f f f f'
 			'g g h h i i'
 			'j j j k k k'
-			'l l l l l l'
+			'l l l l l l';
 	}
 }
 
@@ -132,7 +142,7 @@ onBeforeMount(async() => {
 			'g g h h'
 			'i i i i'
 			'j j k k'
-			'l l l l'
+			'l l l l';
 	}
 }
 

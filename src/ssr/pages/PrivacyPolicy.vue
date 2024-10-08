@@ -76,5 +76,6 @@ onBeforeMount(async() => {
 .head-image img {
 	object-fit: cover;
 	width: 100%;
+	max-height: 45vh;
 }
 </style>
