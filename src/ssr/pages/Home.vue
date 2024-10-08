@@ -202,9 +202,6 @@ onBeforeMount(async() => {
 			white-space: nowrap;
 		}
 
-		@media(width < 680px) {
-			font-size: 4.5rem;
-		}
 		@media(prefers-color-scheme: dark) {
 			color: var(--bg-color-800);
 		}
