@@ -3,7 +3,7 @@
 		<RouterLink
 			v-for="gallery in props.galleries"
 			:key="gallery.identifier"
-			:to="{ name: 'gallery-detail', params: { technicalName: gallery.page?.technicalName } }"
+			:to="{ name: 'gallery-detail', params: { category, technicalName: gallery.page?.technicalName } }"
 		>
 			<section
 				class="gallery-item"
@@ -37,6 +37,7 @@ import type { Category } from '../stores/gallery-store.ts';
 import { getDateTimeFormatOptions } from '../../modules/transform/config/date-format-config.ts';
 
 const props = defineProps<{
+	category: Category[0]['technicalName'];
 	galleries: Category[0]['galleries'];
 }>();
 </script>

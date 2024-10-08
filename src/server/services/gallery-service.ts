@@ -25,6 +25,7 @@ const ResponseCategoryValidator = zod.array(zod.object({
 		updatedAt: zod.date().nullable(),
 	})),
 	identifier: zod.string().uuid(),
+	technicalName: zod.string(),
 	title: zod.string(),
 	updatedAt: zod.date().nullable(),
 }));

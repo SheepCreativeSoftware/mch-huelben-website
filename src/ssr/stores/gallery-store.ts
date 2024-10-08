@@ -23,6 +23,7 @@ const GalleryResponseBodyValidator = zod.array(zod.object({
 		updatedAt: zod.string().datetime().nullable(),
 	})),
 	identifier: zod.string().uuid(),
+	technicalName: zod.string(),
 	title: zod.string(),
 	updatedAt: zod.string().datetime().nullable(),
 }));

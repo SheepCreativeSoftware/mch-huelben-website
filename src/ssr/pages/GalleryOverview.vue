@@ -30,6 +30,7 @@
 						</template>
 						<template #additional>
 							<GalleryView
+								:category="category.technicalName"
 								:galleries="category.galleries"
 							/>
 						</template>

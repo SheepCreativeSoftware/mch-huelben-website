@@ -30,6 +30,7 @@
 								:class="`image-item-${index}`"
 								:src="image.imageUrl"
 								:alt="image.description"
+								:title="image.description"
 							>
 						</div>
 					</div>
@@ -88,6 +89,7 @@ onBeforeMount(async() => {
 
 .image-collection {
 	display: grid;
+	gap: var(--space-200);
 	grid-template-areas:
 		'a a b b c c d d e e'
 		'f f f f f f f f f f'
@@ -108,33 +110,19 @@ onBeforeMount(async() => {
 }
 
 @media(width <= 800px) {
-	.image-collection {
-		display: grid;
+	.image-collection, .image-collection:nth-child(even) {
 		grid-template-areas:
-			'a a a a a a a a a a b b b b b b b b b b c c c c c c c c c c'
-			'd d d d d d d d d d d d d d d e e e e e e e e e e e e e e e'
-			'f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f'
-			'g g g g g g g g g g g g h h h h h h h h h h h h h h h h h h'
-			'g g g g g g g g g g g g h h h h h h h h h h h h h h h h h h'
-			'i i i i i i j j j j j j h h h h h h h h h h h h h h h h h h'
-			'k k k k k k k k k k k k k k k l l l l l l l l l l l l l l l'
-	}
-
-	.image-collection:nth-child(even) {
-		grid-template-areas:
-			'a a a a a a a a a a b b b b b b b b b b c c c c c c c c c c'
-			'd d d d d d d d d d d d d d d e e e e e e e e e e e e e e e'
-			'f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f'
-			'g g g g g g g g g g g g g g g g g g h h h h h h h h h h h h'
-			'g g g g g g g g g g g g g g g g g g h h h h h h h h h h h h'
-			'g g g g g g g g g g g g g g g g g g i i i i i i j j j j j j'
-			'k k k k k k k k k k k k k k k l l l l l l l l l l l l l l l'
+			'a a b b c c'
+			'd d d e e e'
+			'f f f f f f'
+			'g g h h i i'
+			'j j j k k k'
+			'l l l l l l'
 	}
 }
 
 @media(width <= 700px) {
 	.image-collection, .image-collection:nth-child(even) {
-		display: grid;
 		grid-template-areas:
 			'a a b b'
 			'c c c c'
@@ -144,13 +132,6 @@ onBeforeMount(async() => {
 			'i i i i'
 			'j j k k'
 			'l l l l'
-	}
-}
-
-@media(width <= 550px) {
-	.image-collection, .image-collection:nth-child(even) {
-		grid-template-areas: unset;
-		grid-template-columns: 1fr;
 	}
 }
 

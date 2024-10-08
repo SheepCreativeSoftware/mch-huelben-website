@@ -37,7 +37,7 @@ RouterInstance.getInstance().addRoute({
 RouterInstance.getInstance().addRoute({
 	component: GalleryDetail,
 	name: 'gallery-detail',
-	path: '/gallerie/:technicalName',
+	path: '/gallerie/:category/:technicalName',
 });
 
 RouterInstance.getInstance().addRoute({
