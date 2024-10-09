@@ -10,7 +10,9 @@ const pagesServiceHelper: StoreService = async ({ technicalName }) => {
 StoreInstance.getInstance().registerStoreOnRoute('/', 'pages-store', pagesServiceHelper, { technicalName: 'home' });
 StoreInstance.getInstance().registerStoreOnRoute('/aktuelles', 'pages-store', pagesServiceHelper, { technicalName: 'news' });
 StoreInstance.getInstance().registerStoreOnRoute('/ueber', 'pages-store', pagesServiceHelper, { technicalName: 'about' });
+StoreInstance.getInstance().registerStoreOnRoute('/gallerie', 'pages-store', pagesServiceHelper, { technicalName: 'gallery-overview' });
 StoreInstance.getInstance().registerStoreOnRoute('/impressum', 'pages-store', pagesServiceHelper, { technicalName: 'imprint' });
+StoreInstance.getInstance().registerStoreOnRoute('/datenschutz', 'pages-store', pagesServiceHelper, { technicalName: 'privacy-policy' });
 
 const DEFAULT_SUBPAGE_COUNT = 10;
 for (let index = 0; index < DEFAULT_SUBPAGE_COUNT; index++) {
