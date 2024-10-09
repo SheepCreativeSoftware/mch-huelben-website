@@ -16,7 +16,7 @@ RouterInstance.getInstance().addRoute({
 			case 'club':
 				return { name: 'about', query: undefined };
 			case 'pics':
-				return { name: 'gallerie', query: undefined };
+				return { name: 'gallery-overview', query: undefined };
 			case 'subpics':
 				switch (route.query.subsite) {
 					case 'noerdlingen2005':
@@ -38,21 +38,21 @@ RouterInstance.getInstance().addRoute({
 					case 'zacke2015':
 						return { name: 'gallery-detail', params: { category: 'ausflug', technicalName: 'zacke-2015' }, query: undefined };
 					case 'austellung2005':
-						return { name: 'gallery-detail', params: { category: 'ausstellung', technicalName: 'ausstellung-2005' }, query: undefined };
+						return { name: 'gallery-detail', params: { category: 'ausstellungen', technicalName: 'ausstellung-2005' }, query: undefined };
 					case 'austellung2006':
-						return { name: 'gallery-detail', params: { category: 'ausstellung', technicalName: 'ausstellung-2006' }, query: undefined };
+						return { name: 'gallery-detail', params: { category: 'ausstellungen', technicalName: 'ausstellung-2006' }, query: undefined };
 					case 'austellung2011':
-						return { name: 'gallery-detail', params: { category: 'ausstellung', technicalName: 'ausstellung-2011' }, query: undefined };
+						return { name: 'gallery-detail', params: { category: 'ausstellungen', technicalName: 'ausstellung-2011' }, query: undefined };
 					case 'austellung2014':
-						return { name: 'gallery-detail', params: { category: 'ausstellung', technicalName: 'ausstellung-2014' }, query: undefined };
+						return { name: 'gallery-detail', params: { category: 'ausstellungen', technicalName: 'ausstellung-2014' }, query: undefined };
 					case 'austellungBoehringen2017':
-						return { name: 'gallery-detail', params: { category: 'ausstellung', technicalName: 'ausstellung-2017' }, query: undefined };
+						return { name: 'gallery-detail', params: { category: 'ausstellungen', technicalName: 'ausstellung-2017' }, query: undefined };
 					case 'langenthal':
-						return { name: 'gallery-detail', params: { category: 'anlagen', technicalName: 'anlage-langenthal' }, query: undefined };
+						return { name: 'gallery-detail', params: { category: 'anlagen', technicalName: 'anbau-langenthal' }, query: undefined };
 					case 'schwarzwaldbahn':
-						return { name: 'gallery-detail', params: { category: 'anlagen', technicalName: 'anlage-schwarzwaldbahn' }, query: undefined };
+						return { name: 'gallery-detail', params: { category: 'anlagen', technicalName: 'schwarzwaldbahn' }, query: undefined };
 					default:
-						return { name: 'gallerie', query: undefined };
+						return { name: 'gallery-overview', query: undefined };
 				}
 			case 'kontakt':
 				return { hash: '#kontakt', name: 'home', query: undefined };
