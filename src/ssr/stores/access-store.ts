@@ -1,18 +1,6 @@
 import { defineStore } from 'pinia';
 import { jwtDecode } from 'jwt-decode';
 
-interface JwtPayload {
-	iss?: string;
-	sub?: string;
-	aud?: string[] | string;
-	exp?: number;
-	nbf?: number;
-	iat?: number;
-	jti?: string;
-	role?: 'User' | 'Admin';
-	userId?: string;
-}
-
 const baseUrl = import.meta.env.SSR ? import.meta.env.VITE_BASE_URL : window.location.origin;
 const TIME_OFFSET = 1000;
 
@@ -37,7 +25,7 @@ const useAccessStore = defineStore('access-store', {
 
 			if (!result.ok) throw new Error('Could not login user');
 
-			const decoded: JwtPayload = jwtDecode(body.token);
+			const decoded = jwtDecode(body.token);
 			if (
 				typeof decoded.exp !== 'number'
 				|| typeof decoded.role !== 'string'
@@ -60,7 +48,7 @@ const useAccessStore = defineStore('access-store', {
 		restoreTokenFromLocalStore(): void {
 			const token = localStorage.getItem('token');
 			if (token) {
-				const decoded: JwtPayload = jwtDecode(token);
+				const decoded = jwtDecode(token);
 				if (
 					typeof decoded.exp !== 'number'
 					|| typeof decoded.role !== 'string'
