@@ -60,6 +60,14 @@ const router = useRouter();
 	max-height: 45vh;
 }
 
+.container-component {
+	max-width: 1200px;
+}
+
+.article-container {
+	padding-top: 0;
+}
+
 .section-container {
 	padding: 4rem 4vw;
 	width: calc(100% - 8vw);

@@ -63,5 +63,10 @@ const router = useRouter();
 .section-container {
 	padding: 4rem 4vw;
 	width: calc(100% - 8vw);
+	max-width: 1200px;
+}
+
+.article-container {
+	padding-top: 0;
 }
 </style>

@@ -71,14 +71,20 @@ const route = router.currentRoute.value;
 	max-height: 45vh;
 }
 
+.article-container {
+	padding-top: 0;
+}
+
 .section-container {
 	padding: 4rem 4vw;
 	width: calc(100% - 8vw);
+	max-width: 1200px;
 }
 
 section {
 	display: flex;
 	flex-direction: column;
+	padding: 0 4vw;
 	gap: var(--space-200);
 
 	a {
