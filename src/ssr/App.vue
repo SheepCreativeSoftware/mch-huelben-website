@@ -12,9 +12,12 @@
 <script setup lang="ts">
 import HeaderNav from './components/HeaderNav.vue';
 import MainFooter from './components/MainFooter.vue';
+import { onMounted } from 'vue';
+import { useAccessStore } from './stores/access-store';
 import { useMetaStore } from './stores/meta-store';
 import { useRouter } from 'vue-router';
 
+const accessStore = useAccessStore();
 const metaStore = useMetaStore();
 const router = useRouter();
 
@@ -40,6 +43,19 @@ if (!import.meta.env.SSR) {
 		await updateMeta();
 	});
 }
+
+const CHECK_EXPIRATION_TIME = 1000;
+const checkUserSession = () => {
+	if (!accessStore.isLoggedIn) accessStore.restoreTokenFromLocalStore();
+
+	setInterval(() => {
+		if (accessStore.isTokenExpired() && accessStore.isLoggedIn) accessStore.logoutUser();
+	}, CHECK_EXPIRATION_TIME);
+};
+
+onMounted(() => {
+	checkUserSession();
+});
 </script>
 
 <style lang="css" scoped>

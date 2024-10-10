@@ -17,4 +17,3 @@ declare global {
 		__pinia: string | undefined;
 	}
 }
-

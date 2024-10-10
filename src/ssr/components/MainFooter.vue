@@ -37,12 +37,28 @@
 					alt="MCH-Hülben Logo"
 				>
 			</ButtonLink>
+			<ButtonLink
+				v-if="!accessStore.isLoggedIn"
+				is-button
+				target-url="/login"
+			>
+				Login
+			</ButtonLink>
+			<button
+				v-else
+				@click="accessStore.logoutUser"
+			>
+				Logout
+			</button>
 		</div>
 	</footer>
 </template>
 
 <script setup lang="ts">
 import ButtonLink from './base/ButtonLink.vue';
+import { useAccessStore } from '../stores/access-store';
+
+const accessStore = useAccessStore();
 
 </script>
 
@@ -93,6 +109,30 @@ footer {
 		.button-link {
 			font-weight: normal;
 		}
+	}
+}
+
+.logo-conatiner {
+	display: flex;
+	gap: var(--space-400);
+	align-items: center;
+	justify-content: center;
+}
+
+button {
+	margin-top: 1rem;
+	background-color: var(--primary-color-500);
+	color: var(--bg-color-900);
+	font-weight: bold;
+	padding: 0.8rem 1.6rem;
+	border-radius: var(--border-radius-xl);
+	border: none;
+	cursor: pointer;
+	width: max-content;
+
+		&:active {
+		transform: translateY(3px);
+		transition: all 0.1s ease;
 	}
 }
 

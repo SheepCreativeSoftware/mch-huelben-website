@@ -8,6 +8,7 @@ import type { UUID } from 'node:crypto';
 if (typeof process.env.SESSION_SECRET === 'undefined') throw new Error('Missing SESSION_SECRET enviroment variable');
 
 const secretKey = process.env.SESSION_SECRET;
+const expiration = process.env.NODE_ENV === 'production' ? '15m' : '1d';
 
 type Payload = {
 	role: 'User' | 'Admin';
@@ -25,7 +26,7 @@ const signJwtToken = (options: Payload): Promise<string> => {
 		algorithm: 'HS256',
 		issuer: process.env.HOST,
 		jwtid: crypto.randomUUID(),
-		expiresIn: '1h',
+		expiresIn: expiration,
 		subject: options.userId,
 	};
 

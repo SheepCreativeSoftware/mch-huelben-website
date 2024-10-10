@@ -4,8 +4,10 @@ import GalleryDetail from './GalleryDetail.vue';
 import GalleryOverview from './GalleryOverview.vue';
 import Home from './Home.vue';
 import Imprint from './Imprint.vue';
+import LoginPage from './LoginPage.vue';
 import NewsPage from './NewsPage.vue';
 import PageCouldNotLoaded from './PageCouldNotLoaded.vue';
+import PageForbidden from './PageForbidden.vue';
 import PageNotFound from './PageNotFound.vue';
 import PrivacyPolicy from './PrivacyPolicy.vue';
 import { RouterInstance } from '../router.js';
@@ -47,6 +49,12 @@ RouterInstance.getInstance().addRoute({
 });
 
 RouterInstance.getInstance().addRoute({
+	component: LoginPage,
+	name: 'login',
+	path: '/login',
+});
+
+RouterInstance.getInstance().addRoute({
 	component: PrivacyPolicy,
 	name: 'privacy-policy',
 	path: '/datenschutz',
@@ -56,6 +64,12 @@ RouterInstance.getInstance().addRoute({
 	component: PageCouldNotLoaded,
 	name: 'could-not-load',
 	path: '/could-not-load',
+});
+
+RouterInstance.getInstance().addRoute({
+	component: PageForbidden,
+	name: 'forbidden',
+	path: '/forbidden',
 });
 
 RouterInstance.getInstance().addRoute({

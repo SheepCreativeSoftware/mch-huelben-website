@@ -2,7 +2,7 @@ import { comparePassword } from '../../../modules/protection/hashPassword.js';
 import { dataSource } from '../../../database/datasource.js';
 import { ForbiddenException } from '../../../modules/misc/custom-errors.js';
 import type { Handler } from 'express';
-import { RequestBodyParser } from './request.js';
+import { RequestBodyValidator } from './request.js';
 import { signJwtToken } from '../../../modules/protection/jwtHandling.js';
 import { StatusCodes } from 'http-status-codes';
 import { User } from '../../../database/entities/User.js';
@@ -10,7 +10,7 @@ import { User } from '../../../database/entities/User.js';
 const loginUserHandle = (): Handler => {
 	return async (req, res, next) => {
 		try {
-			const requestBody = RequestBodyParser.parse(req.body);
+			const requestBody = RequestBodyValidator.parse(req.body);
 
 			const repository = dataSource.getRepository(User);
 			const user = await repository.findOne({
