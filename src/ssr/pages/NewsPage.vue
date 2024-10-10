@@ -4,7 +4,7 @@
 		<div class="header-container">
 			<div class="head-image">
 				<img
-					src="../assets/overall/overall-1.png"
+					src="../assets/overall/overall-10.jpg"
 					alt="Overall Image"
 				>
 			</div>
@@ -131,6 +131,7 @@ onBeforeMount(async() => {
 .head-image img {
 	object-fit: cover;
 	width: 100%;
+	max-height: 45vh;
 }
 
 .navigation-button-container {

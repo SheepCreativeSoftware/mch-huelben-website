@@ -29,7 +29,7 @@
 .article-container {
 	padding: 3rem 4vw;
 	width: calc(100% - 8vw);
-	max-width: 1000px;
+	max-width: 1200px;
 	margin: 0 auto;
 }
 

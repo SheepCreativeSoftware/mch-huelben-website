@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import { Category } from './entities/Category.js';
 import { Content } from './entities/Content.js';
 import { DataSource } from 'typeorm';
 import { Events } from './entities/Events.js';
@@ -15,7 +16,7 @@ const MARIADB_PORT = 3306;
 const dataSource = new DataSource({
 	database: process.env.DATABASE_NAME,
 	entities: [
-		Content, Events, Gallery, GalleryImages, Meta, News, Pages, User,
+		Category, Content, Events, Gallery, GalleryImages, Gallery, GalleryImages, Meta, News, Pages, User,
 	],
 	host: process.env.DATABASE_HOST,
 	logging: false,

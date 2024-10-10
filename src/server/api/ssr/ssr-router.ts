@@ -1,5 +1,6 @@
 import './store-maping/store-mapping.js';
 import { buntstift } from 'buntstift';
+import { deepCopyObject } from '../../modules/misc/object-transform.js';
 import express from 'express';
 import { getMetaDataTags } from '../../services/meta-service.js';
 import { getViteMiddleware } from '../../middleware/vite.js';
@@ -59,8 +60,7 @@ const getSSRRouter = async (): Promise<Router> => {
 			const user = req.user;
 
 			const stores = await StoreInstance.getInstance().getStoresForRoute(url);
-
-			const [appHtml, preloadLinks, currentRoute] = await render(url, manifest, stores, user);
+			const [appHtml, preloadLinks, currentRoute] = await render(url, manifest, deepCopyObject(stores), user);
 
 			const preloadedMeta = await getMetaDataTags(currentRoute);
 

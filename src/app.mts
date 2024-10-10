@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 import { buntstift } from 'buntstift';
 import { dataSource } from './server/database/datasource.js';
-import { getApi } from './server/api/getApi.js';
 import http from 'node:http';
 
 const DEFAULT_PORT = 3_000;
@@ -21,6 +20,9 @@ const main = async () => {
 	} catch (error) {
 		if (error instanceof Error) throw new Error(`Error during Database initialization: ${error.message}\n${error.stack ?? ''}`);
 	}
+
+	// Load API after database has been initialized -- This prevents issues on site effect imports
+	const { getApi } = await import('./server/api/getApi.js');
 
 	// Init server
 	buntstift.info('Starting Server...');

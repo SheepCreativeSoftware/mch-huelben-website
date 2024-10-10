@@ -1,5 +1,6 @@
 import './pages-old-mapping.js';
 import About from './About.vue';
+import GalleryDetail from './GalleryDetail.vue';
 import GalleryOverview from './GalleryOverview.vue';
 import Home from './Home.vue';
 import Imprint from './Imprint.vue';
@@ -29,8 +30,14 @@ RouterInstance.getInstance().addRoute({
 
 RouterInstance.getInstance().addRoute({
 	component: GalleryOverview,
-	name: 'gallerie-overview',
+	name: 'gallery-overview',
 	path: '/gallerie',
+});
+
+RouterInstance.getInstance().addRoute({
+	component: GalleryDetail,
+	name: 'gallery-detail',
+	path: '/gallerie/:category/:technicalName',
 });
 
 RouterInstance.getInstance().addRoute({

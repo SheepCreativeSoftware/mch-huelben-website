@@ -4,7 +4,7 @@
 		<div class="header-container">
 			<div class="head-image">
 				<img
-					src="../assets/overall/overall-3.png"
+					src="../assets/overall/overall-4.jpg"
 					alt="Overall Image"
 				>
 			</div>
@@ -25,7 +25,7 @@
 			<OverallImage>
 				<img
 					loading="lazy"
-					src="../assets/overall/overall-1.png"
+					src="../assets/overall/overall-5.jpg"
 					alt="Overall Image 1"
 				>
 			</OverallImage>
@@ -58,7 +58,7 @@
 			<OverallImage>
 				<img
 					loading="lazy"
-					src="../assets/overall/overall-2.png"
+					src="../assets/overall/overall-6.jpg"
 					alt="Overall Image 1"
 				>
 			</OverallImage>
@@ -125,5 +125,6 @@ onBeforeMount(async() => {
 .head-image img {
 	object-fit: cover;
 	width: 100%;
+	max-height: 45vh;
 }
 </style>
