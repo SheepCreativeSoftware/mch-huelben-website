@@ -107,7 +107,7 @@ const submitLoginForm = async (event: Event) => {
 }
 
 .login-failed {
-	color: var(--error-color-500);
+	color: var(--danger-color);
 	font-weight: bold;
 }
 
