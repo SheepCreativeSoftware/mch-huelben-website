@@ -12,7 +12,7 @@ import express from 'express';
 import { getCorsConfig } from '../config/cors-config.js';
 import { getMainRouter } from './main-router.js';
 import { getSSRRouter } from './ssr/ssr-router.js';
-import { jwtAuthorizationHandler } from '../modules/protection/jwtAuthorization.js';
+import { jwtAuthorizationHandler } from '../modules/protection/jwt-authorization.js';
 import sirv from 'sirv';
 
 if (typeof process.env.URL === 'undefined') throw new Error('Missing URL enviroment parameter');

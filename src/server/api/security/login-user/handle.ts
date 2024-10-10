@@ -1,4 +1,4 @@
-import { comparePassword } from '../../../modules/protection/hashPassword.js';
+import { comparePassword } from '../../../modules/protection/hash-password.js';
 import { dataSource } from '../../../database/datasource.js';
 import { ForbiddenException } from '../../../modules/misc/custom-errors.js';
 import type { Handler } from 'express';

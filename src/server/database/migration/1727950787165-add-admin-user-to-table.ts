@@ -1,5 +1,5 @@
 import type { MigrationInterface, QueryRunner } from 'typeorm';
-import { hashPassword } from '../../modules/protection/hashPassword.js';
+import { hashPassword } from '../../modules/protection/hash-password.js';
 export class AddAdminUserToTable1727950787165 implements MigrationInterface {
 	// eslint-disable-next-line id-length -- This is a method from the interface
 	public async up(queryRunner: QueryRunner): Promise<void> {
