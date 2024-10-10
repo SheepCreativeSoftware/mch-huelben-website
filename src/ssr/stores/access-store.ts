@@ -21,9 +21,9 @@ const useAccessStore = defineStore('access-store', {
 				},
 				method: 'POST',
 			});
-			const body = await result.json();
-
 			if (!result.ok) throw new Error('Could not login user');
+
+			const body = await result.json();
 
 			const decoded = jwtDecode(body.token);
 			if (
