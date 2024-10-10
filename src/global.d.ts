@@ -2,19 +2,10 @@ import type { UUID } from 'node:crypto';
 
 declare global {
 	namespace Express {
-		interface CreatorUser {
-			role: 'Creator';
+		interface User {
+			role: 'User' | 'Admin';
 			userId: UUID;
 		}
-
-		interface AnswererUser {
-			role: 'Answerer';
-			surveyId: UUID;
-			endDate: string;
-			answererId: UUID;
-		}
-
-		type User = CreatorUser | AnswererUser;
 
 		interface Request {
 			user?: User | undefined;
@@ -26,4 +17,3 @@ declare global {
 		__pinia: string | undefined;
 	}
 }
-

@@ -12,6 +12,7 @@ import express from 'express';
 import { getCorsConfig } from '../config/cors-config.js';
 import { getMainRouter } from './main-router.js';
 import { getSSRRouter } from './ssr/ssr-router.js';
+import { jwtAuthorizationHandler } from '../modules/protection/jwtAuthorization.js';
 import sirv from 'sirv';
 
 if (typeof process.env.URL === 'undefined') throw new Error('Missing URL enviroment parameter');
@@ -38,16 +39,11 @@ const getApi = async (): Promise<Application> => {
 		app.use(base, sirv('./public', { extensions: [] }));
 	}
 
+	// Autorization if token is present
+	app.use(jwtAuthorizationHandler());
+
 	app.use('/api', getMainRouter());
 	app.use(await getSSRRouter());
-
-	// Setup user authentification routes and authorization middleware
-
-	// App.use(jwtAuthorizationHandler());
-
-	// Setup Protected Routes
-
-	// App.use(userAuthorizedHandler());
 
 	// Handle errors
 	app.use(logOnError);
