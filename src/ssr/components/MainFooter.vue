@@ -28,6 +28,7 @@
 			<span id="created-by">Created by M.Egner</span>
 		</nav>
 		<div class="logo-conatiner">
+			<div><!-- Intentionally left blank for grid container--></div>
 			<ButtonLink
 				target-url="/"
 			>
@@ -39,6 +40,7 @@
 			</ButtonLink>
 			<ButtonLink
 				v-if="!accessStore.isLoggedIn"
+				id="login-button"
 				is-button
 				target-url="/login"
 			>
@@ -113,10 +115,19 @@ footer {
 }
 
 .logo-conatiner {
-	display: flex;
-	gap: var(--space-400);
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	width: 100%;
 	align-items: center;
-	justify-content: center;
+	justify-items: center;
+
+	& :last-child {
+		justify-self: end;
+	}
+}
+
+#login-button {
+	font-size: var(--fs-400);
 }
 
 button {

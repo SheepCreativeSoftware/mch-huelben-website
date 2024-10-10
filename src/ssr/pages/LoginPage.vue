@@ -30,8 +30,6 @@
 					<form
 						ref="login-form"
 						class="login-form"
-						action="/api/security/login"
-						method="post"
 						@submit="submitLoginForm"
 					>
 						<label
@@ -67,20 +65,12 @@
 					</form>
 				</template>
 			</MainArticleBase>
-			<OverallImage>
-				<img
-					loading="lazy"
-					src="../assets/overall/overall-12.jpg"
-					alt="Overall Image 1"
-				>
-			</OverallImage>
 		</main>
 	</div>
 </template>
 
 <script setup lang="ts">
 import MainArticleBase from '../components/base/MainArticleBase.vue';
-import OverallImage from '../components/base/OverallImage.vue';
 import { ref } from 'vue';
 import { useAccessStore } from '../stores/access-store';
 import { useRouter } from 'vue-router';

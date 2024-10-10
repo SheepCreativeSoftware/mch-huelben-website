@@ -26,15 +26,14 @@ const loadInitialStoreOnRoute = (pinia: Pinia): NavigationGuardWithThis<undefine
 const checkAuthRoleOnRoute = (pinia: Pinia): NavigationGuardWithThis<undefined> => {
 	return (routeTo) => {
 		if (!import.meta.env.SSR) {
+			const accessStore = useAccessStore(pinia);
 			if (routeTo.meta.requiresAuthRole && routeTo.name !== 'login') {
-				const accessStore = useAccessStore(pinia);
+				if (routeTo.meta.requiresAuthRole.length >= 1 && !accessStore.isLoggedIn) return { name: 'login' };
 
-				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Could be nullish
-				if (routeTo.meta.requiresAuthRole?.length >= 1 && !accessStore.isLoggedIn) return { name: 'login' };
 				// @ts-expect-error -- This intentionally checks if role is set
-				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Could be nullish
-				if (!routeTo.meta.requiresAuthRole?.includes(accessStore.role)) return { name: 'forbidden' };
+				if (!routeTo.meta.requiresAuthRole.includes(accessStore.role)) return { name: 'forbidden' };
 			}
+			if (routeTo.name === 'login' && accessStore.isLoggedIn) return { name: 'home' };
 		}
 		return true;
 	};
