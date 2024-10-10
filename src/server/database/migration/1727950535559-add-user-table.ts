@@ -11,7 +11,8 @@ export class AddUserTable1727950535559 implements MigrationInterface {
 			active BOOLEAN NOT NULL DEFAULT TRUE,
 			created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			updated_at TIMESTAMP DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-			PRIMARY KEY (id)
+			PRIMARY KEY (id),
+			UNIQUE (email)
 		)`);
 	}
 

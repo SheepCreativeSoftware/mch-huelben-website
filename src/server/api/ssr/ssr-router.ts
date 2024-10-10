@@ -42,7 +42,7 @@ const getSSRRouter = async (): Promise<Router> => {
 
 			let template = '';
 			// eslint-disable-next-line init-declarations, no-shadow, @stylistic/max-len -- Typescript cannot infer the type of render in this case
-			let render: (url: string, manifest: Record<string, string[] | undefined>, stores: Record<string, StateTree>, user?: Express.User) => Promise<[string, string, RouteLocationNormalizedLoadedGeneric]>;
+			let render: (url: string, manifest: Record<string, string[] | undefined>, stores: Record<string, StateTree>) => Promise<[string, string, RouteLocationNormalizedLoadedGeneric]>;
 			if (isProduction) {
 				template = indexProd;
 
@@ -57,10 +57,8 @@ const getSSRRouter = async (): Promise<Router> => {
 					.entryServer;
 			}
 
-			const user = req.user;
-
 			const stores = await StoreInstance.getInstance().getStoresForRoute(url);
-			const [appHtml, preloadLinks, currentRoute] = await render(url, manifest, deepCopyObject(stores), user);
+			const [appHtml, preloadLinks, currentRoute] = await render(url, manifest, deepCopyObject(stores));
 
 			const preloadedMeta = await getMetaDataTags(currentRoute);
 
