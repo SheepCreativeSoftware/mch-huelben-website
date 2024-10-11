@@ -117,18 +117,5 @@ onBeforeMount(async() => {
 
 .edit-button {
 	margin-left: 1rem;
-	background-color: var(--primary-color-500);
-	color: var(--bg-color-900);
-	font-weight: bold;
-	padding: 0.8rem 1.6rem;
-	border-radius: var(--border-radius-xl);
-	border: none;
-	cursor: pointer;
-	width: max-content;
-
-		&:active {
-		transform: translateY(3px);
-		transition: all 0.1s ease;
-	}
 }
 </style>

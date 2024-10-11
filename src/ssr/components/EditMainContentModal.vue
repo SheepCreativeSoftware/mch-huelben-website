@@ -4,6 +4,12 @@
 	>
 		<div>
 			<h3>Seiteninhalt bearbeiten</h3>
+			<div
+				v-if="state.onError"
+				class="modal-error"
+			>
+				{{ state.onError }}
+			</div>
 			<label for="title">
 				Titel
 			</label>
@@ -43,6 +49,7 @@ const state = reactive({
 	identifier: '',
 	content: '',
 	title: '',
+	onError: '',
 });
 
 const modal = useTemplateRef('modal');
@@ -76,6 +83,11 @@ const saveMainContent = async () => {
 		});
 		closeModal();
 	} catch (error) {
+		if (error instanceof Error) {
+			state.onError = error.message;
+			return;
+		}
+		// eslint-disable-next-line no-console -- unknown error handling
 		console.error(error);
 	}
 };
@@ -85,18 +97,10 @@ const saveMainContent = async () => {
 <style lang="css" scoped>
 button {
 	margin-top: 1rem;
-	background-color: var(--primary-color-500);
-	color: var(--bg-color-900);
-	font-weight: bold;
-	padding: 0.8rem 1.6rem;
-	border-radius: var(--border-radius-xl);
-	border: none;
-	cursor: pointer;
-	width: max-content;
+}
 
-		&:active {
-		transform: translateY(3px);
-		transition: all 0.1s ease;
-	}
+.modal-error {
+	color: var(--danger-color);
+	font-weight: bold;
 }
 </style>
