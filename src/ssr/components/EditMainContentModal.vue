@@ -18,19 +18,28 @@
 				v-model="state.title"
 				type="text"
 			>
-			<button @click="saveMainContent">
-				Speichern
-			</button>
-			<button @click="closeModal">
-				Schließen
-			</button>
+			<div id="editor">
+				<div
+					v-html="state.content"
+				/>
+			</div>
+			<div>
+				<button @click="saveMainContent">
+					Speichern
+				</button>
+				<button @click="closeModal">
+					Schließen
+				</button>
+			</div>
 		</div>
 	</dialog>
 </template>
 
 <script setup lang="ts">
+import '../assets/quill.snow.css';
 import { reactive, useTemplateRef, watch } from 'vue';
 import { usePagesStore } from '../stores/pages-store';
+import type Quill from 'quill';
 
 const pagesStore = usePagesStore();
 
@@ -54,11 +63,42 @@ const state = reactive({
 
 const modal = useTemplateRef('modal');
 
-const openModal = () => {
+const toolbarOptions = [
+	[
+		'bold', 'italic', 'underline', 'strike',
+	],        // Toggled buttons
+	['blockquote', 'code-block'],
+	['link'],
+
+	[{ 'header': 2 }, { 'header': 3 }, { 'header': 4 }],               // Custom button values
+	[{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
+	[{ 'indent': '-1' }, { 'indent': '+1' }],          // Outdent/indent
+
+	[{ 'align': [] }],
+
+	['clean'],                                         // Remove formatting button
+];
+
+let quill: Quill | null;
+
+const openModal = async () => {
 	modal.value?.showModal();
 	state.identifier = props.identifier;
 	state.content = props.content;
 	state.title = props.title;
+	console.log(state.content);
+	const Quill = (await import('quill')).default;
+	quill = new Quill('#editor', {
+		formats: [
+			'align', 'bold', 'blockquote', 'code', 'code-block', 'direction', 'header', 'indent', 'list', 'italic', 'link', 'list', 'strike', 'underline',
+		],
+		modules: {
+			toolbar: toolbarOptions,
+		},
+		theme: 'snow',
+		placeholder: 'Text eingeben...',
+	});
+	console.log(quill.getSemanticHTML());
 };
 
 const closeModal = () => {
@@ -66,6 +106,11 @@ const closeModal = () => {
 	state.identifier = '';
 	state.content = '';
 	state.title = '';
+	console.log(quill);
+	// Remove toolbox
+	quill?.theme.modules.toolbar?.container.remove();
+	// Remove clipboard
+	quill = null;
 	emits('close');
 };
 
