@@ -4,4 +4,10 @@ const RequestPagesQueryValidator = zod.object({
 	technicalName: zod.string(),
 });
 
-export { RequestPagesQueryValidator };
+const RequestEditPagesContentBodyValidator = zod.object({
+	content: zod.string().optional(),
+	identifier: zod.string().uuid(),
+	title: zod.string().optional(),
+});
+
+export { RequestEditPagesContentBodyValidator, RequestPagesQueryValidator };

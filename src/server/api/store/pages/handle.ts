@@ -1,6 +1,6 @@
-import { getPagesData } from '../../../services/pages-service.js';
+import { editPageContent, getPagesData } from '../../../services/pages-service.js';
+import { RequestEditPagesContentBodyValidator, RequestPagesQueryValidator } from './request.js';
 import type { Handler } from 'express';
-import { RequestPagesQueryValidator } from './request.js';
 import { StatusCodes } from 'http-status-codes';
 
 const getPagesHandle = (): Handler => {
@@ -17,4 +17,18 @@ const getPagesHandle = (): Handler => {
 	};
 };
 
-export { getPagesHandle };
+const getEditPagesContentHandle = (): Handler => {
+	return async (req, res, next) => {
+		try {
+			const requestBody = RequestEditPagesContentBodyValidator.parse(req.body);
+
+			await editPageContent(requestBody);
+
+			res.status(StatusCodes.OK).send({ message: 'Page content updated' });
+		} catch (error) {
+			next(error);
+		}
+	};
+};
+
+export { getEditPagesContentHandle, getPagesHandle };

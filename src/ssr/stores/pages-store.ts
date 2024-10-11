@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { useAccessStore } from './access-store';
 import { z as zod } from 'zod';
 
 const PagesResponseBodyValidator = zod.object({
@@ -23,8 +24,6 @@ const baseUrl = import.meta.env.SSR ? import.meta.env.VITE_BASE_URL : window.loc
 const usePagesStore = defineStore('pages-store', {
 	actions: {
 		async fetchPageData(technicalName: string): Promise<void> {
-			if (typeof this.$state[technicalName] !== 'undefined') return;
-
 			const url = new URL('/api/store/pages', baseUrl);
 			url.searchParams.append('technicalName', technicalName);
 			const response = await fetch(url);
@@ -46,6 +45,35 @@ const usePagesStore = defineStore('pages-store', {
 		getPage(technicalName: string): Pages['contents'] {
 			if (typeof this.$state[technicalName] === 'undefined') return [];
 			return this.$state[technicalName];
+		},
+		async updatePagesContent({ identifier, content, title }: { identifier: string; content?: string, title?: string }): Promise<void> {
+			const accessStore = useAccessStore();
+			const url = new URL('/api/store/pages/edit-content', baseUrl);
+
+			const body = {
+				content,
+				identifier,
+				title,
+			};
+
+			const result = await fetch(url, {
+				body: JSON.stringify(body),
+				headers: {
+					'Authorization': `Bearer ${accessStore.token}`,
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+			});
+
+			if (!result.ok) {
+				throw new Error('Could not update page content', {
+					cause: {
+						response: JSON.stringify(result),
+						status: result.status,
+						statusText: result.statusText,
+					},
+				});
+			}
 		},
 	},
 	state: (): PageStoreState => ({}),

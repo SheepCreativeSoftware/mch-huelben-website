@@ -16,6 +16,13 @@
 			>
 				<template #title>
 					{{ content.title }}
+					<button
+						v-if="accessStore.isLoggedIn"
+						class="edit-button"
+						@click="openEditContentModal(content)"
+					>
+						Bearbeiten
+					</button>
 				</template>
 				<template #text>
 					<!--eslint-disable-next-line vue/no-v-html -- this is an html content-->
@@ -30,17 +37,28 @@
 				>
 			</OverallImage>
 		</main>
+		<EditMainContentModal
+			v-if="accessStore.isLoggedIn"
+			:content="editContentModal.content"
+			:title="editContentModal.title"
+			:identifier="editContentModal.identifier"
+			:show="editContentModal.show"
+			@close="closeEditContentModal"
+		/>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount } from 'vue';
+import { computed, onBeforeMount, reactive } from 'vue';
+import EditMainContentModal from '../components/EditMainContentModal.vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import OverallImage from '../components/base/OverallImage.vue';
 import { routeOnError } from '../components/route-on-error';
+import { useAccessStore } from '../stores/access-store';
 import { usePagesStore } from '../stores/pages-store';
 import { useRouter } from 'vue-router';
 
+const accessStore = useAccessStore();
 const pagesStore = usePagesStore();
 const router = useRouter();
 const technicalName = router.currentRoute.value.name;
@@ -66,6 +84,25 @@ const updatePages = async () => {
 	}
 };
 
+const editContentModal = reactive({
+	show: false,
+	content: '',
+	title: '',
+	identifier: '',
+});
+
+const openEditContentModal = (content: { content: string; title: string; identifier: string }) => {
+	editContentModal.show = true;
+	editContentModal.content = content.content;
+	editContentModal.title = content.title;
+	editContentModal.identifier = content.identifier;
+};
+
+const closeEditContentModal = async () => {
+	editContentModal.show = false;
+	await updatePages();
+};
+
 onBeforeMount(async() => {
 	await updatePages();
 });
@@ -76,5 +113,22 @@ onBeforeMount(async() => {
 	object-fit: cover;
 	width: 100%;
 	max-height: 45vh;
+}
+
+.edit-button {
+	margin-left: 1rem;
+	background-color: var(--primary-color-500);
+	color: var(--bg-color-900);
+	font-weight: bold;
+	padding: 0.8rem 1.6rem;
+	border-radius: var(--border-radius-xl);
+	border: none;
+	cursor: pointer;
+	width: max-content;
+
+		&:active {
+		transform: translateY(3px);
+		transition: all 0.1s ease;
+	}
 }
 </style>

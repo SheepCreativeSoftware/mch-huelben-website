@@ -3,7 +3,7 @@ import { dataSource } from '../../../database/datasource.js';
 import { ForbiddenException } from '../../../modules/misc/custom-errors.js';
 import type { Handler } from 'express';
 import { RequestBodyValidator } from './request.js';
-import { signJwtToken } from '../../../modules/protection/jwtHandling.js';
+import { signJwtToken } from '../../../modules/protection/jwt-handling.js';
 import { StatusCodes } from 'http-status-codes';
 import { User } from '../../../database/entities/User.js';
 

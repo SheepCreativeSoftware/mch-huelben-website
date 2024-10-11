@@ -1,6 +1,6 @@
 import { BadRequestException, UnauthorizedException } from '../misc/custom-errors.js';
 import type { Handler } from 'express';
-import { verifyJwtToken } from './jwtHandling.js';
+import { verifyJwtToken } from './jwt-handling.js';
 
 const jwtAuthorizationHandler = (): Handler => {
 	return async (req, _res, next) => {
