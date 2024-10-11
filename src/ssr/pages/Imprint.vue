@@ -38,11 +38,10 @@
 			</OverallImage>
 		</main>
 		<EditMainContentModal
-			v-if="accessStore.isLoggedIn"
+			v-if="accessStore.isLoggedIn && editContentModal.show"
 			:content="editContentModal.content"
 			:title="editContentModal.title"
 			:identifier="editContentModal.identifier"
-			:show="editContentModal.show"
 			@close="closeEditContentModal"
 		/>
 	</div>

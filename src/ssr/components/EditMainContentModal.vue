@@ -1,6 +1,7 @@
 <template>
 	<dialog
 		ref="modal"
+		class="modal"
 	>
 		<div>
 			<h3>Seiteninhalt bearbeiten</h3>
@@ -10,21 +11,19 @@
 			>
 				{{ state.onError }}
 			</div>
-			<label for="title">
-				Titel
-			</label>
 			<input
 				id="title"
 				v-model="state.title"
 				type="text"
 			>
-			<div id="editor">
-				<div
-					v-html="state.content"
-				/>
+			<div class="editor-container">
+				<div id="editor">
+					<!-- eslint-disable-next-line vue/no-v-html -->
+					<div v-html="state.content"	/>
+				</div>
 			</div>
-			<div>
-				<button @click="saveMainContent">
+			<div class="button-container">
+				<button @click="updateContent">
 					Speichern
 				</button>
 				<button @click="closeModal">
@@ -37,9 +36,10 @@
 
 <script setup lang="ts">
 import '../assets/quill.snow.css';
-import { reactive, useTemplateRef, watch } from 'vue';
-import { usePagesStore } from '../stores/pages-store';
+import { getQuillDefaultOptions, getQuillRichTextEditor, removeQuillInstance } from '../modules/quill-rich-text-editor';
+import { onMounted, reactive, useTemplateRef } from 'vue';
 import type Quill from 'quill';
+import { usePagesStore } from '../stores/pages-store';
 
 const pagesStore = usePagesStore();
 
@@ -47,7 +47,6 @@ const props = defineProps<{
 	identifier: string;
 	title: string,
 	content: string,
-	show: boolean,
 }>();
 
 const emits = defineEmits<{
@@ -62,43 +61,15 @@ const state = reactive({
 });
 
 const modal = useTemplateRef('modal');
-
-const toolbarOptions = [
-	[
-		'bold', 'italic', 'underline', 'strike',
-	],        // Toggled buttons
-	['blockquote', 'code-block'],
-	['link'],
-
-	[{ 'header': 2 }, { 'header': 3 }, { 'header': 4 }],               // Custom button values
-	[{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
-	[{ 'indent': '-1' }, { 'indent': '+1' }],          // Outdent/indent
-
-	[{ 'align': [] }],
-
-	['clean'],                                         // Remove formatting button
-];
-
-let quill: Quill | null;
+let quill: Quill | null = null;
 
 const openModal = async () => {
 	modal.value?.showModal();
 	state.identifier = props.identifier;
 	state.content = props.content;
 	state.title = props.title;
-	console.log(state.content);
-	const Quill = (await import('quill')).default;
-	quill = new Quill('#editor', {
-		formats: [
-			'align', 'bold', 'blockquote', 'code', 'code-block', 'direction', 'header', 'indent', 'list', 'italic', 'link', 'list', 'strike', 'underline',
-		],
-		modules: {
-			toolbar: toolbarOptions,
-		},
-		theme: 'snow',
-		placeholder: 'Text eingeben...',
-	});
-	console.log(quill.getSemanticHTML());
+	const QuillRichTextEditor = await getQuillRichTextEditor();
+	quill = new QuillRichTextEditor('#editor', getQuillDefaultOptions());
 };
 
 const closeModal = () => {
@@ -106,26 +77,21 @@ const closeModal = () => {
 	state.identifier = '';
 	state.content = '';
 	state.title = '';
-	console.log(quill);
-	// Remove toolbox
-	quill?.theme.modules.toolbar?.container.remove();
-	// Remove clipboard
+	state.onError = '';
+
+	if (quill) removeQuillInstance(quill);
 	quill = null;
 	emits('close');
 };
 
-watch(() => props.show, (show) => {
-	if (show) openModal();
-	else closeModal();
-});
-
-const saveMainContent = async () => {
+const updateContent = async () => {
 	try {
 		await pagesStore.updatePagesContent({
 			identifier: state.identifier,
 			title: state.title,
-			content: state.content,
+			content: quill?.root.innerHTML,
 		});
+
 		closeModal();
 	} catch (error) {
 		if (error instanceof Error) {
@@ -137,9 +103,30 @@ const saveMainContent = async () => {
 	}
 };
 
+onMounted(async () => {
+	await openModal();
+});
 </script>
 
 <style lang="css" scoped>
+.modal {
+	max-width: 1200px;
+	border: 1px solid var(--bg-color-700);
+	border-radius: var(--border-radius-md);
+	> div {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+}
+
+.button-container {
+	display: flex;
+	justify-content: center;
+	gap: var(--space-400);
+	margin-top: 1rem;
+}
+
 button {
 	margin-top: 1rem;
 }
@@ -147,5 +134,26 @@ button {
 .modal-error {
 	color: var(--danger-color);
 	font-weight: bold;
+}
+
+.editor-container {
+	margin-top: 1rem;
+
+	#editor {
+		overflow-y: auto;
+		max-height: 500px;
+		max-width: 1200px;
+	}
+}
+
+.editor-container, input {
+	background-color: var(--bg-color-300);
+	border: 1px solid var(--bg-color-700);
+	border-radius: var(--border-radius-md);
+}
+
+input {
+	margin-top: 1rem;
+	padding: 0.3rem 1rem;
 }
 </style>
