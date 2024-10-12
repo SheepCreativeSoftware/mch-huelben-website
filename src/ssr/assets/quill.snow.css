@@ -72,7 +72,6 @@
 .ql-editor h4,
 .ql-editor h5,
 .ql-editor h6 {
-	margin: 0;
 	padding: 0;
 }
 @supports (counter-set: none) {
