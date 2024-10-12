@@ -2,6 +2,7 @@ import type Quill from 'quill';
 import type { QuillOptions } from 'quill';
 
 const getQuillRichTextEditor = async () => {
+	if (import.meta.env.SSR) throw new Error('Quill cannot be loaded in a server environment');
 	// Dynamic import is used because Quill can only be loaded in the browser
 	return (await import('quill')).default;
 };
