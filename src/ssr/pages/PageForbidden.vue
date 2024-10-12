@@ -18,16 +18,16 @@
 						Client Error
 					</template>
 					<template #text>
-						<strong>404 - Seite nicht gefunden</strong>
+						<strong>403 - Forbidden</strong>
 					</template>
 				</MainArticleBase>
 				<SubArticleBase>
 					<template #title>
-						Die Seite konnte nicht gefunden werden
+						Sie haben keine Berechtigung für diese Seite
 					</template>
 					<template #text>
-						Die von dir gesuchte Seite konnte nicht gefunden werden.<br>
-						Die Seite existiert nicht oder wurde an einen anderen Ort verschoben.<br>
+						Die von dir gesuchte Seite konnte nicht aufgerufen werden.<br>
+						Bitte überprüfe deine Berechtigungen und versuche es erneut oder wende dich an den Administrator.<br>
 						Bitte überprüfe die <abbr
 							title="Mit der URL wird eine Adresse bezeichnet, die auf eine Internetadresse einer Webseite verweißt"
 						>
@@ -60,16 +60,13 @@ const router = useRouter();
 	max-height: 45vh;
 }
 
-.container-component {
+.section-container {
+	padding: 4rem 4vw;
+	width: calc(100% - 8vw);
 	max-width: 1200px;
 }
 
 .article-container {
 	padding-top: 0;
-}
-
-.section-container {
-	padding: 4rem 4vw;
-	width: calc(100% - 8vw);
 }
 </style>

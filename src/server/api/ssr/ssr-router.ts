@@ -1,4 +1,4 @@
-import './store-maping/store-mapping.js';
+import './store-mapping/store-mapping.js';
 import { buntstift } from 'buntstift';
 import { deepCopyObject } from '../../modules/misc/object-transform.js';
 import express from 'express';
