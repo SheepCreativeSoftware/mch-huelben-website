@@ -87,10 +87,12 @@ const closeModal = () => {
 
 const updateContent = async () => {
 	try {
+		let quillHtmlContent = quill?.getSemanticHTML();
+		if (quillHtmlContent) quillHtmlContent = quillHtmlContent.replaceAll('<p></p>', '<p><br></p>');
 		await pagesStore.updatePagesContent({
 			identifier: state.identifier,
 			title: state.title,
-			content: quill?.root.innerHTML,
+			content: quillHtmlContent,
 		});
 
 		closeModal();
