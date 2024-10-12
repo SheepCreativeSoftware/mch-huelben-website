@@ -3,7 +3,7 @@ import {
 	errorHandler,
 	logOnError,
 	notFoundHandler,
-} from '../modules/handler/errorHandlers.js';
+} from '../modules/handler/error-handlers.js';
 import type { Application } from 'express';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';

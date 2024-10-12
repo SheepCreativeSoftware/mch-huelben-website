@@ -86,7 +86,7 @@ import { computed, onBeforeMount } from 'vue';
 import ContactForm from '../components/ContactForm.vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import OverallImage from '../components/base/OverallImage.vue';
-import { routeOnError } from '../components/route-on-error';
+import { routeOnError } from '../modules/route-on-error';
 import SubArticleBase from '../components/base/SubArticleBase.vue';
 import { usePagesStore } from '../stores/pages-store';
 import { useRouter } from 'vue-router';

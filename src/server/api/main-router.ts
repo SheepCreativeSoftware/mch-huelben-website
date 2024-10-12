@@ -1,7 +1,7 @@
-import { clientErrorHandler, errorHandler, logOnError, notFoundHandler } from '../modules/handler/errorHandlers.js';
+import { clientErrorHandler, errorHandler, logOnError, notFoundHandler } from '../modules/handler/error-handlers.js';
 import { contactRouter } from './contact/router.js';
+import { entityRouter } from './entity/router.js';
 import express from 'express';
-import { newsRouter } from './store/router.js';
 import type { Router } from 'express';
 import { securityRouter } from './security/router.js';
 
@@ -9,9 +9,9 @@ const getMainRouter = (): Router => {
 	// eslint-disable-next-line new-cap -- This is not a constructor
 	const router = express.Router();
 
-	router.use(newsRouter);
-	router.use(contactRouter);
-	router.use(securityRouter);
+	router.use('/entity', entityRouter);
+	router.use('/contact', contactRouter);
+	router.use('/security', securityRouter);
 
 	// Handle errors
 	router.use(logOnError);

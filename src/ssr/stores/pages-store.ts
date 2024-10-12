@@ -24,7 +24,7 @@ const baseUrl = import.meta.env.SSR ? import.meta.env.VITE_BASE_URL : window.loc
 const usePagesStore = defineStore('pages-store', {
 	actions: {
 		async fetchPageData(technicalName: string): Promise<void> {
-			const url = new URL('/api/store/pages', baseUrl);
+			const url = new URL('/api/entity/pages', baseUrl);
 			url.searchParams.append('technicalName', technicalName);
 			const response = await fetch(url);
 			const body = await response.json();
@@ -48,7 +48,7 @@ const usePagesStore = defineStore('pages-store', {
 		},
 		async updatePagesContent({ identifier, content, title }: { identifier: string; content?: string, title?: string }): Promise<void> {
 			const accessStore = useAccessStore();
-			const url = new URL('/api/store/pages/edit-content', baseUrl);
+			const url = new URL('/api/entity/content/update', baseUrl);
 
 			const body = {
 				content,

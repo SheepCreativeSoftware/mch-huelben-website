@@ -59,7 +59,7 @@ import ButtonLink from '../components/base/ButtonLink.vue';
 import ContainerComponent from '../components/base/ContainerComponent.vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import NewsView from '../components/NewsView.vue';
-import { routeOnError } from '../components/route-on-error';
+import { routeOnError } from '../modules/route-on-error';
 import { useNewsStore } from '../stores/news-store';
 import { usePagesStore } from '../stores/pages-store';
 

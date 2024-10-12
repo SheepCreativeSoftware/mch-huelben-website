@@ -45,7 +45,7 @@
 import { computed, onBeforeMount } from 'vue';
 import GalleryView from '../components/GalleryView.vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
-import { routeOnError } from '../components/route-on-error.ts';
+import { routeOnError } from '../modules/route-on-error.ts';
 import SubArticleBase from '../components/base/SubArticleBase.vue';
 import { useGalleryStore } from '../stores/gallery-store.ts';
 import { usePagesStore } from '../stores/pages-store.ts';

@@ -4,6 +4,6 @@ import { loginUserHandle } from './login-user/handle.js';
 // eslint-disable-next-line new-cap -- This is not a constructor
 const router = express.Router();
 
-router.post('/security/login-user', loginUserHandle());
+router.post('/login-user', loginUserHandle());
 
 export { router as securityRouter };

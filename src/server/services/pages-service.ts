@@ -1,5 +1,4 @@
 import { InternalServerException, NotFoundException } from '../modules/misc/custom-errors.js';
-import { Content } from '../database/entities/Content.js';
 import { dataSource } from '../database/datasource.js';
 import { Like } from 'typeorm';
 import { Pages } from '../database/entities/Pages.js';
@@ -43,11 +42,4 @@ const getPagesData = async ({ technicalName }: StoreServiceOptions): Promise<Pag
 	return page;
 };
 
-const editPageContent = async ({ identifier, content, title }: { identifier: string, content?: string, title?: string }): Promise<void> => {
-	const repository = dataSource.getRepository(Content);
-	const result = await repository.update(identifier, { content, title });
-
-	if (!result.affected) throw new InternalServerException('Failed to update page content', { cause: result.raw });
-};
-
-export { editPageContent, getPagesData };
+export { getPagesData };

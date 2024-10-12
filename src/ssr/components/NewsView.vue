@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import { computed, onBeforeMount } from 'vue';
 import { getDateTimeFormatOptions } from '../../modules/transform/config/date-format-config';
-import { routeOnError } from './route-on-error';
+import { routeOnError } from '../modules/route-on-error';
 import { useNewsStore } from '../stores/news-store';
 import { useRouter } from 'vue-router';
 

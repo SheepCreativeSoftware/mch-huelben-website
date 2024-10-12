@@ -117,7 +117,7 @@ import { getDateFormatOptions } from '../../modules/transform/config/date-format
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import NewsView from '../components/NewsView.vue';
 import OverallImage from '../components/base/OverallImage.vue';
-import { routeOnError } from '../components/route-on-error';
+import { routeOnError } from '../modules/route-on-error';
 import { useEventsStore } from '../stores/events-store';
 import { usePagesStore } from '../stores/pages-store';
 import { useRouter } from 'vue-router';

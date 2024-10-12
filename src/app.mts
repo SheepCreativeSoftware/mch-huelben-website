@@ -22,7 +22,7 @@ const main = async () => {
 	}
 
 	// Load API after database has been initialized -- This prevents issues on site effect imports
-	const { getApi } = await import('./server/api/getApi.js');
+	const { getApi } = await import('./server/api/get-api.js');
 
 	// Init server
 	buntstift.info('Starting Server...');

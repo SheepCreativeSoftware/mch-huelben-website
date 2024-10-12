@@ -52,7 +52,7 @@ import { computed, onBeforeMount, reactive } from 'vue';
 import EditMainContentModal from '../components/EditMainContentModal.vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import OverallImage from '../components/base/OverallImage.vue';
-import { routeOnError } from '../components/route-on-error';
+import { routeOnError } from '../modules/route-on-error';
 import { useAccessStore } from '../stores/access-store';
 import { usePagesStore } from '../stores/pages-store';
 import { useRouter } from 'vue-router';
