@@ -14,7 +14,7 @@ const getQuillToolbarOptions = () => {
 		],
 		['blockquote', 'code-block'],
 		['link'],
-		[{ 'header': 2 }, { 'header': 3 }, { 'header': 4 }],
+		[{ 'header': 3 }, { 'header': 4 }, { 'header': 5 }],
 		[{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
 		[{ 'indent': '-1' }, { 'indent': '+1' }],
 		[{ 'align': [] }],

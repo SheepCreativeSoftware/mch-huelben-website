@@ -210,6 +210,11 @@ h4 {
 	font-weight: bold;
 }
 
+h5 {
+	font-size: var(--fs-400);
+	font-weight: bold;
+}
+
 a {
 	text-decoration: underline;
 }
