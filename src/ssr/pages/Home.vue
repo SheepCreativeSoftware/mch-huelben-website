@@ -16,6 +16,13 @@
 			<MainArticleBase v-if="content[0]">
 				<template #title>
 					{{ content[0].title }}
+					<button
+						v-if="accessStore.isLoggedIn"
+						class="edit-button"
+						@click="openEditContentModal(content[0])"
+					>
+						Bearbeiten
+					</button>
 				</template>
 				<template #text>
 					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
@@ -89,6 +96,13 @@
 			>
 				<template #title>
 					{{ content[1].title }}
+					<button
+						v-if="accessStore.isLoggedIn"
+						class="edit-button"
+						@click="openEditContentModal(content[1])"
+					>
+						Bearbeiten
+					</button>
 				</template>
 				<template #text>
 					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
@@ -106,23 +120,33 @@
 				>
 			</OverallImage>
 		</main>
+		<EditMainContentModal
+			v-if="accessStore.isLoggedIn && editContentModal.show"
+			:content="editContentModal.content"
+			:title="editContentModal.title"
+			:identifier="editContentModal.identifier"
+			@close="closeEditContentModal"
+		/>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount } from 'vue';
+import { computed, onBeforeMount, reactive } from 'vue';
 import ButtonLink from '../components/base/ButtonLink.vue';
 import ContactForm from '../components/ContactForm.vue';
+import EditMainContentModal from '../components/EditMainContentModal.vue';
 import { getDateFormatOptions } from '../../shared/transform/config/date-format-config';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import NewsView from '../components/NewsView.vue';
 import OverallImage from '../components/base/OverallImage.vue';
 import { routeOnError } from '../modules/route-on-error';
 import { sanitizeHtml } from '../../shared/protection/sanitize-html';
+import { useAccessStore } from '../stores/access-store';
 import { useEventsStore } from '../stores/events-store';
 import { usePagesStore } from '../stores/pages-store';
 import { useRouter } from 'vue-router';
 
+const accessStore = useAccessStore();
 const pagesStore = usePagesStore();
 const eventsStore = useEventsStore();
 const router = useRouter();
@@ -169,6 +193,25 @@ const getFormattedDate = (fromDate: string, toDate?: string | null): string => {
 	if (toDate) result += ` - ${new Date(toDate).toLocaleDateString('de-DE', getDateFormatOptions())}`;
 
 	return result;
+};
+
+const editContentModal = reactive({
+	show: false,
+	content: '',
+	title: '',
+	identifier: '',
+});
+
+const openEditContentModal = (contentDataObject: { content: string; title: string; identifier: string }) => {
+	editContentModal.show = true;
+	editContentModal.content = contentDataObject.content;
+	editContentModal.title = contentDataObject.title;
+	editContentModal.identifier = contentDataObject.identifier;
+};
+
+const closeEditContentModal = async () => {
+	editContentModal.show = false;
+	await updatePages();
 };
 
 onBeforeMount(async() => {
@@ -228,5 +271,9 @@ onBeforeMount(async() => {
 			border-bottom: 2px solid var(--primary-color-500);
 		}
 	}
+}
+
+.edit-button {
+	margin-left: 1rem;
 }
 </style>

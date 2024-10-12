@@ -8,7 +8,7 @@ import type { UUID } from 'node:crypto';
 if (typeof process.env.SESSION_SECRET === 'undefined') throw new Error('Missing SESSION_SECRET enviroment variable');
 
 const secretKey = process.env.SESSION_SECRET;
-const expiration = process.env.NODE_ENV === 'production' ? '15m' : '1d';
+const expiration = process.env.NODE_ENV === 'production' ? '1h' : '1d';
 
 type Payload = {
 	role: 'User' | 'Admin';

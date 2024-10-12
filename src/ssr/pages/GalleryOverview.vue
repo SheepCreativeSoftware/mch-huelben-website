@@ -13,6 +13,13 @@
 			<MainArticleBase v-if="contents.length === 1">
 				<template #title>
 					{{ contents[0].title }}
+					<button
+						v-if="accessStore.isLoggedIn"
+						class="edit-button"
+						@click="openEditContentModal(contents[0])"
+					>
+						Bearbeiten
+					</button>
 				</template>
 				<template #text>
 					{{ contents[0].content }}
@@ -38,19 +45,28 @@
 				</template>
 			</MainArticleBase>
 		</main>
+		<EditMainContentModal
+			v-if="accessStore.isLoggedIn && editContentModal.show"
+			:content="editContentModal.content"
+			:title="editContentModal.title"
+			:identifier="editContentModal.identifier"
+			@close="closeEditContentModal"
+		/>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount } from 'vue';
+import { computed, onBeforeMount, reactive } from 'vue';
 import GalleryView from '../components/GalleryView.vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import { routeOnError } from '../modules/route-on-error.ts';
 import SubArticleBase from '../components/base/SubArticleBase.vue';
+import { useAccessStore } from '../stores/access-store';
 import { useGalleryStore } from '../stores/gallery-store.ts';
 import { usePagesStore } from '../stores/pages-store.ts';
 import { useRouter } from 'vue-router';
 
+const accessStore = useAccessStore();
 const pagesStore = usePagesStore();
 const galleryStore = useGalleryStore();
 const router = useRouter();
@@ -91,6 +107,25 @@ const updateGalleries = async () => {
 	}
 };
 
+const editContentModal = reactive({
+	show: false,
+	content: '',
+	title: '',
+	identifier: '',
+});
+
+const openEditContentModal = (content: { content: string; title: string; identifier: string }) => {
+	editContentModal.show = true;
+	editContentModal.content = content.content;
+	editContentModal.title = content.title;
+	editContentModal.identifier = content.identifier;
+};
+
+const closeEditContentModal = async () => {
+	editContentModal.show = false;
+	await updatePages();
+};
+
 onBeforeMount(async() => {
 	await updatePages();
 	await updateGalleries();
@@ -102,5 +137,9 @@ onBeforeMount(async() => {
 	object-fit: cover;
 	width: 100%;
 	max-height: 45vh;
+}
+
+.edit-button {
+	margin-left: 1rem;
 }
 </style>
