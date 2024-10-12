@@ -25,8 +25,8 @@
 					</button>
 				</template>
 				<template #text>
-					<!--eslint-disable-next-line vue/no-v-html -- this is an html content-->
-					<div v-html="content.content" />
+					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
+					<div v-html="sanitizeHtml(content.content)" />
 				</template>
 			</MainArticleBase>
 			<OverallImage>
@@ -53,6 +53,7 @@ import EditMainContentModal from '../components/EditMainContentModal.vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import OverallImage from '../components/base/OverallImage.vue';
 import { routeOnError } from '../modules/route-on-error';
+import { sanitizeHtml } from '../../shared/protection/sanitize-html';
 import { useAccessStore } from '../stores/access-store';
 import { usePagesStore } from '../stores/pages-store';
 import { useRouter } from 'vue-router';

@@ -13,13 +13,13 @@
 			</div>
 		</div>
 		<main>
-			<MainArticleBase v-if="content.at(0)">
+			<MainArticleBase v-if="content[0]">
 				<template #title>
-					{{ content.at(0)?.title }}
+					{{ content[0].title }}
 				</template>
 				<template #text>
-					<!--eslint-disable-next-line vue/no-v-html -- this is an html content-->
-					<div v-html="content.at(0)?.content" />
+					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
+					<div v-html="sanitizeHtml(content[0].content)" />
 				</template>
 				<template #additional>
 					<ButtonLink
@@ -84,15 +84,15 @@
 				>
 			</OverallImage>
 			<MainArticleBase
-				v-if="content.at(1)"
+				v-if="content[1]"
 				id="kontakt"
 			>
 				<template #title>
-					{{ content.at(1)?.title }}
+					{{ content[1].title }}
 				</template>
 				<template #text>
-					<!--eslint-disable-next-line vue/no-v-html -- this is an html content-->
-					<div v-html="content.at(1)?.content" />
+					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
+					<div v-html="sanitizeHtml(content[1].content)" />
 				</template>
 				<template #additional>
 					<ContactForm />
@@ -113,11 +113,12 @@
 import { computed, onBeforeMount } from 'vue';
 import ButtonLink from '../components/base/ButtonLink.vue';
 import ContactForm from '../components/ContactForm.vue';
-import { getDateFormatOptions } from '../../modules/transform/config/date-format-config';
+import { getDateFormatOptions } from '../../shared/transform/config/date-format-config';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import NewsView from '../components/NewsView.vue';
 import OverallImage from '../components/base/OverallImage.vue';
 import { routeOnError } from '../modules/route-on-error';
+import { sanitizeHtml } from '../../shared/protection/sanitize-html';
 import { useEventsStore } from '../stores/events-store';
 import { usePagesStore } from '../stores/pages-store';
 import { useRouter } from 'vue-router';

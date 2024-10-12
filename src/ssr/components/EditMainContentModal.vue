@@ -18,8 +18,8 @@
 			>
 			<div class="editor-container">
 				<div id="editor">
-					<!-- eslint-disable-next-line vue/no-v-html -->
-					<div v-html="state.content"	/>
+					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
+					<div v-html="sanitizeHtml(state.content)"	/>
 				</div>
 			</div>
 			<div class="button-container">
@@ -39,6 +39,7 @@ import '../assets/quill.snow.css';
 import { getQuillDefaultOptions, getQuillRichTextEditor, removeQuillInstance } from '../modules/quill-rich-text-editor';
 import { onMounted, reactive, useTemplateRef } from 'vue';
 import type Quill from 'quill';
+import { sanitizeHtml } from '../../shared/protection/sanitize-html';
 import { usePagesStore } from '../stores/pages-store';
 
 const pagesStore = usePagesStore();
@@ -140,8 +141,6 @@ button {
 	margin-top: 1rem;
 
 	#editor {
-		overflow-y: auto;
-		max-height: 500px;
 		max-width: 1200px;
 	}
 }
