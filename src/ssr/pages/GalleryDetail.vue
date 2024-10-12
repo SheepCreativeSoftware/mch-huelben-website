@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import { computed, onBeforeMount } from 'vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
-import { routeOnError } from '../components/route-on-error.ts';
+import { routeOnError } from '../modules/route-on-error.ts';
 import { useGalleryStore } from '../stores/gallery-store.ts';
 import { useRouter } from 'vue-router';
 

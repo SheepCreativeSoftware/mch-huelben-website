@@ -12,14 +12,14 @@
 		<main>
 			<MainArticleBase>
 				<template
-					v-if="contents.at(0)"
+					v-if="contents[0]"
 					#title
 				>
-					{{ contents.at(0)?.title }}
+					{{ contents[0].title }}
 				</template>
 				<template #text>
-					<!--eslint-disable-next-line vue/no-v-html -- this is an html content-->
-					<div v-html="contents.at(0)?.content" />
+					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
+					<div v-html="sanitizeHtml(contents[0].content)" />
 				</template>
 			</MainArticleBase>
 			<OverallImage>
@@ -31,26 +31,26 @@
 			</OverallImage>
 			<MainArticleBase>
 				<template
-					v-if="contents.at(1)"
+					v-if="contents[1]"
 					#title
 				>
-					{{ contents.at(1)?.title }}
+					{{ contents[1].title }}
 				</template>
 				<template #text>
-					<!--eslint-disable-next-line vue/no-v-html -- this is an html content-->
-					<div v-html="contents.at(1)?.content" />
+					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
+					<div v-html="sanitizeHtml(contents[1].content)" />
 				</template>
 				<template
-					v-if="contents.at(2)"
+					v-if="contents[2]"
 					#additional
 				>
 					<SubArticleBase>
 						<template #title>
-							{{ contents.at(2)?.title }}
+							{{ contents[2].title }}
 						</template>
 						<template #text>
-							<!--eslint-disable-next-line vue/no-v-html -- this is an html content-->
-							<div v-html="contents.at(2)?.content" />
+							<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
+							<div v-html="sanitizeHtml(contents[2].content)" />
 						</template>
 					</SubArticleBase>
 				</template>
@@ -64,14 +64,14 @@
 			</OverallImage>
 			<MainArticleBase>
 				<template
-					v-if="contents.at(3)"
+					v-if="contents[3]"
 					#title
 				>
-					{{ contents.at(3)?.title }}
+					{{ contents[3].title }}
 				</template>
 				<template #text>
-					<!--eslint-disable-next-line vue/no-v-html -- this is an html content-->
-					<div v-html="contents.at(3)?.content" />
+					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
+					<div v-html="sanitizeHtml(contents[3].content)" />
 				</template>
 				<template #additional>
 					<ContactForm />
@@ -86,7 +86,8 @@ import { computed, onBeforeMount } from 'vue';
 import ContactForm from '../components/ContactForm.vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import OverallImage from '../components/base/OverallImage.vue';
-import { routeOnError } from '../components/route-on-error';
+import { routeOnError } from '../modules/route-on-error';
+import { sanitizeHtml } from '../../shared/protection/sanitize-html';
 import SubArticleBase from '../components/base/SubArticleBase.vue';
 import { usePagesStore } from '../stores/pages-store';
 import { useRouter } from 'vue-router';

@@ -10,13 +10,13 @@
 			</div>
 		</div>
 		<main>
-			<MainArticleBase v-if="contents.at(0)">
+			<MainArticleBase v-if="contents[0]">
 				<template #title>
-					{{ contents.at(0)?.title }}
+					{{ contents[0].title }}
 				</template>
 				<template #text>
-					<!--eslint-disable-next-line vue/no-v-html -- this is an html content-->
-					<div v-html="contents.at(0)?.content" />
+					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
+					<div v-html="sanitizeHtml(contents[0].content)" />
 				</template>
 				<template #additional>
 					<section id="aktuelles">
@@ -59,7 +59,8 @@ import ButtonLink from '../components/base/ButtonLink.vue';
 import ContainerComponent from '../components/base/ContainerComponent.vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import NewsView from '../components/NewsView.vue';
-import { routeOnError } from '../components/route-on-error';
+import { routeOnError } from '../modules/route-on-error';
+import { sanitizeHtml } from '../../shared/protection/sanitize-html';
 import { useNewsStore } from '../stores/news-store';
 import { usePagesStore } from '../stores/pages-store';
 

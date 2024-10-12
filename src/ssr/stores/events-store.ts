@@ -23,7 +23,7 @@ const useEventsStore = defineStore('events-store', {
 		async fetchEventsData(): Promise<void> {
 			if (import.meta.env.SSR) return;
 
-			const url = new URL('/api/store/events', baseUrl);
+			const url = new URL('/api/entity/events', baseUrl);
 			const result = await fetch(url);
 			const body = await result.json();
 

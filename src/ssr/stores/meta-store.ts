@@ -21,7 +21,7 @@ const useMetaStore = defineStore('meta-store', {
 		async fetchMetaData(technicalName: string): Promise<void> {
 			if (typeof this.$state[technicalName] !== 'undefined') return;
 
-			const url = new URL('/api/store/meta', baseUrl);
+			const url = new URL('/api/entity/meta', baseUrl);
 			url.searchParams.append('technicalName', technicalName);
 			const response = await fetch(url);
 			const body = await response.json();

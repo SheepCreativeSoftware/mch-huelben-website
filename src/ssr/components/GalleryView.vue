@@ -15,8 +15,8 @@
 						:src="gallery.images[0].imageUrl"
 						:alt="gallery.images[0].description"
 					>
-					<!-- eslint-disable-next-line vue/no-v-html -- this is a html content -->
-					<div v-html="gallery.description" />
+					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
+					<div v-html="sanitizeHtml(gallery.description)" />
 				</div>
 
 				<span class="creation-date">{{ new Date(gallery.createdAt).toLocaleString('de-DE', getDateTimeFormatOptions()) }}
@@ -34,7 +34,8 @@
 
 <script setup lang="ts">
 import type { Category } from '../stores/gallery-store.ts';
-import { getDateTimeFormatOptions } from '../../modules/transform/config/date-format-config.ts';
+import { getDateTimeFormatOptions } from '../../shared/transform/config/date-format-config.ts';
+import { sanitizeHtml } from '../../shared/protection/sanitize-html.js';
 
 const props = defineProps<{
 	category: Category[0]['technicalName'];

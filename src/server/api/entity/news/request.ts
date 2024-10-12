@@ -1,4 +1,4 @@
-import { stringToPositiveNumberOrUndefinedTransformer } from '../../../../modules/transform/validation-transformer.js';
+import { stringToPositiveNumberOrUndefinedTransformer } from '../../../../shared/transform/validation-transformer.js';
 import { z as zod } from 'zod';
 
 const RequestNewsQueryValidator = zod.object({

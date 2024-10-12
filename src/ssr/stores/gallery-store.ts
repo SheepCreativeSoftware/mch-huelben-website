@@ -41,7 +41,7 @@ const useGalleryStore = defineStore('gallery-store', {
 		async fetchGalleryData(): Promise<void> {
 			if (import.meta.env.SSR) return;
 
-			const url = new URL('/api/store/gallery/by-category', baseUrl);
+			const url = new URL('/api/entity/gallery/by-category', baseUrl);
 			const result = await fetch(url);
 			const body = await result.json();
 

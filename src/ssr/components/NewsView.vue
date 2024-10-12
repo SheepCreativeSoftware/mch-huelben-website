@@ -7,7 +7,7 @@
 		>
 			<h3>{{ article.title }}</h3>
 			<!-- eslint-disable-next-line vue/no-v-html -- this is a html content -->
-			<div v-html="article.content" />
+			<div v-html="sanitizeHtml(article.content)" />
 			<span class="creation-date">{{ new Date(article.createdAt).toLocaleString('de-DE', getDateTimeFormatOptions()) }}
 				<span
 					v-if="article.updatedAt"
@@ -22,8 +22,9 @@
 
 <script setup lang="ts">
 import { computed, onBeforeMount } from 'vue';
-import { getDateTimeFormatOptions } from '../../modules/transform/config/date-format-config';
-import { routeOnError } from './route-on-error';
+import { getDateTimeFormatOptions } from '../../shared/transform/config/date-format-config';
+import { routeOnError } from '../modules/route-on-error';
+import { sanitizeHtml } from '../../shared/protection/sanitize-html';
 import { useNewsStore } from '../stores/news-store';
 import { useRouter } from 'vue-router';
 
