@@ -164,10 +164,7 @@ body {
 	color: var(--body-color);
 }
 
-p,
-h1,
-h2,
-h3 {
+p {
 	margin: 0;
 	word-break: break-word;
 }
