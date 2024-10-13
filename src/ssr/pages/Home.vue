@@ -4,7 +4,7 @@
 		<div class="header-container">
 			<div class="headline">
 				<img
-					src="../assets/Heading.png"
+					src="../assets/Heading-preload.png"
 					alt="Naturbild mit Dampflok"
 				>
 				<h1 class="headline-title">
@@ -13,20 +13,19 @@
 			</div>
 		</div>
 		<main>
-			<MainArticleBase v-if="content[0]">
+			<MainArticleBase v-if="contents[0]">
 				<template #title>
-					{{ content[0].title }}
-					<button
-						v-if="accessStore.isLoggedIn"
-						class="edit-button"
-						@click="openEditContentModal(content[0])"
-					>
-						Bearbeiten
-					</button>
+					{{ contents[0].title }}
+				</template>
+				<template #edit>
+					<EditContentModal
+						:content="contents[0]"
+						@update="updatePages"
+					/>
 				</template>
 				<template #text>
 					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
-					<div v-html="sanitizeHtml(content[0].content)" />
+					<div v-html="sanitizeHtml(contents[0].content)" />
 				</template>
 				<template #additional>
 					<ButtonLink
@@ -91,22 +90,21 @@
 				>
 			</OverallImage>
 			<MainArticleBase
-				v-if="content[1]"
+				v-if="contents[1]"
 				id="kontakt"
 			>
 				<template #title>
-					{{ content[1].title }}
-					<button
-						v-if="accessStore.isLoggedIn"
-						class="edit-button"
-						@click="openEditContentModal(content[1])"
-					>
-						Bearbeiten
-					</button>
+					{{ contents[1].title }}
+				</template>
+				<template #edit>
+					<EditContentModal
+						:content="contents[1]"
+						@update="updatePages"
+					/>
 				</template>
 				<template #text>
 					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
-					<div v-html="sanitizeHtml(content[1].content)" />
+					<div v-html="sanitizeHtml(contents[1].content)" />
 				</template>
 				<template #additional>
 					<ContactForm />
@@ -120,39 +118,30 @@
 				>
 			</OverallImage>
 		</main>
-		<EditMainContentModal
-			v-if="accessStore.isLoggedIn && editContentModal.show"
-			:content="editContentModal.content"
-			:title="editContentModal.title"
-			:identifier="editContentModal.identifier"
-			@close="closeEditContentModal"
-		/>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, reactive } from 'vue';
+import { computed, onBeforeMount } from 'vue';
 import ButtonLink from '../components/base/ButtonLink.vue';
 import ContactForm from '../components/ContactForm.vue';
-import EditMainContentModal from '../components/EditMainContentModal.vue';
+import EditContentModal from '../components/EditContentModal.vue';
 import { getDateFormatOptions } from '../../shared/transform/config/date-format-config';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import NewsView from '../components/NewsView.vue';
 import OverallImage from '../components/base/OverallImage.vue';
 import { routeOnError } from '../modules/route-on-error';
 import { sanitizeHtml } from '../../shared/protection/sanitize-html';
-import { useAccessStore } from '../stores/access-store';
 import { useEventsStore } from '../stores/events-store';
 import { usePagesStore } from '../stores/pages-store';
 import { useRouter } from 'vue-router';
 
-const accessStore = useAccessStore();
 const pagesStore = usePagesStore();
 const eventsStore = useEventsStore();
 const router = useRouter();
 const technicalName = router.currentRoute.value.name;
 
-const content = computed(() => {
+const contents = computed(() => {
 	if (typeof technicalName !== 'string') return [];
 
 	return pagesStore.getPage(technicalName);
@@ -193,25 +182,6 @@ const getFormattedDate = (fromDate: string, toDate?: string | null): string => {
 	if (toDate) result += ` - ${new Date(toDate).toLocaleDateString('de-DE', getDateFormatOptions())}`;
 
 	return result;
-};
-
-const editContentModal = reactive({
-	show: false,
-	content: '',
-	title: '',
-	identifier: '',
-});
-
-const openEditContentModal = (contentDataObject: { content: string; title: string; identifier: string }) => {
-	editContentModal.show = true;
-	editContentModal.content = contentDataObject.content;
-	editContentModal.title = contentDataObject.title;
-	editContentModal.identifier = contentDataObject.identifier;
-};
-
-const closeEditContentModal = async () => {
-	editContentModal.show = false;
-	await updatePages();
 };
 
 onBeforeMount(async() => {

@@ -241,11 +241,16 @@ button {
 	background-color: var(--primary-color-500);
 	color: var(--bg-color-100);
 	font-weight: bold;
-	padding: 0.8rem 1.6rem;
+	padding: 0.8rem 1.5rem;
+	line-height: var(--body-line-height);
 	border-radius: var(--border-radius-xl);
 	border: none;
 	cursor: pointer;
 	width: max-content;
+
+	&:hover {
+		text-decoration: underline;
+	}
 
 	&:active {
 		transform: translateY(3px);
