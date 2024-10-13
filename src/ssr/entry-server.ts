@@ -4,14 +4,16 @@ import { renderToString } from 'vue/server-renderer';
 import type { SSRContext } from 'vue/server-renderer';
 import type { StateTree } from 'pinia';
 
+// eslint-disable-next-line complexity -- This function is complex by nature
 const renderPreloadLink = (file: string): string => {
-	if (file.endsWith('.js')) return `<link rel="modulepreload" crossorigin href="${file}">`;
+	if (file.endsWith('.js')) return `<link rel="modulepreload" defer href="${file}">`;
 	if (file.endsWith('.css')) return `<link rel="stylesheet" href="${file}">`;
-	if (file.endsWith('.woff')) return ` <link rel="preload" href="${file}" as="font" type="font/woff" crossorigin>`;
-	if (file.endsWith('.woff2')) return ` <link rel="preload" href="${file}" as="font" type="font/woff2" crossorigin>`;
-	if (file.endsWith('.gif')) return ` <link rel="preload" href="${file}" as="image" type="image/gif">`;
-	if (file.endsWith('.jpg') || file.endsWith('.jpeg')) return ` <link rel="preload" href="${file}" as="image" type="image/jpeg">`;
-	if (file.endsWith('.png')) return ` <link rel="preload" href="${file}" as="image" type="image/png">`;
+	if (file.endsWith('.woff')) return ` <link rel="preload" href="${file}" as="font" type="font/woff">`;
+	if (file.endsWith('.woff2')) return ` <link rel="preload" href="${file}" as="font" type="font/woff2">`;
+	if (file.endsWith('.gif') && file.includes('preload')) return ` <link rel="preload" href="${file}" as="image" type="image/gif">`;
+	if ((file.endsWith('.jpg') || file.endsWith('.jpeg'))
+		&& file.includes('preload')) return ` <link rel="preload" href="${file}" as="image" type="image/jpeg">`;
+	if (file.endsWith('.png') && file.includes('preload')) return ` <link rel="preload" href="${file}" as="image" type="image/png">`;
 
 	return '';
 };
