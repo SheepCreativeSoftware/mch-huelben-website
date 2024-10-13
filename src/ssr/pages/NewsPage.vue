@@ -13,13 +13,12 @@
 			<MainArticleBase v-if="contents[0]">
 				<template #title>
 					{{ contents[0].title }}
-					<button
-						v-if="accessStore.isLoggedIn"
-						class="edit-button"
-						@click="openEditContentModal(contents[0])"
-					>
-						Bearbeiten
-					</button>
+				</template>
+				<template #edit>
+					<EditContentModal
+						:content="contents[0]"
+						@update="updatePages"
+					/>
 				</template>
 				<template #text>
 					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
@@ -56,31 +55,22 @@
 				</ButtonLink>
 			</ContainerComponent>
 		</main>
-		<EditMainContentModal
-			v-if="accessStore.isLoggedIn && editContentModal.show"
-			:content="editContentModal.content"
-			:title="editContentModal.title"
-			:identifier="editContentModal.identifier"
-			@close="closeEditContentModal"
-		/>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, reactive } from 'vue';
+import { computed, onBeforeMount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ButtonLink from '../components/base/ButtonLink.vue';
 import ContainerComponent from '../components/base/ContainerComponent.vue';
-import EditMainContentModal from '../components/EditMainContentModal.vue';
+import EditContentModal from '../components/EditContentModal.vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import NewsView from '../components/NewsView.vue';
 import { routeOnError } from '../modules/route-on-error';
 import { sanitizeHtml } from '../../shared/protection/sanitize-html';
-import { useAccessStore } from '../stores/access-store';
 import { useNewsStore } from '../stores/news-store';
 import { usePagesStore } from '../stores/pages-store';
 
-const accessStore = useAccessStore();
 const pagesStore = usePagesStore();
 
 const totalCount = computed(() => useNewsStore().totalCount);
@@ -138,25 +128,6 @@ const updatePages = async () => {
 		// eslint-disable-next-line no-console -- unknown error handling
 		console.error(error);
 	}
-};
-
-const editContentModal = reactive({
-	show: false,
-	content: '',
-	title: '',
-	identifier: '',
-});
-
-const openEditContentModal = (content: { content: string; title: string; identifier: string }) => {
-	editContentModal.show = true;
-	editContentModal.content = content.content;
-	editContentModal.title = content.title;
-	editContentModal.identifier = content.identifier;
-};
-
-const closeEditContentModal = async () => {
-	editContentModal.show = false;
-	await updatePages();
 };
 
 onBeforeMount(async() => {

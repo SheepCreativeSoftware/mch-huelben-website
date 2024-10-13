@@ -190,7 +190,7 @@ header {
 	}
 
 	@media(width <= 900px) {
-		max-width: 125px;
+		max-width: 100px;
 	}
 }
 </style>

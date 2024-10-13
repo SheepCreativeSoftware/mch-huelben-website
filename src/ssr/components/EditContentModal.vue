@@ -1,5 +1,13 @@
 <template>
+	<button
+		v-if="accessStore.isLoggedIn"
+		class="edit-button"
+		@click="openModal()"
+	>
+		Bearbeiten
+	</button>
 	<dialog
+		v-if="accessStore.isLoggedIn && state.identifier"
 		ref="modal"
 		class="modal"
 	>
@@ -37,21 +45,25 @@
 <script setup lang="ts">
 import '../assets/quill.snow.css';
 import { getQuillDefaultOptions, getQuillRichTextEditor, removeQuillInstance } from '../modules/quill-rich-text-editor';
-import { onMounted, reactive, useTemplateRef } from 'vue';
+import { nextTick, reactive, useTemplateRef } from 'vue';
 import type Quill from 'quill';
 import { sanitizeHtml } from '../../shared/protection/sanitize-html';
+import { useAccessStore } from '../stores/access-store';
 import { usePagesStore } from '../stores/pages-store';
 
+const accessStore = useAccessStore();
 const pagesStore = usePagesStore();
 
 const props = defineProps<{
-	identifier: string;
-	title: string,
-	content: string,
+	content: {
+		identifier: string;
+		title: string;
+		content: string;
+	}
 }>();
 
 const emits = defineEmits<{
-	close: [];
+	update: [];
 }>();
 
 const state = reactive({
@@ -65,24 +77,26 @@ const modal = useTemplateRef('modal');
 let quill: Quill | null = null;
 
 const openModal = async () => {
+	state.content = props.content.content;
+	state.title = props.content.title;
+	state.identifier = props.content.identifier;
+	await nextTick();
 	modal.value?.showModal();
-	state.identifier = props.identifier;
-	state.content = props.content;
-	state.title = props.title;
 	const QuillRichTextEditor = await getQuillRichTextEditor();
 	quill = new QuillRichTextEditor('#editor', getQuillDefaultOptions());
 };
 
 const closeModal = () => {
+	if (quill) removeQuillInstance(quill);
+	quill = null;
+
 	modal.value?.close();
 	state.identifier = '';
 	state.content = '';
 	state.title = '';
 	state.onError = '';
 
-	if (quill) removeQuillInstance(quill);
-	quill = null;
-	emits('close');
+	emits('update');
 };
 
 const updateContent = async () => {
@@ -105,13 +119,13 @@ const updateContent = async () => {
 		console.error(error);
 	}
 };
-
-onMounted(async () => {
-	await openModal();
-});
 </script>
 
 <style lang="css" scoped>
+.edit-button {
+	margin-top: 0;
+}
+
 .modal {
 	max-width: 1200px;
 	border: 1px solid var(--bg-color-700);

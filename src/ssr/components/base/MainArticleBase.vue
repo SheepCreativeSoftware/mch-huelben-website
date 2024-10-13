@@ -14,6 +14,11 @@
 					<!-- text -->
 				</slot>
 			</div>
+			<div>
+				<slot name="edit">
+					<!-- edit -->
+				</slot>
+			</div>
 			<template v-if="$slots.additional">
 				<slot name="additional">
 				<!-- additional -->

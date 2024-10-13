@@ -10,19 +10,15 @@
 			</div>
 		</div>
 		<main>
-			<MainArticleBase>
-				<template
-					v-if="contents[0]"
-					#title
-				>
+			<MainArticleBase v-if="contents[0]">
+				<template #title>
 					{{ contents[0].title }}
-					<button
-						v-if="accessStore.isLoggedIn"
-						class="edit-button"
-						@click="openEditContentModal(contents[0])"
-					>
-						Bearbeiten
-					</button>
+				</template>
+				<template #edit>
+					<EditContentModal
+						:content="contents[0]"
+						@update="updatePages"
+					/>
 				</template>
 				<template #text>
 					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
@@ -36,38 +32,30 @@
 					alt="Overall Image 1"
 				>
 			</OverallImage>
-			<MainArticleBase>
-				<template
-					v-if="contents[1]"
-					#title
-				>
+			<MainArticleBase v-if="contents[1]">
+				<template #title>
 					{{ contents[1].title }}
-					<button
-						v-if="accessStore.isLoggedIn"
-						class="edit-button"
-						@click="openEditContentModal(contents[1])"
-					>
-						Bearbeiten
-					</button>
+				</template>
+				<template #edit>
+					<EditContentModal
+						:content="contents[1]"
+						@update="updatePages"
+					/>
 				</template>
 				<template #text>
 					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
 					<div v-html="sanitizeHtml(contents[1].content)" />
 				</template>
-				<template
-					v-if="contents[2]"
-					#additional
-				>
+				<template #additional>
 					<SubArticleBase>
 						<template #title>
 							{{ contents[2].title }}
-							<button
-								v-if="accessStore.isLoggedIn"
-								class="edit-button"
-								@click="openEditContentModal(contents[2])"
-							>
-								Bearbeiten
-							</button>
+						</template>
+						<template #edit>
+							<EditContentModal
+								:content="contents[2]"
+								@update="updatePages"
+							/>
 						</template>
 						<template #text>
 							<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
@@ -83,19 +71,15 @@
 					alt="Overall Image 1"
 				>
 			</OverallImage>
-			<MainArticleBase>
-				<template
-					v-if="contents[3]"
-					#title
-				>
+			<MainArticleBase v-if="contents[3]">
+				<template #title>
 					{{ contents[3].title }}
-					<button
-						v-if="accessStore.isLoggedIn"
-						class="edit-button"
-						@click="openEditContentModal(contents[3])"
-					>
-						Bearbeiten
-					</button>
+				</template>
+				<template #edit>
+					<EditContentModal
+						:content="contents[3]"
+						@update="updatePages"
+					/>
 				</template>
 				<template #text>
 					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
@@ -106,30 +90,21 @@
 				</template>
 			</MainArticleBase>
 		</main>
-		<EditMainContentModal
-			v-if="accessStore.isLoggedIn && editContentModal.show"
-			:content="editContentModal.content"
-			:title="editContentModal.title"
-			:identifier="editContentModal.identifier"
-			@close="closeEditContentModal"
-		/>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, reactive } from 'vue';
+import { computed, onBeforeMount } from 'vue';
 import ContactForm from '../components/ContactForm.vue';
-import EditMainContentModal from '../components/EditMainContentModal.vue';
+import EditContentModal from '../components/EditContentModal.vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import OverallImage from '../components/base/OverallImage.vue';
 import { routeOnError } from '../modules/route-on-error';
 import { sanitizeHtml } from '../../shared/protection/sanitize-html';
 import SubArticleBase from '../components/base/SubArticleBase.vue';
-import { useAccessStore } from '../stores/access-store';
 import { usePagesStore } from '../stores/pages-store';
 import { useRouter } from 'vue-router';
 
-const accessStore = useAccessStore();
 const pagesStore = usePagesStore();
 const router = useRouter();
 const technicalName = router.currentRoute.value.name;
@@ -153,25 +128,6 @@ const updatePages = async () => {
 		// eslint-disable-next-line no-console -- unknown error handling
 		console.error(error);
 	}
-};
-
-const editContentModal = reactive({
-	show: false,
-	content: '',
-	title: '',
-	identifier: '',
-});
-
-const openEditContentModal = (content: { content: string; title: string; identifier: string }) => {
-	editContentModal.show = true;
-	editContentModal.content = content.content;
-	editContentModal.title = content.title;
-	editContentModal.identifier = content.identifier;
-};
-
-const closeEditContentModal = async () => {
-	editContentModal.show = false;
-	await updatePages();
 };
 
 onBeforeMount(async() => {

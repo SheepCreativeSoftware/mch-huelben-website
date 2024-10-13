@@ -16,13 +16,12 @@
 			>
 				<template #title>
 					{{ content.title }}
-					<button
-						v-if="accessStore.isLoggedIn"
-						class="edit-button"
-						@click="openEditContentModal(content)"
-					>
-						Bearbeiten
-					</button>
+				</template>
+				<template #edit>
+					<EditContentModal
+						:content="content"
+						@update="updatePages"
+					/>
 				</template>
 				<template #text>
 					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
@@ -37,28 +36,19 @@
 				>
 			</OverallImage>
 		</main>
-		<EditMainContentModal
-			v-if="accessStore.isLoggedIn && editContentModal.show"
-			:content="editContentModal.content"
-			:title="editContentModal.title"
-			:identifier="editContentModal.identifier"
-			@close="closeEditContentModal"
-		/>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, reactive } from 'vue';
-import EditMainContentModal from '../components/EditMainContentModal.vue';
+import { computed, onBeforeMount } from 'vue';
+import EditContentModal from '../components/EditContentModal.vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import OverallImage from '../components/base/OverallImage.vue';
 import { routeOnError } from '../modules/route-on-error';
 import { sanitizeHtml } from '../../shared/protection/sanitize-html';
-import { useAccessStore } from '../stores/access-store';
 import { usePagesStore } from '../stores/pages-store';
 import { useRouter } from 'vue-router';
 
-const accessStore = useAccessStore();
 const pagesStore = usePagesStore();
 const router = useRouter();
 const technicalName = router.currentRoute.value.name;
@@ -82,25 +72,6 @@ const updatePages = async () => {
 		// eslint-disable-next-line no-console -- unknown error handling
 		console.error(error);
 	}
-};
-
-const editContentModal = reactive({
-	show: false,
-	content: '',
-	title: '',
-	identifier: '',
-});
-
-const openEditContentModal = (content: { content: string; title: string; identifier: string }) => {
-	editContentModal.show = true;
-	editContentModal.content = content.content;
-	editContentModal.title = content.title;
-	editContentModal.identifier = content.identifier;
-};
-
-const closeEditContentModal = async () => {
-	editContentModal.show = false;
-	await updatePages();
 };
 
 onBeforeMount(async() => {
