@@ -5,6 +5,7 @@ import { Meta } from '../database/entities/Meta.js';
 import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router';
 import { z as zod } from 'zod';
 
+// eslint-disable-next-line complexity -- it is intended to be complex
 const getMetaDataTags = async (currentRoute: RouteLocationNormalizedLoadedGeneric): Promise<string> => {
 	let metaTags = '';
 
@@ -13,9 +14,9 @@ const getMetaDataTags = async (currentRoute: RouteLocationNormalizedLoadedGeneri
 	metaTags += `<meta property="og:url" content="${process.env.URL}${canonicalUrl}">`;
 	metaTags += `<meta name="twitter:url" content="${process.env.URL}${canonicalUrl}">`;
 
-	const technicalName = currentRoute.name;
-
+	let technicalName = currentRoute.name;
 	if (typeof technicalName !== 'string') return metaTags;
+	if (typeof currentRoute.params.technicalName === 'string') technicalName = currentRoute.params.technicalName;
 
 	const metaData = await dataSource.getRepository(Meta).findOneBy({
 		page: {

@@ -26,9 +26,9 @@ const jwtAuthorizationHandler = (): Handler => {
 			const user = await verifyJwtAccessToken(token);
 			req.user = user;
 			loginStatus = true;
-			next();
 		} catch {
-			req.user = null;
+			// eslint-disable-next-line no-undefined -- is a valid value in this case
+			req.user = undefined;
 			loginStatus = false;
 		}
 		next();

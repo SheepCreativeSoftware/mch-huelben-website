@@ -1,17 +1,28 @@
 import { defineStore } from 'pinia';
 import { jwtDecode } from 'jwt-decode';
-import { useRouter } from 'vue-router';
+import { StatusCodes } from 'http-status-codes';
 
 const baseUrl = import.meta.env.SSR ? import.meta.env.VITE_BASE_URL : window.location.origin;
-const TIME_OFFSET = 1000;
+const TIME_CONVERSION = 1000;
+const TIME_OFFSET = 5000;
+const MIN_OFFSET = 1000;
+
+const getRandomOffset = () => {
+	return Math.floor(Math.random() * (TIME_OFFSET - MIN_OFFSET)) + MIN_OFFSET;
+};
 
 const useAccessStore = defineStore('access-store', {
 	actions: {
 		hasAccessRole(role: string): boolean {
 			return this.role === role;
 		},
+
+		// This function has a bit of an offset which is random to prevent a possible race condition on refreshing events
 		isTokenExpired(): boolean {
-			return this.expiration !== 0 && new Date().getTime() > this.expiration * TIME_OFFSET;
+			return this.expiration !== 0 && new Date().getTime() > (this.expiration * TIME_CONVERSION) - getRandomOffset();
+		},
+		isTokenExpiredWithoutOffset(): boolean {
+			return this.expiration !== 0 && new Date().getTime() > (this.expiration * TIME_CONVERSION);
 		},
 		async loginUser(email: string, password: string): Promise<void> {
 			const url = new URL('/api/security/login-user', baseUrl);
@@ -40,6 +51,12 @@ const useAccessStore = defineStore('access-store', {
 			this.storeTokenInLocalStore();
 		},
 		async logoutUser(): Promise<void> {
+			this.token = '';
+			this.expiration = 0;
+			this.role = '';
+			this.user = '';
+			localStorage.removeItem('token');
+
 			const url = new URL('/api/security/logout-user', baseUrl);
 			const result = await fetch(url, {
 				headers: {
@@ -48,27 +65,24 @@ const useAccessStore = defineStore('access-store', {
 				method: 'POST',
 			});
 
-			this.token = '';
-			this.expiration = 0;
-			this.role = '';
-			this.user = '';
-			localStorage.removeItem('token');
-
 			if (!result.ok) throw new Error('Could not logout user');
-			const router = useRouter();
-			await router.push({ name: 'home' });
 		},
 
 		async refreshSession(): Promise<void> {
+			/*
+			 * This fuction is prevented from execution to prevent a race condition
+			 * But in case the token is really expired it will be executed anyway
+			 */
+			if (!this.leadingInstance && !this.isTokenExpiredWithoutOffset()) return;
+
 			const url = new URL('/api/security/refresh-token', baseUrl);
 			const result = await fetch(url, {
 				method: 'POST',
 			});
 
-			if (!result.ok) throw new Error('Could not refresh token');
+			if (!result.ok || result.status === StatusCodes.NO_CONTENT.valueOf()) throw new Error('Could not refresh token');
 
 			const body = await result.json();
-			if (body.message === 'No refresh token found') throw new Error('Could not refresh token');
 
 			const decoded = jwtDecode(body.token);
 			if (
@@ -82,6 +96,23 @@ const useAccessStore = defineStore('access-store', {
 			this.role = decoded.role;
 			this.user = decoded.userId;
 			this.storeTokenInLocalStore();
+		},
+
+		restoreTokenFromEvent(event: StorageEvent): void {
+			if (event.key === 'token' && event.newValue) {
+				this.leadingInstance = false;
+				const token = event.newValue;
+				const decoded = jwtDecode(token);
+				if (
+					typeof decoded.exp !== 'number'
+					|| typeof decoded.role !== 'string'
+					|| typeof decoded.userId !== 'string'
+				) throw new Error('Invalid token');
+				this.token = token;
+				this.expiration = decoded.exp;
+				this.role = decoded.role;
+				this.user = decoded.userId;
+			}
 		},
 
 		restoreTokenFromLocalStore(): void {
@@ -102,6 +133,7 @@ const useAccessStore = defineStore('access-store', {
 
 		storeTokenInLocalStore(): void {
 			localStorage.setItem('token', this.token);
+			this.leadingInstance = true;
 		},
 	},
 	getters: {
@@ -112,6 +144,7 @@ const useAccessStore = defineStore('access-store', {
 	},
 	state: () => ({
 		expiration: 0,
+		leadingInstance: true,
 		role: '',
 		token: '',
 		user: '',

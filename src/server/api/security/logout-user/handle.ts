@@ -21,7 +21,7 @@ const getLogoutUserHandle = (): Handler => {
 			const repositoryRefreshToken = dataSource.getRepository(RefreshToken);
 			await repositoryRefreshToken.delete({ token: refreshToken, user: userEntity });
 
-			res.status(StatusCodes.OK).clearCookie('refreshToken').send({ message: 'User logged out' });
+			res.status(StatusCodes.OK).clearCookie('refresh-token').send({ message: 'User logged out' });
 		} catch (error) {
 			next(error);
 		}

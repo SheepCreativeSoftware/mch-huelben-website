@@ -36,7 +36,7 @@ const loginUserHandle = (): Handler => {
 				user,
 			});
 
-			res.status(StatusCodes.OK).cookie('refreshToken', refreshToken, getRefreshCookieOptions()).send({ token: accessToken });
+			res.status(StatusCodes.OK).cookie('refresh-token', refreshToken, getRefreshCookieOptions()).send({ token: accessToken });
 		} catch (error) {
 			next(error);
 		}
