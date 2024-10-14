@@ -4,7 +4,7 @@ import { ForbiddenException } from '../misc/custom-errors.js';
 const KEY_BYTES = 32;
 const VECTOR_BYTES = 16;
 const algorithm = 'aes-256-cbc';
-const key = crypto.randomBytes(KEY_BYTES);
+const key = process.env.SESSION_SECRET ?? crypto.randomBytes(KEY_BYTES);
 
 const encryptData = (data: string): string => {
 	const initVector = crypto.randomBytes(VECTOR_BYTES);
