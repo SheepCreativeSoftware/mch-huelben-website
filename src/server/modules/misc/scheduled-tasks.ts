@@ -2,7 +2,7 @@ import { buntstift } from 'buntstift';
 import { dataSource } from '../../database/datasource.js';
 import { decryptData } from '../protection/encryption.js';
 import { RefreshToken } from '../../database/entities/RefreshToken.js';
-import { verifyJwtAccessToken } from '../protection/jwt-handling.js';
+import { verifyJwtRefreshToken } from '../protection/jwt-handling.js';
 
 const scheduledTaskForRefreshTokenCleanup = async (): Promise<void> => {
 	buntstift.info('Collecting old refresh tokens...');
@@ -15,7 +15,7 @@ const scheduledTaskForRefreshTokenCleanup = async (): Promise<void> => {
 		try {
 			// If one of them fail then the token is no longer valid
 			const decryptedToken = decryptData(refreshToken.token);
-			await verifyJwtAccessToken(decryptedToken);
+			await verifyJwtRefreshToken(decryptedToken);
 		} catch {
 			tokensToBeRemoved.push(refreshToken);
 		}
