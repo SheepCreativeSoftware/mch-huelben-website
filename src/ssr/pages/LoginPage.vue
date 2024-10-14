@@ -91,7 +91,7 @@ const submitLoginForm = async (event: Event) => {
 
 		await accessStore.loginUser(email, password);
 		loginFailed.value = false;
-		await router.push({ name: 'home' });
+		router.back();
 	} catch {
 		loginFailed.value = true;
 	}

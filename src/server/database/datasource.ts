@@ -9,6 +9,7 @@ import { Meta } from './entities/Meta.js';
 import { News } from './entities/News.js';
 import { Pages } from './entities/Pages.js';
 import path from 'node:path';
+import { RefreshToken } from './entities/RefreshToken.js';
 import { User } from './entities/User.js';
 
 const MARIADB_PORT = 3306;
@@ -16,7 +17,7 @@ const MARIADB_PORT = 3306;
 const dataSource = new DataSource({
 	database: process.env.DATABASE_NAME,
 	entities: [
-		Category, Content, Events, Gallery, GalleryImages, Meta, News, Pages, User,
+		Category, Content, Events, Gallery, GalleryImages, Meta, News, Pages, RefreshToken, User,
 	],
 	host: process.env.DATABASE_HOST,
 	logging: false,

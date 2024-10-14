@@ -45,16 +45,29 @@ if (!import.meta.env.SSR) {
 }
 
 const CHECK_EXPIRATION_TIME = 1000;
-const checkUserSession = () => {
+const checkUserSession = async () => {
 	if (!accessStore.isLoggedIn) accessStore.restoreTokenFromLocalStore();
+	if (!accessStore.isLoggedIn) {
+		try {
+			await accessStore.refreshSession();
+		} catch {
+			// No session available - Nothing to do
+		}
+	}
 
-	setInterval(() => {
-		if (accessStore.isTokenExpired() && accessStore.isLoggedIn) accessStore.logoutUser();
+	setInterval(async () => {
+		if (accessStore.isTokenExpired() && accessStore.isLoggedIn) {
+			try {
+				await accessStore.refreshSession();
+			} catch {
+				await accessStore.logoutUser();
+			}
+		}
 	}, CHECK_EXPIRATION_TIME);
 };
 
-onMounted(() => {
-	checkUserSession();
+onMounted(async () => {
+	await checkUserSession();
 });
 </script>
 

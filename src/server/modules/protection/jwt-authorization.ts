@@ -1,6 +1,6 @@
-import { BadRequestException, UnauthorizedException } from '../misc/custom-errors.js';
+import { BadRequestException } from '../misc/custom-errors.js';
 import type { Handler } from 'express';
-import { verifyJwtToken } from './jwt-handling.js';
+import { verifyJwtAccessToken } from './jwt-handling.js';
 
 const jwtAuthorizationHandler = (): Handler => {
 	return async (req, _res, next) => {
@@ -23,18 +23,15 @@ const jwtAuthorizationHandler = (): Handler => {
 		}
 
 		try {
-			const user = await verifyJwtToken(token);
+			const user = await verifyJwtAccessToken(token);
 			req.user = user;
 			loginStatus = true;
 			next();
-		} catch (error) {
-			if (error instanceof Error) {
-				next(new UnauthorizedException(`Invalid Token: ${error.message}`));
-				return;
-			}
-
-			next(error);
+		} catch {
+			req.user = null;
+			loginStatus = false;
 		}
+		next();
 	};
 };
 
