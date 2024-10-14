@@ -41,7 +41,7 @@ const main = async () => {
 			throw error;
 		});
 
-	const task = schedule('* * */2 * *', scheduledTaskForRefreshTokenCleanup);
+	const task = schedule('0 */2 * * *', scheduledTaskForRefreshTokenCleanup);
 	task.now();
 };
 
