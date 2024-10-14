@@ -51,7 +51,6 @@ const useAccessStore = defineStore('access-store', {
 			this.storeTokenInLocalStore();
 		},
 		async logoutUser(): Promise<void> {
-			this.token = '';
 			this.expiration = 0;
 			this.role = '';
 			this.user = '';
@@ -65,6 +64,7 @@ const useAccessStore = defineStore('access-store', {
 				method: 'POST',
 			});
 
+			this.token = '';
 			if (!result.ok) throw new Error('Could not logout user');
 		},
 

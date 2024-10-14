@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+import { ForbiddenException } from '../misc/custom-errors.js';
 
 const KEY_BYTES = 32;
 const VECTOR_BYTES = 16;
@@ -15,17 +16,21 @@ const encryptData = (data: string): string => {
 };
 
 const decryptData = (encryptedPayload: string) => {
-	const encryptedPayloadBuffer = Buffer.from(encryptedPayload, 'hex');
-	const initVector = encryptedPayloadBuffer.subarray(0, VECTOR_BYTES);
-	const encryptedData = encryptedPayloadBuffer.subarray(VECTOR_BYTES, encryptedPayloadBuffer.length);
+	try {
+		const encryptedPayloadBuffer = Buffer.from(encryptedPayload, 'hex');
+		const initVector = encryptedPayloadBuffer.subarray(0, VECTOR_BYTES);
+		const encryptedData = encryptedPayloadBuffer.subarray(VECTOR_BYTES, encryptedPayloadBuffer.length);
 
-	const decipher = crypto.createDecipheriv(algorithm, key, initVector);
+		const decipher = crypto.createDecipheriv(algorithm, key, initVector);
 
-	// eslint-disable-next-line no-undefined -- no input encoding needed as input is buffer
-	let decrypted = decipher.update(encryptedData, undefined, 'utf8');
-	decrypted += decipher.final('utf8');
+		// eslint-disable-next-line no-undefined -- no input encoding needed as input is buffer
+		let decrypted = decipher.update(encryptedData, undefined, 'utf8');
+		decrypted += decipher.final('utf8');
 
-	return decrypted;
+		return decrypted;
+	} catch (error) {
+		throw new ForbiddenException('Invalid Payload provided', { cause: error });
+	}
 };
 
 export { decryptData, encryptData };

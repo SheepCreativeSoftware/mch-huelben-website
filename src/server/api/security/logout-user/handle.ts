@@ -1,5 +1,6 @@
 import { dataSource } from '../../../database/datasource.js';
 import { ForbiddenException } from '../../../modules/misc/custom-errors.js';
+import { getRefreshCookieOptions } from '../../../config/refresh-cookie-options.js';
 import type { Handler } from 'express';
 import { RefreshToken } from '../../../database/entities/RefreshToken.js';
 import { StatusCodes } from 'http-status-codes';
@@ -21,7 +22,9 @@ const getLogoutUserHandle = (): Handler => {
 			const repositoryRefreshToken = dataSource.getRepository(RefreshToken);
 			await repositoryRefreshToken.delete({ token: refreshToken, user: userEntity });
 
-			res.status(StatusCodes.OK).clearCookie('refresh-token').send({ message: 'User logged out' });
+			// eslint-disable-next-line no-undefined -- Expire does not make sense when clearing cookie
+			res.clearCookie('refresh-token', { ...getRefreshCookieOptions(), expires: undefined });
+			res.status(StatusCodes.OK).send({ message: 'User logged out' });
 		} catch (error) {
 			next(error);
 		}

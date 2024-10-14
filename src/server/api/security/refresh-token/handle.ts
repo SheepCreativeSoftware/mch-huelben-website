@@ -48,7 +48,8 @@ const getRefreshTokenHandle = (): Handler => {
 				await refreshTokenRepository.remove(currentRefreshTokenEntity);
 			}, REMOVAL_TIMEOUT);
 		} catch (error) {
-			res.clearCookie('refresh-token', getRefreshCookieOptions());
+			// eslint-disable-next-line no-undefined -- Expire does not make sense when clearing cookie
+			res.clearCookie('refresh-token', { ...getRefreshCookieOptions(), expires: undefined });
 			next(error);
 		}
 	};
