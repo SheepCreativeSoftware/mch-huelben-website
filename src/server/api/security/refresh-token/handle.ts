@@ -1,3 +1,4 @@
+import { decryptData, encryptData } from '../../../modules/protection/encryption.js';
 import { signJwtAccessToken, signJwtRefreshToken, verifyJwtRefreshToken } from '../../../modules/protection/jwt-handling.js';
 import { dataSource } from '../../../database/datasource.js';
 import { ForbiddenException } from '../../../modules/misc/custom-errors.js';
@@ -12,11 +13,13 @@ const REMOVAL_TIMEOUT = 1000;
 const getRefreshTokenHandle = (): Handler => {
 	return async (req, res, next) => {
 		try {
-			const currentRefreshToken = req.cookies['refresh-token'];
-			if (!currentRefreshToken) {
+			const currentEncryptedRefreshToken = req.cookies['refresh-token'];
+			if (!currentEncryptedRefreshToken) {
 				res.status(StatusCodes.NO_CONTENT).send({ message: 'No refresh token found' });
 				return;
 			}
+
+			const currentRefreshToken = decryptData(currentEncryptedRefreshToken);
 
 			const decoded = await verifyJwtRefreshToken(currentRefreshToken);
 
@@ -25,28 +28,27 @@ const getRefreshTokenHandle = (): Handler => {
 			if (!userEntity) throw new ForbiddenException('User not found');
 
 			const refreshTokenRepository = dataSource.getRepository(RefreshToken);
-			const refreshTokenEntity = await refreshTokenRepository.findOne({
-				where: { token: currentRefreshToken, user: userEntity },
+			const currentRefreshTokenEntity = await refreshTokenRepository.findOne({
+				where: { token: currentEncryptedRefreshToken, user: userEntity },
 			});
-			if (!refreshTokenEntity) {
-				res.clearCookie('refresh-token');
-				throw new ForbiddenException('Refresh token is invalid');
-			}
+			if (!currentRefreshTokenEntity) throw new ForbiddenException('Refresh token is invalid');
 
 			const newRefreshToken = await signJwtRefreshToken({ userId: userEntity.identifier });
+			const encryptedNewRefreshToken = encryptData(newRefreshToken);
 			const accessToken = await signJwtAccessToken({ role: userEntity.role, userId: userEntity.identifier });
-			const newRefreshTokenEntity = refreshTokenRepository.create({ token: newRefreshToken, user: userEntity });
+			const newRefreshTokenEntity = refreshTokenRepository.create({ token: encryptedNewRefreshToken, user: userEntity });
 			await refreshTokenRepository.save(newRefreshTokenEntity);
 
 			res.status(StatusCodes.OK)
-				.cookie('refresh-token', newRefreshToken, getRefreshCookieOptions())
+				.cookie('refresh-token', encryptedNewRefreshToken, getRefreshCookieOptions())
 				.send({ message: 'Refresh token updated', token: accessToken });
 
 			setTimeout(async () => {
 				// This should prevent a race condition
-				await refreshTokenRepository.remove(refreshTokenEntity);
+				await refreshTokenRepository.remove(currentRefreshTokenEntity);
 			}, REMOVAL_TIMEOUT);
 		} catch (error) {
+			res.clearCookie('refresh-token', getRefreshCookieOptions());
 			next(error);
 		}
 	};
