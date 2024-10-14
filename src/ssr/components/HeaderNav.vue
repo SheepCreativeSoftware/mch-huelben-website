@@ -191,6 +191,10 @@ header {
 
 	@media(width <= 900px) {
 		max-width: 100px;
+
+		&.scrolled {
+		max-width: 100px;
+	}
 	}
 }
 </style>
