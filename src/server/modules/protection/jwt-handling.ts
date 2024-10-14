@@ -26,7 +26,7 @@ const signJwtAccessToken = (options: Payload): Promise<string> => {
 		algorithm: 'HS256',
 		issuer: process.env.HOST,
 		jwtid: crypto.randomUUID(),
-		expiresIn: '1m',
+		expiresIn: '15m',
 		subject: options.userId,
 	};
 
