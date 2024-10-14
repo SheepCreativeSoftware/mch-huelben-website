@@ -2,6 +2,8 @@ import 'reflect-metadata';
 import { buntstift } from 'buntstift';
 import { dataSource } from './server/database/datasource.js';
 import http from 'node:http';
+import { schedule } from 'node-cron';
+import { scheduledTaskForRefreshTokenCleanup } from './server/modules/misc/scheduled-tasks.js';
 
 const DEFAULT_PORT = 3_000;
 
@@ -38,6 +40,9 @@ const main = async () => {
 			buntstift.error(`Server failed because of ${error.message}`);
 			throw error;
 		});
+
+	const task = schedule('* */2 * * *', scheduledTaskForRefreshTokenCleanup);
+	task.now();
 };
 
 process.on('uncaughtException', (error, origin) => {
