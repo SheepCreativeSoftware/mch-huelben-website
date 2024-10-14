@@ -43,4 +43,22 @@ const stringToPositiveNumberOrUndefinedTransformer = (numberString: string | und
 	return stringToPositiveNumberTransformer(numberString, ctx);
 };
 
-export { stringToValidDateTransformer, stringToPositiveNumberTransformer, stringToPositiveNumberOrUndefinedTransformer };
+const stringToBooleanTransformerOrUndefined = (booleanString: string | undefined, ctx: z.RefinementCtx): boolean | undefined => {
+	if (booleanString === 'true') return true;
+	if (booleanString === 'false') return false;
+	// eslint-disable-next-line no-undefined -- Make the value optional when it is not a boolean
+	if (typeof booleanString === 'undefined') return undefined;
+	ctx.addIssue({
+		code: z.ZodIssueCode.invalid_literal,
+		expected: 'true or false',
+		received: booleanString,
+	});
+	return false;
+};
+
+export {
+	stringToValidDateTransformer,
+	stringToPositiveNumberTransformer,
+	stringToPositiveNumberOrUndefinedTransformer,
+	stringToBooleanTransformerOrUndefined,
+};

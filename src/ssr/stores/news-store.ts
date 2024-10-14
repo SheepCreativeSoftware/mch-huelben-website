@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { useAccessStore } from './access-store';
 import { z as zod } from 'zod';
 
 const NewsResponseBodyValidator = zod.object({
@@ -6,6 +7,7 @@ const NewsResponseBodyValidator = zod.object({
 		content: zod.string(),
 		createdAt: zod.string().datetime(),
 		identifier: zod.string().uuid(),
+		isActive: zod.boolean(),
 		title: zod.string(),
 		updatedAt: zod.string().datetime().nullish(),
 	})),
@@ -18,16 +20,13 @@ const baseUrl = import.meta.env.SSR ? import.meta.env.VITE_BASE_URL : window.loc
 
 const useNewsStore = defineStore('news-store', {
 	actions: {
-		async fetchNewsData(count?: number, offset?: number): Promise<void> {
+		async fetchNewsData(count?: number, offset?: number, includeDisabled?: boolean): Promise<void> {
 			if (import.meta.env.SSR) return;
-
-			if (this.news.length >= Number(count)
-				&& this.offset === offset
-			) return;
 
 			const url = new URL('/api/entity/news', baseUrl);
 			if (count) url.searchParams.append('count', String(count));
 			if (offset) url.searchParams.append('offset', String(offset));
+			if (includeDisabled) url.searchParams.append('includeDisabled', String(includeDisabled));
 
 			const result = await fetch(url);
 			const body = await result.json();
@@ -49,6 +48,65 @@ const useNewsStore = defineStore('news-store', {
 		},
 		getNews(count?: number): News['news'] {
 			return this.news.slice(0, count);
+		},
+
+		async updateNewsArticle({ content, identifier, title }: { content?: string, identifier: string, title?: string }): Promise<void> {
+			const accessStore = useAccessStore();
+			const url = new URL('/api/entity/news/update', baseUrl);
+
+			const body = {
+				content,
+				identifier,
+				title,
+			};
+
+			const result = await fetch(url, {
+				body: JSON.stringify(body),
+				headers: {
+					Authorization: `Bearer ${accessStore.token}`,
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+			});
+
+			if (!result.ok) {
+				throw new Error('Could not update news article', {
+					cause: {
+						response: JSON.stringify(result),
+						status: result.status,
+						statusText: result.statusText,
+					},
+				});
+			}
+		},
+
+		async updateNewsArticleActiveState({ identifier, isActive }: { identifier: string, isActive: boolean }): Promise<void> {
+			const accessStore = useAccessStore();
+			const url = new URL('/api/entity/news/update-active-state', baseUrl);
+
+			const body = {
+				identifier,
+				isActive,
+			};
+
+			const result = await fetch(url, {
+				body: JSON.stringify(body),
+				headers: {
+					Authorization: `Bearer ${accessStore.token}`,
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+			});
+
+			if (!result.ok) {
+				throw new Error('Could not update news article active state', {
+					cause: {
+						response: JSON.stringify(result),
+						status: result.status,
+						statusText: result.statusText,
+					},
+				});
+			}
 		},
 	},
 	state: (): News => ({
