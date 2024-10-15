@@ -278,6 +278,8 @@ img {
 }
 
 noscript {
+	display: block;
+	margin: var(--space-300) 0;
 	color: var(--danger-color);
 	font-weight: bold;
 }

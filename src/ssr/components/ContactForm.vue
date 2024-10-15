@@ -1,7 +1,5 @@
 <template>
-	<noscript>
-		Bitte aktiviere JavaScript, um das Kontaktformular nutzen zu können.<br>
-	</noscript>
+	<noscript>Bitte aktiviere JavaScript in deinem Browser, um das Kontaktformular nutzen zu können.</noscript>
 	<form
 		ref="contact-form"
 		class="contact-form"

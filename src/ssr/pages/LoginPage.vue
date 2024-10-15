@@ -15,9 +15,7 @@
 					Login
 				</template>
 				<template #text>
-					<noscript>
-						Bitte aktiviere JavaScript, um diese Seite nutzen zu können.<br>
-					</noscript>
+					<noscript>Bitte aktiviere JavaScript, um diese Seite nutzen zu können.</noscript>
 					Bitte logge dich ein.
 					<div
 						v-if="loginFailed"
