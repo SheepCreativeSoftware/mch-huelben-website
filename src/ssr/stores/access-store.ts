@@ -113,6 +113,12 @@ const useAccessStore = defineStore('access-store', {
 				this.role = decoded.role;
 				this.user = decoded.userId;
 			}
+			if (event.key === 'token' && !event.newValue) {
+				this.token = '';
+				this.expiration = 0;
+				this.role = '';
+				this.user = '';
+			}
 		},
 
 		restoreTokenFromLocalStore(): void {

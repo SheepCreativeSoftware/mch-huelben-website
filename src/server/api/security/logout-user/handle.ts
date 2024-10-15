@@ -18,7 +18,7 @@ const getLogoutUserHandle = (): Handler => {
 				identifier: user.userId,
 			});
 
-			const refreshToken = req.cookies.refreshToken;
+			const refreshToken = req.cookies['refresh-token'];
 			if (!refreshToken) throw new ForbiddenException('No refresh token provided');
 			const hashedRefreshToken = createHash(refreshToken);
 
