@@ -45,17 +45,16 @@ const signJwtAccessToken = (options: Payload): Promise<string> => {
 	});
 };
 
-const signJwtRefreshToken = (options: { userId: string | UUID; }): Promise<string> => {
+const signJwtRefreshToken = (options: { userId: string | UUID; expiration: number, tokenId: UUID }): Promise<string> => {
 	const signOptions: jwt.SignOptions = {
 		algorithm: 'HS256',
 		issuer: process.env.HOST,
-		jwtid: crypto.randomUUID(),
-		expiresIn: '1d',
+		jwtid: options.tokenId,
 		subject: options.userId,
 	};
 
 	return new Promise((resolve, reject) => {
-		jwt.sign({}, refreshTokenSecretKey, signOptions, (error, jwt) => {
+		jwt.sign({ exp: options.expiration }, refreshTokenSecretKey, signOptions, (error, jwt) => {
 			if (error) {
 				buntstift.error(error.message);
 				reject(error);

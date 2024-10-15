@@ -1,14 +1,16 @@
+import { getRefreshTokenCookieOptions, getRefreshTokenExpirationInMilliSeconds } from '../../../config/refresh-token-options.js';
 import { signJwtAccessToken, signJwtRefreshToken } from '../../../modules/protection/jwt-handling.js';
-import { comparePassword } from '../../../modules/protection/hash-password.js';
+import { comparePasswordWithHash } from '../../../modules/protection/hash-password.js';
+import { createHash } from '../../../modules/protection/encryption.js';
 import { dataSource } from '../../../database/datasource.js';
-import { encryptData } from '../../../modules/protection/encryption.js';
 import { ForbiddenException } from '../../../modules/misc/custom-errors.js';
-import { getRefreshCookieOptions } from '../../../config/refresh-cookie-options.js';
 import type { Handler } from 'express';
 import { RefreshToken } from '../../../database/entities/RefreshToken.js';
 import { RequestBodyValidator } from './request.js';
 import { StatusCodes } from 'http-status-codes';
 import { User } from '../../../database/entities/User.js';
+
+const CONVERT_TO_SECONDS = 1000;
 
 const loginUserHandle = (): Handler => {
 	return async (req, res, next) => {
@@ -22,23 +24,34 @@ const loginUserHandle = (): Handler => {
 
 			if (!user?.active) throw new ForbiddenException('User/Password not match or wrong credentials');
 
-			const isValidPassword = await comparePassword(
+			const isValidPassword = await comparePasswordWithHash(
 				requestBody.password,
 				user.password,
 			);
 			if (!isValidPassword) throw new ForbiddenException('User/Password not match or wrong credentials');
 
 			const accessToken = await signJwtAccessToken({ role: user.role, userId: user.identifier });
-			const refreshToken = await signJwtRefreshToken({ userId: user.identifier });
-			const encryptedRefreshToken = encryptData(refreshToken);
+			const expirationInMilliSeconds = getRefreshTokenExpirationInMilliSeconds();
+			const tokenId = crypto.randomUUID();
+			const refreshToken = await signJwtRefreshToken({
+				expiration: expirationInMilliSeconds / CONVERT_TO_SECONDS,
+				tokenId,
+				userId: user.identifier,
+			});
+			const hashedRefreshToken = createHash(refreshToken);
 
 			const repositoryRefreshToken = dataSource.getRepository(RefreshToken);
-			await repositoryRefreshToken.save({
-				token: encryptedRefreshToken,
+			const refreshTokenEntity = repositoryRefreshToken.create({
+				expiration: new Date(expirationInMilliSeconds),
+				identifier: tokenId,
+				token: hashedRefreshToken,
 				user,
 			});
+			await repositoryRefreshToken.save(refreshTokenEntity);
 
-			res.status(StatusCodes.OK).cookie('refresh-token', encryptedRefreshToken, getRefreshCookieOptions()).send({ token: accessToken });
+			res.status(StatusCodes.OK)
+				.cookie('refresh-token', refreshToken, getRefreshTokenCookieOptions(expirationInMilliSeconds))
+				.send({ token: accessToken });
 		} catch (error) {
 			next(error);
 		}

@@ -15,6 +15,12 @@ class RefreshToken {
 	})
 	token: string;
 
+	@Column({
+		name: 'expiration',
+		type: 'timestamp',
+	})
+	expiration: Date;
+
 	@ManyToOne(() => User, (user) => user.refreshToken)
 	@JoinColumn({
 		foreignKeyConstraintName: 'fk_refresh_token_user',

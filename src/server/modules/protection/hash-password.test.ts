@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-floating-promises -- This is a test file */
-import { comparePassword, hashPassword } from './hash-password.js';
+import { comparePasswordWithHash, hashPassword } from './hash-password.js';
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
 
@@ -12,18 +12,18 @@ describe('hash-password', () => {
 		});
 	});
 
-	describe('comparePassword', () => {
+	describe('comparePasswordWithHash', () => {
 		it('should hash a password and successfully compare', async () => {
 			const password = 'password';
 			const hash = await hashPassword(password);
-			const isSame = await comparePassword(password, hash);
+			const isSame = await comparePasswordWithHash(password, hash);
 			assert.ok(isSame);
 		});
 
 		it('should hash a password and compare it with a wrong password', async () => {
 			const password = 'password';
 			const hash = await hashPassword(password);
-			const isSame = await comparePassword('wrong-password', hash);
+			const isSame = await comparePasswordWithHash('wrong-password', hash);
 			assert.ok(!isSame);
 		});
 	});

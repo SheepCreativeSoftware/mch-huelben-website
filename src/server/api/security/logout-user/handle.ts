@@ -1,6 +1,7 @@
+import { createHash } from '../../../modules/protection/encryption.js';
 import { dataSource } from '../../../database/datasource.js';
 import { ForbiddenException } from '../../../modules/misc/custom-errors.js';
-import { getRefreshCookieOptions } from '../../../config/refresh-cookie-options.js';
+import { getRefreshTokenCookieOptions } from '../../../config/refresh-token-options.js';
 import type { Handler } from 'express';
 import { RefreshToken } from '../../../database/entities/RefreshToken.js';
 import { StatusCodes } from 'http-status-codes';
@@ -18,14 +19,18 @@ const getLogoutUserHandle = (): Handler => {
 			});
 
 			const refreshToken = req.cookies.refreshToken;
+			if (!refreshToken) throw new ForbiddenException('No refresh token provided');
+			const hashedRefreshToken = createHash(refreshToken);
 
 			const repositoryRefreshToken = dataSource.getRepository(RefreshToken);
-			await repositoryRefreshToken.delete({ token: refreshToken, user: userEntity });
+			await repositoryRefreshToken.delete({ token: hashedRefreshToken, user: userEntity });
 
-			// eslint-disable-next-line no-undefined -- Expire does not make sense when clearing cookie
-			res.clearCookie('refresh-token', { ...getRefreshCookieOptions(), expires: undefined });
+			// eslint-disable-next-line no-undefined -- Expire is not valid when clearing cookie
+			res.clearCookie('refresh-token', { ...getRefreshTokenCookieOptions(0), expires: undefined });
 			res.status(StatusCodes.OK).send({ message: 'User logged out' });
 		} catch (error) {
+			// eslint-disable-next-line no-undefined -- Expire is not valid when clearing cookie
+			res.clearCookie('refresh-token', { ...getRefreshTokenCookieOptions(0), expires: undefined });
 			next(error);
 		}
 	};
