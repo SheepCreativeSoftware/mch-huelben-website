@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, type Relation } from 'typeorm';
+import { RefreshToken } from './RefreshToken.js';
 
 /* eslint-disable new-cap -- This is not a constructor */
 @Entity('users')
@@ -34,6 +35,9 @@ class User {
 		type: 'boolean',
 	})
 	active: boolean;
+
+	@OneToMany(() => RefreshToken, (refreshToken) => refreshToken.user)
+	refreshToken: Relation<RefreshToken[]>;
 }
 /* eslint-enable new-cap -- This is not a constructor */
 

@@ -45,16 +45,45 @@ if (!import.meta.env.SSR) {
 }
 
 const CHECK_EXPIRATION_TIME = 1000;
-const checkUserSession = () => {
-	if (!accessStore.isLoggedIn) accessStore.restoreTokenFromLocalStore();
+const checkUserSession = async () => {
+	if (!accessStore.isLoggedIn) {
+		accessStore.restoreTokenFromLocalStore();
+		addEventListener('storage', (event) => {
+			accessStore.restoreTokenFromEvent(event);
+		});
+	}
+	if (!accessStore.isLoggedIn) {
+		try {
+			await accessStore.refreshSession();
+		} catch {
+			// No session available - Nothing to do
+		}
+	}
 
-	setInterval(() => {
-		if (accessStore.isTokenExpired() && accessStore.isLoggedIn) accessStore.logoutUser();
+	setInterval(async () => {
+		if (accessStore.isTokenExpired() && accessStore.isLoggedIn) {
+			try {
+				await accessStore.refreshSession();
+			} catch {
+				/*
+				 * This should prevent a race condition where the token is refreshed by two instances at the same time
+				 * In this case one of them might fail as the token is invalid at the second request
+				 * But a new acces token is might be available in store from the other request
+				 */
+				setTimeout(async () => {
+					accessStore.restoreTokenFromLocalStore();
+
+					if (!accessStore.isTokenExpired()) return;
+					await accessStore.logoutUser();
+					await router.push({ name: 'home' });
+				}, CHECK_EXPIRATION_TIME);
+			}
+		}
 	}, CHECK_EXPIRATION_TIME);
 };
 
-onMounted(() => {
-	checkUserSession();
+onMounted(async () => {
+	await checkUserSession();
 });
 </script>
 
