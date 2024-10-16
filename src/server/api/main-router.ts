@@ -2,6 +2,7 @@ import { clientErrorHandler, errorHandler, logOnError, notFoundHandler } from '.
 import { contactRouter } from './contact/router.js';
 import { entityRouter } from './entity/router.js';
 import express from 'express';
+import { fileRouter } from './file/router.js';
 import type { Router } from 'express';
 import { securityRouter } from './security/router.js';
 
@@ -12,6 +13,7 @@ const getMainRouter = (): Router => {
 	router.use('/entity', entityRouter);
 	router.use('/contact', contactRouter);
 	router.use('/security', securityRouter);
+	router.use('/file', fileRouter);
 
 	// Handle errors
 	router.use(logOnError);
