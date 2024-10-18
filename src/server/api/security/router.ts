@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.post('/login-user', loginUserHandle());
 router.post('/logout-user', userAuthorizedHandler(), getLogoutUserHandle());
-router.post('/refresh-token', userAuthorizedHandler(), getRefreshTokenHandle());
+router.post('/refresh-token', getRefreshTokenHandle());
 
 export { router as securityRouter };

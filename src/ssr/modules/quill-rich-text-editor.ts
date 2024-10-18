@@ -4,23 +4,14 @@ import type { QuillOptions } from 'quill';
 import type Toolbar from 'quill/modules/toolbar';
 const baseUrl = import.meta.env.SSR ? import.meta.env.VITE_BASE_URL : window.location.origin;
 
-const getQuillRichTextEditor = async () => {
-	if (import.meta.env.SSR) throw new Error('Quill cannot be loaded in a server environment');
-	// Dynamic import is used because Quill can only be loaded in the browser
-	return (await import('quill')).default;
-};
-
 const imageHandler = async (quill: Quill, imageData: ImageData) => {
 	const file = imageData.toFile();
+	if (!file) throw new Error('Could not convert image data to file');
 
-	// Generate a form data
 	const formData = new FormData();
-
-	// Or just append the file
-	if (file) formData.append('file', file);
+	formData.append('file', file);
 	formData.append('type', imageData.type);
 
-	// Upload image to your server
 	const url = new URL('/api/file/upload', baseUrl);
 	const result = await fetch(url, {
 		body: formData,
@@ -35,10 +26,6 @@ const imageHandler = async (quill: Quill, imageData: ImageData) => {
 	const body = await result.json();
 	const fileUrl = body.filePaths[0];
 
-	/*
-	 * Success? you should return the uploaded image's url
-	 * Then insert into the quill editor
-	 */
 	let index = quill.getSelection()?.index;
 	if (typeof index === 'undefined' || index < 0) index = quill.getLength();
 	quill.insertEmbed(index, 'image', fileUrl, 'user');
@@ -50,7 +37,7 @@ const nativeImageHandlerOverwrite = (toolbar: Toolbar) => {
 			// eslint-disable-next-line no-invalid-this -- this is a given mechanism of quill
 			const quill = this.quill;
 			// eslint-disable-next-line no-invalid-this -- this is a given mechanism of quill
-			let fileInput = this.container?.querySelector('input.ql-image[type=file]');
+			let fileInput = this.container?.querySelector('input.ql-image[type=file]') as HTMLInputElement | null;
 			if (fileInput == null) {
 				fileInput = document.createElement('input');
 				fileInput.setAttribute('type', 'file');
@@ -60,10 +47,10 @@ const nativeImageHandlerOverwrite = (toolbar: Toolbar) => {
 				);
 				fileInput.classList.add('ql-image');
 				fileInput.addEventListener('change', function (changeEvent) {
-					const files = changeEvent.target?.files;
-					let file;
-					if (files.length > 0) {
-						file = files[0];
+					if (!(changeEvent.target instanceof HTMLInputElement)) throw new Error('Change event target is not an input element');
+					const files = changeEvent.target.files;
+					if (typeof files?.length !== 'undefined' && files.length > 0) {
+						const file = files[0];
 						const type = file.type;
 						const reader = new FileReader();
 						reader.onload = async (event) => {
@@ -72,7 +59,7 @@ const nativeImageHandlerOverwrite = (toolbar: Toolbar) => {
 							if (typeof dataUrl !== 'string') throw new Error('Data URL is not a string');
 							const ImageDataConstructor = (await import('quill-image-drop-and-paste')).ImageData;
 							await imageHandler(quill, new ImageDataConstructor(dataUrl, type, file.name));
-							fileInput.value = '';
+							if (fileInput) fileInput.value = '';
 						};
 						reader.readAsDataURL(file);
 					}
@@ -143,12 +130,17 @@ const getQuillRichTextEditorInstance = async (selector: HTMLElement | string) =>
 
 	QuillRichTextEditor.register('modules/imageDropAndPaste', QuillImageDropAndPaste);
 	const quill = new QuillRichTextEditor(selector, getQuillDefaultOptions());
-	const imageDropAndPaste = quill.getModule('imageDropAndPaste') as QuillImageDropAndPaste;
-	imageDropAndPaste.option.handler = (imageDataUrl: string, type: string, imageData: ImageData) => imageHandler(quill, imageData);
+	const imageDropAndPaste = quill.getModule('imageDropAndPaste');
+	if (!(imageDropAndPaste instanceof QuillImageDropAndPaste)) throw new Error('Missing QuillImageDropAndPaste');
+	imageDropAndPaste.option.handler = async (_imageDataUrl: string | ArrayBuffer, _type?: string, imageData?: ImageData) => {
+		if (imageData) await imageHandler(quill, imageData);
+		else throw new Error('Image data is missing');
+	};
+
 	const toolbar = quill.getModule('toolbar') as Toolbar;
 	nativeImageHandlerOverwrite(toolbar);
 
 	return quill;
 };
 
-export { getQuillRichTextEditor, getQuillDefaultOptions, removeQuillInstance, getQuillRichTextEditorInstance };
+export { getQuillDefaultOptions, removeQuillInstance, getQuillRichTextEditorInstance };
