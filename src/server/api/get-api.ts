@@ -38,6 +38,7 @@ const getApi = async (): Promise<Application> => {
 		app.use(base, sirv('./dist/ssr/client', { extensions: [] }));
 	}
 
+	// Serve static files in preview mode
 	if (process.env.PREVIEW === 'true') app.use(express.static('./public'));
 
 	// Authorization if token is present
