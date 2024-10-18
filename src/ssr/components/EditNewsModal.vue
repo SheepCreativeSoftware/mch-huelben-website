@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 import '../assets/quill.snow.css';
-import { getQuillDefaultOptions, getQuillRichTextEditor, removeQuillInstance } from '../modules/quill-rich-text-editor';
+import { getQuillRichTextEditorInstance, removeQuillInstance } from '../modules/quill-rich-text-editor';
 import { nextTick, reactive, useTemplateRef } from 'vue';
 import type Quill from 'quill';
 import { sanitizeHtml } from '../../shared/protection/sanitize-html';
@@ -82,8 +82,7 @@ const openModal = async () => {
 	state.identifier = props.content.identifier;
 	await nextTick();
 	modal.value?.showModal();
-	const QuillRichTextEditor = await getQuillRichTextEditor();
-	quill = new QuillRichTextEditor('#editor', getQuillDefaultOptions());
+	quill = await getQuillRichTextEditorInstance('#editor');
 };
 
 const closeModal = () => {
