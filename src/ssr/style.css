@@ -276,3 +276,10 @@ img {
 	max-width: 2000px;
 	margin: 0 auto;
 }
+
+noscript {
+	display: block;
+	margin: var(--space-300) 0;
+	color: var(--danger-color);
+	font-weight: bold;
+}

@@ -36,10 +36,12 @@ const getApi = async (): Promise<Application> => {
 		app.set('trust proxy', true);
 		app.use(compression());
 		app.use(base, sirv('./dist/ssr/client', { extensions: [] }));
-		app.use(base, sirv('./public', { extensions: [] }));
 	}
 
-	// Autorization if token is present
+	// Serve static files in preview mode
+	if (process.env.PREVIEW === 'true') app.use(express.static('./public'));
+
+	// Authorization if token is present
 	app.use(jwtAuthorizationHandler());
 
 	app.use('/api', getMainRouter());
