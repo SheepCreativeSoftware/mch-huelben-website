@@ -7,9 +7,7 @@ const getFileUploadOptions = (): Options => {
 	return {
 		limits: {
 			fileSize: 50 * CONVERT_MB_TO_BYTES,
-
 		},
-
 	};
 };
 

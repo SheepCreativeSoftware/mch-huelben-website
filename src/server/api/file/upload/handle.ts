@@ -1,14 +1,39 @@
 import { BadRequestException } from '../../../modules/misc/custom-errors.js';
 import type { Handler } from 'express';
+import type fileUpload from 'express-fileupload';
 import { StatusCodes } from 'http-status-codes';
+import { writeFile } from 'node:fs/promises';
+import path from 'node:path';
+
+const ALLOWED_MIME_TYPES = [
+	'image/jpeg',
+	'image/png',
+	'image/gif',
+	'image/bmp',
+];
+
+const handleFileUpload = async (file: fileUpload.UploadedFile): Promise<string> => {
+	if (file.size === 0) throw new BadRequestException('File is empty');
+	if (!ALLOWED_MIME_TYPES.includes(file.mimetype)) throw new BadRequestException('Invalid file type');
+
+	const fileExtension = file.mimetype.replace('image/', '');
+	const filePath = path.join('public', 'fileupload', `${crypto.randomUUID()}.${fileExtension}`);
+
+	await writeFile(path.resolve(process.cwd(), filePath), file.data);
+
+	return filePath;
+};
 
 const getFileUploadHandle = (): Handler => {
-	return (req, res, next) => {
+	return async (req, res, next) => {
 		try {
-			if (!req.files?.length) throw new BadRequestException('No files were uploaded');
-			// If (file.size === 0) throw new BadRequestException('File is empty');
-
-			res.status(StatusCodes.CREATED).send({ message: 'File uploaded!' });
+			console.log(req.files);
+			if (!req.files?.file) throw new BadRequestException('No files were uploaded');
+			const filePaths: string[] = [];
+			if (Array.isArray(req.files.file)) for (const file of req.files.file) filePaths.push(await handleFileUpload(file));
+			else filePaths.push(await handleFileUpload(req.files.file));
+			console.log(filePaths);
+			res.status(StatusCodes.CREATED).send({ filePaths, message: 'File uploaded!' });
 		} catch (error) {
 			next(error);
 		}
