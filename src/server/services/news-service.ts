@@ -1,8 +1,9 @@
+import { InternalServerException, NotFoundException } from '../modules/misc/custom-errors.js';
 import type { StoreService, StoreServiceOptions } from './StoreServiceInterface.js';
 import { dataSource } from '../database/datasource.js';
 import type { FindOptionsWhere } from 'typeorm';
-import { InternalServerException } from '../modules/misc/custom-errors.js';
 import { News } from '../database/entities/News.js';
+import { removeImagesOnChange } from '../modules/misc/remove-images-on-content-change.js';
 import { z as zod } from 'zod';
 
 const ResponseNewsValidator = zod.object({
@@ -51,6 +52,10 @@ const getAllLatestNews: StoreService = async ({ count, offset }: StoreServiceOpt
 
 const updateNewsArticle = async ({ content, identifier, title }: { content?: string, identifier: string, title?: string }): Promise<void> => {
 	const repository = dataSource.getRepository(News);
+
+	const newsEntity = await repository.findOne({ where: { identifier } });
+	if (!newsEntity) throw new NotFoundException('Failed to find page content');
+	if (content) await removeImagesOnChange({ newContent: content, previousContent: newsEntity.content });
 	const result = await repository.update(identifier, { content, title });
 
 	if (!result.affected) throw new InternalServerException('Failed to update news article', { cause: result.raw });

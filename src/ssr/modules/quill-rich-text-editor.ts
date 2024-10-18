@@ -1,6 +1,7 @@
 import type Quill from 'quill';
 import type { QuillOptions } from 'quill';
 import type Toolbar from 'quill/modules/toolbar';
+import type Uploader from 'quill/modules/uploader';
 const baseUrl = import.meta.env.SSR ? import.meta.env.VITE_BASE_URL : window.location.origin;
 
 const createFileInputElement = (): HTMLInputElement => {
@@ -16,7 +17,7 @@ const createFileInputElement = (): HTMLInputElement => {
 	return fileInput;
 };
 
-const uploadFiles = async (files: FileList): Promise<string[]> => {
+const uploadFiles = async (files: FileList | File[]): Promise<string[]> => {
 	const formData = new FormData();
 	for (const file of files) formData.append('file', file);
 
@@ -29,9 +30,9 @@ const uploadFiles = async (files: FileList): Promise<string[]> => {
 		method: 'POST',
 	});
 
-	if (!result.ok) throw new Error('Could not upload image');
-
 	const body = await result.json();
+	if (!result.ok) throw new Error(`${body.message}`);
+
 	return body.filePaths as string[];
 };
 
@@ -76,6 +77,18 @@ const nativeImageHandlerOverwrite = (toolbar: Toolbar) => {
 			fileInput.click();
 		}
 	});
+};
+
+const nativeUploaderOverwrite = (uploader: Uploader) => {
+	uploader.upload = async function (this, _range, files) {
+		try {
+			const filePaths = await uploadFiles(files);
+			dropImageInEditor(this.quill, filePaths);
+		} catch (error) {
+			// eslint-disable-next-line no-alert -- simple notification to the user
+			if (error instanceof Error) alert(`Could not upload image: ${error.message}`);
+		}
+	};
 };
 
 const getQuillToolbarOptions = () => {
@@ -134,6 +147,9 @@ const getQuillRichTextEditorInstance = async (selector: HTMLElement | string) =>
 	const quill = new QuillRichTextEditor(selector, getQuillDefaultOptions());
 	const toolbar = quill.getModule('toolbar') as Toolbar;
 	nativeImageHandlerOverwrite(toolbar);
+
+	const uploader = quill.getModule('uploader') as Uploader;
+	nativeUploaderOverwrite(uploader);
 
 	return quill;
 };
