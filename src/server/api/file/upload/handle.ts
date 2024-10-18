@@ -17,9 +17,9 @@ const handleFileUpload = async (file: fileUpload.UploadedFile): Promise<string> 
 	if (!ALLOWED_MIME_TYPES.includes(file.mimetype)) throw new BadRequestException('Invalid file type');
 
 	const fileExtension = file.mimetype.replace('image/', '');
-	const filePath = path.join('public', 'fileupload', `${crypto.randomUUID()}.${fileExtension}`);
+	const filePath = path.join('fileupload', `${crypto.randomUUID()}.${fileExtension}`);
 
-	await writeFile(path.resolve(process.cwd(), filePath), file.data);
+	await writeFile(path.resolve(process.cwd(), 'public', filePath), file.data);
 
 	return filePath;
 };
