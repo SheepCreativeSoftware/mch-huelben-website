@@ -12,7 +12,7 @@
 		class="modal"
 	>
 		<div>
-			<h3>Seiteninhalt bearbeiten</h3>
+			<h3>Nachricht bearbeiten</h3>
 			<div
 				v-if="state.onError"
 				class="modal-error"
@@ -49,10 +49,10 @@ import { nextTick, reactive, useTemplateRef } from 'vue';
 import type Quill from 'quill';
 import { sanitizeHtml } from '../../shared/protection/sanitize-html';
 import { useAccessStore } from '../stores/access-store';
-import { usePagesStore } from '../stores/pages-store';
+import { useNewsStore } from '../stores/news-store';
 
 const accessStore = useAccessStore();
-const pagesStore = usePagesStore();
+const newsStore = useNewsStore();
 
 const props = defineProps<{
 	content: {
@@ -102,10 +102,10 @@ const updateContent = async () => {
 	try {
 		let quillHtmlContent = quill?.getSemanticHTML();
 		if (quillHtmlContent) quillHtmlContent = quillHtmlContent.replaceAll('<p></p>', '<p><br></p>');
-		await pagesStore.updatePagesContent({
+		await newsStore.updateNewsArticle({
+			content: quillHtmlContent,
 			identifier: state.identifier,
 			title: state.title,
-			content: quillHtmlContent,
 		});
 
 		closeModal();
@@ -121,10 +121,6 @@ const updateContent = async () => {
 </script>
 
 <style lang="css" scoped>
-.edit-button {
-	margin-top: 0;
-}
-
 .modal {
 	max-width: 1200px;
 	width: calc(100vw - 5rem);

@@ -1,7 +1,7 @@
+import { Equal, MoreThanOrEqual } from 'typeorm';
 import { dataSource } from '../database/datasource.js';
 import { Events } from '../database/entities/Events.js';
 import { InternalServerException } from '../modules/misc/custom-errors.js';
-import { MoreThanOrEqual } from 'typeorm';
 import { z as zod } from 'zod';
 
 const ResponseEventsValidator = zod.array(zod.object({
@@ -14,24 +14,30 @@ const ResponseEventsValidator = zod.array(zod.object({
 	updatedAt: zod.date().nullable(),
 }));
 
-const getCurrentEvents = async (): Promise<Events[]> => {
+const getCurrentEvents = async (): Promise<Omit<Events, 'news'>[]> => {
 	const currentDate = new Date();
 	const events = await dataSource.getRepository(Events).find({
 		order: {
 			fromDate: 'DESC',
 		},
+		/* eslint-disable new-cap -- This is not a constructor */
 		where: [
 			{
-				// eslint-disable-next-line new-cap -- This is not a constructor
 				fromDate: MoreThanOrEqual(currentDate),
 				isActive: true,
+				news: {
+					isActive: Equal(true),
+				},
 			},
 			{
 				isActive: true,
-				// eslint-disable-next-line new-cap -- This is not a constructor
+				news: {
+					isActive: Equal(true),
+				},
 				toDate: MoreThanOrEqual(currentDate),
 			},
 		],
+		/* eslint-enable new-cap -- This is not a constructor */
 	});
 
 	const result = ResponseEventsValidator.safeParse(events);

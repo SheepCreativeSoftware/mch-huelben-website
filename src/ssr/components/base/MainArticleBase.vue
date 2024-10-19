@@ -1,5 +1,8 @@
 <template>
-	<article class="article-container">
+	<article
+		ref="article-container"
+		class="article-container"
+	>
 		<section>
 			<h2 class="section-title">
 				<slot name="title">
@@ -28,7 +31,27 @@
 	</article>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted, onUpdated, useTemplateRef } from 'vue';
+import { searchForGoogleMapsLinks } from '../../modules/gmaps-link-consent-handler';
+import { searchForYoutubeLinks } from '../../modules/youtube-link-consent-handler';
+
+const articleContainer = useTemplateRef('article-container');
+
+const updateThirdPartyLinks = () => {
+	if (!(articleContainer.value instanceof Element)) return;
+	searchForGoogleMapsLinks(articleContainer.value);
+	searchForYoutubeLinks(articleContainer.value);
+};
+
+onUpdated(() => {
+	updateThirdPartyLinks();
+});
+
+onMounted(() => {
+	updateThirdPartyLinks();
+});
+</script>
 
 <style lang="css" scoped>
 .article-container {

@@ -32,17 +32,25 @@
 								:alt="image.description"
 								:title="image.description"
 								loading="lazy"
+								@click="showZoomedImage(image)"
 							>
 						</div>
 					</div>
 				</template>
 			</MainArticleBase>
 		</main>
+		<dialog
+			ref="zoomedImageDialog"
+			class="zoomed-image-dialog"
+			@click="closeZoomedImage"
+		>
+			<img alt="Kein Bild">
+		</dialog>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount } from 'vue';
+import { computed, onBeforeMount, onMounted, useTemplateRef } from 'vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import { routeOnError } from '../modules/route-on-error.ts';
 import { useGalleryStore } from '../stores/gallery-store.ts';
@@ -51,6 +59,30 @@ import { useRouter } from 'vue-router';
 const MAX_IMAGES_PER_COLLECTION = 12;
 const galleryStore = useGalleryStore();
 const router = useRouter();
+
+const zoomedImageDialog = useTemplateRef<HTMLDialogElement>('zoomedImageDialog');
+
+const showZoomedImage = (image: {
+	description: string;
+	fileType: string | null;
+	imageUrl: string;
+}) => {
+	if (!(zoomedImageDialog.value instanceof HTMLDialogElement)) return;
+
+	const img = zoomedImageDialog.value.querySelector('img');
+	if (!(img instanceof HTMLImageElement)) return;
+	img.src = image.imageUrl;
+	img.alt = image.description;
+	img.title = image.description;
+
+	zoomedImageDialog.value.showModal();
+};
+
+const closeZoomedImage = () => {
+	if (!(zoomedImageDialog.value instanceof HTMLDialogElement)) return;
+
+	zoomedImageDialog.value.close();
+};
 
 const technicalName = router.currentRoute.value.params.technicalName;
 const category = router.currentRoute.value.params.category;
@@ -82,6 +114,10 @@ const updateGalleries = async () => {
 onBeforeMount(async() => {
 	await updateGalleries();
 });
+
+onMounted(() => {
+	closeZoomedImage();
+});
 </script>
 
 <style lang="css" scoped>
@@ -109,6 +145,10 @@ onBeforeMount(async() => {
 
 	img {
 		aspect-ratio: 2 / 1;
+
+		&:hover {
+			cursor: zoom-in;
+		}
 	}
 }
 
@@ -183,5 +223,29 @@ onBeforeMount(async() => {
 }
 .image-item-11 {
 	grid-area: l;
+}
+
+.zoomed-image-dialog {
+	display: flex;
+	width: 100vw;
+	height: 100vh;
+	transition: all 0.5s ease-in-out;
+	background: rgba(0, 0, 0, 0.8);
+
+	img {
+		margin: 0 auto;
+		max-width: 100%;
+		max-height: 100%;
+	}
+
+	&:not([open]) {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	&[open] {
+		opacity: 1;
+		cursor: zoom-out;
+	}
 }
 </style>

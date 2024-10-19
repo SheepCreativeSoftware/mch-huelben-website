@@ -4,15 +4,15 @@
 		class="edit-button"
 		@click="openModal()"
 	>
-		Bearbeiten
+		Neuen Artikel Hinzufügen
 	</button>
 	<dialog
-		v-if="accessStore.isLoggedIn && state.identifier"
+		v-if="accessStore.isLoggedIn && state.open"
 		ref="modal"
 		class="modal"
 	>
 		<div>
-			<h3>Seiteninhalt bearbeiten</h3>
+			<h3>Nachricht hinzufügen</h3>
 			<div
 				v-if="state.onError"
 				class="modal-error"
@@ -22,6 +22,7 @@
 			<input
 				id="title"
 				v-model="state.title"
+				placeholder="Titel eingeben"
 				type="text"
 			>
 			<div class="editor-container">
@@ -30,8 +31,43 @@
 					<div v-html="sanitizeHtml(state.content)"	/>
 				</div>
 			</div>
+			<div>
+				<input
+					id="has-event"
+					v-model="state.hasEvent"
+					type="checkbox"
+					name="has-event"
+				>
+				<label for="has-event">Veranstaltung hinzufügen</label>
+			</div>
+			<div v-if="state.hasEvent">
+				<div class="event-item">
+					<label for="event-title">Veranstaltung Titel</label>
+					<input
+						id="event-title"
+						v-model="state.event.title"
+						type="text"
+					>
+				</div>
+				<div class="event-item">
+					<label for="event-date">Startdatum</label>
+					<input
+						id="event-date"
+						v-model="state.event.fromDate"
+						type="date"
+					>
+				</div>
+				<div class="event-item">
+					<label for="event-date">Enddatum</label>
+					<input
+						id="event-date"
+						v-model="state.event.toDate"
+						type="date"
+					>
+				</div>
+			</div>
 			<div class="button-container">
-				<button @click="updateContent">
+				<button @click="addContent">
 					Speichern
 				</button>
 				<button @click="closeModal">
@@ -49,27 +85,29 @@ import { nextTick, reactive, useTemplateRef } from 'vue';
 import type Quill from 'quill';
 import { sanitizeHtml } from '../../shared/protection/sanitize-html';
 import { useAccessStore } from '../stores/access-store';
-import { usePagesStore } from '../stores/pages-store';
+import { useNewsStore } from '../stores/news-store';
 
 const accessStore = useAccessStore();
-const pagesStore = usePagesStore();
-
-const props = defineProps<{
-	content: {
-		identifier: string;
-		title: string;
-		content: string;
-	}
-}>();
+const newsStore = useNewsStore();
 
 const emits = defineEmits<{
 	update: [];
 }>();
 
+const formatDate = (date: Date) => {
+	return date.toISOString().split('T')[0];
+};
+
 const state = reactive({
-	identifier: '',
+	open: false,
 	content: '',
 	title: '',
+	hasEvent: false,
+	event: {
+		title: '',
+		fromDate: formatDate(new Date()),
+		toDate: formatDate(new Date()),
+	},
 	onError: '',
 });
 
@@ -77,9 +115,7 @@ const modal = useTemplateRef('modal');
 let quill: Quill | null = null;
 
 const openModal = async () => {
-	state.content = props.content.content;
-	state.title = props.content.title;
-	state.identifier = props.content.identifier;
+	state.open = true;
 	await nextTick();
 	modal.value?.showModal();
 	quill = await getQuillRichTextEditorInstance('#editor', '.editor-container');
@@ -90,22 +126,35 @@ const closeModal = () => {
 	quill = null;
 
 	modal.value?.close();
-	state.identifier = '';
+	state.open = false;
 	state.content = '';
 	state.title = '';
+	state.hasEvent = false;
+	state.event.title = '';
 	state.onError = '';
 
 	emits('update');
 };
 
-const updateContent = async () => {
+const addContent = async () => {
 	try {
 		let quillHtmlContent = quill?.getSemanticHTML();
 		if (quillHtmlContent) quillHtmlContent = quillHtmlContent.replaceAll('<p></p>', '<p><br></p>');
-		await pagesStore.updatePagesContent({
-			identifier: state.identifier,
-			title: state.title,
+		if (typeof quillHtmlContent !== 'string') throw new Error('Content is not a string');
+		// eslint-disable-next-line init-declarations -- it is intended to be undefined if no event is set
+		let event;
+		if (state.hasEvent) {
+			event = {
+				title: state.event.title,
+				fromDate: new Date(state.event.fromDate),
+				toDate: new Date(state.event.toDate),
+			};
+			if (event.fromDate > event.toDate) throw new Error('Startdatum muss vor dem Enddatum liegen');
+		}
+		await newsStore.addNewsArticle({
 			content: quillHtmlContent,
+			title: state.title,
+			event,
 		});
 
 		closeModal();
@@ -121,10 +170,6 @@ const updateContent = async () => {
 </script>
 
 <style lang="css" scoped>
-.edit-button {
-	margin-top: 0;
-}
-
 .modal {
 	max-width: 1200px;
 	width: calc(100vw - 5rem);
@@ -170,5 +215,17 @@ button {
 input {
 	margin-top: 1rem;
 	padding: 0.3rem 1rem;
+}
+
+.event-item {
+	display: flex;
+	flex-direction: column;
+
+	label {
+		margin-top: 0.5rem;
+	}
+	input {
+		margin-top: 0.25rem;
+	}
 }
 </style>
