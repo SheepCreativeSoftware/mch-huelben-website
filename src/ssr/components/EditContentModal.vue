@@ -127,6 +127,7 @@ const updateContent = async () => {
 
 .modal {
 	max-width: 1200px;
+	width: calc(100vw - 5rem);
 	border: 1px solid var(--bg-color-700);
 	border-radius: var(--border-radius-md);
 	> div {

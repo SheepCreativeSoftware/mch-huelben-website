@@ -270,6 +270,21 @@ img {
 	font-style: italic;
 }
 
+p img {
+	display: unset;
+}
+
+.ql-align-center {
+	text-align: center;
+}
+
+.ql-align-justify {
+	text-align: justify;
+}
+.ql-align-right {
+	text-align: right;
+}
+
 #app {
 	display: grid;
 	min-height: 100vh;
