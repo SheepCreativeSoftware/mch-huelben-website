@@ -29,7 +29,7 @@
 				</template>
 			</MainArticleBase>
 			<!--Settings for Cookie Managment-->
-			<MainArticleBase id="cookie-datenschutz">
+			<MainArticleBase id="cookie-einstellungen">
 				<template #title>
 					Cookie Datenschutz Einstellungen
 				</template>

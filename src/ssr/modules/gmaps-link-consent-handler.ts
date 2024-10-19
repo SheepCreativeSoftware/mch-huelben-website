@@ -22,7 +22,7 @@ const replaceLinkWithIframe = (link: Element, googleMapsUrl: string) => {
 
 	const privacyLink = document.createElement('a');
 	privacyLink.textContent = 'Datenschutzseite';
-	privacyLink.setAttribute('href', '/datenschutz');
+	privacyLink.setAttribute('href', '/datenschutz#cookie-einstellungen');
 
 	const privacyNotice = document.createElement('p');
 	privacyNotice.textContent = 'Dieses Element enthält Daten von Google Maps. Sie können die Einbettung solcher Inhalte auf unserer ';
