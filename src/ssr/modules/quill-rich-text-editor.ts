@@ -106,8 +106,9 @@ const getQuillToolbarOptions = () => {
 	];
 };
 
-const getQuillDefaultOptions = (): QuillOptions => {
+const getQuillDefaultOptions = (containerSelector?: string | HTMLElement | null): QuillOptions => {
 	return {
+		bounds: containerSelector,
 		formats: [
 			'align',
 			'bold',
@@ -139,12 +140,12 @@ const removeQuillInstance = (quillInstance: Quill) => {
 	quillInstance.container.remove();
 };
 
-const getQuillRichTextEditorInstance = async (selector: HTMLElement | string) => {
+const getQuillRichTextEditorInstance = async (selector: HTMLElement | string, containerSelector?: HTMLElement | string) => {
 	if (import.meta.env.SSR) throw new Error('Quill cannot be loaded in a server environment');
 	// Dynamic import is used because Quill can only be loaded in the browser
 	const QuillRichTextEditor = (await import('quill')).default;
 
-	const quill = new QuillRichTextEditor(selector, getQuillDefaultOptions());
+	const quill = new QuillRichTextEditor(selector, getQuillDefaultOptions(containerSelector));
 	const toolbar = quill.getModule('toolbar') as Toolbar;
 	nativeImageHandlerOverwrite(toolbar);
 

@@ -82,7 +82,7 @@ const openModal = async () => {
 	state.identifier = props.content.identifier;
 	await nextTick();
 	modal.value?.showModal();
-	quill = await getQuillRichTextEditorInstance('#editor');
+	quill = await getQuillRichTextEditorInstance('#editor', '.editor-container');
 };
 
 const closeModal = () => {
