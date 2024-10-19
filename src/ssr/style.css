@@ -283,3 +283,35 @@ noscript {
 	color: var(--danger-color);
 	font-weight: bold;
 }
+
+.video-box,
+.gmaps-box {
+	max-width: 800px;
+	width: 100%;
+	margin-bottom: var(--space-600);
+
+	p {
+		font-style: italic;
+		font-size: var(--fs-300);
+	}
+}
+
+.consent-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: var(--space-600);
+	background-color: var(--bg-color-300);
+	border-radius: var(--border-radius-lg);
+	box-shadow: var(--box-shadow);
+	margin-bottom: var(--space-600);
+
+	h4 {
+		margin-bottom: var(--space-400);
+	}
+
+	button {
+		margin-top: var(--space-400);
+	}
+}

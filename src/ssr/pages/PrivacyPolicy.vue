@@ -29,6 +29,36 @@
 				</template>
 			</MainArticleBase>
 			<!--Settings for Cookie Managment-->
+			<MainArticleBase id="cookie-datenschutz">
+				<template #title>
+					Cookie Datenschutz Einstellungen
+				</template>
+				<template #text>
+					<p>
+						Hier können Sie Ihre Cookie-Einstellungen für einzelne Plugins/Services anpassen.
+					</p>
+					<div class="cookie-settings">
+						<input
+							id="google-maps"
+							type="checkbox"
+							name="google-maps"
+							:checked="cookies.googleMaps"
+							@change="toggleCookie('googleMaps', $event)"
+						>
+						<label for="google-maps"><strong>Google Maps</strong></label>
+					</div>
+					<div class="cookie-settings">
+						<input
+							id="youtube"
+							type="checkbox"
+							name="youtube"
+							:checked="cookies.youTube"
+							@change="toggleCookie('youTube', $event)"
+						>
+						<label for="youtube"><strong>YouTube</strong></label>
+					</div>
+				</template>
+			</MainArticleBase>
 			<OverallImage>
 				<img
 					loading="lazy"
@@ -41,7 +71,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount } from 'vue';
+import { computed, onBeforeMount, onMounted, onUpdated, reactive } from 'vue';
+import { getGoogleMapsConsentCookie, toggleGmapsConsentCookie } from '../modules/gmaps-link-consent-handler';
+import { getYoutubeConsentCookie, toggleYoutubeConsentCookie } from '../modules/youtube-link-consent-handler';
 import EditContentModal from '../components/EditContentModal.vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import OverallImage from '../components/base/OverallImage.vue';
@@ -53,6 +85,11 @@ import { useRouter } from 'vue-router';
 const pagesStore = usePagesStore();
 const router = useRouter();
 const technicalName = router.currentRoute.value.name;
+
+const cookies = reactive({
+	googleMaps: false,
+	youTube: false,
+});
 
 const contents = computed(() => {
 	if (typeof technicalName !== 'string') return [];
@@ -75,8 +112,29 @@ const updatePages = async () => {
 	}
 };
 
+const toggleCookie = (cookieName: string, event: Event) => {
+	if (!(event.target instanceof HTMLInputElement)) return;
+	if (cookieName === 'googleMaps') {
+		toggleGmapsConsentCookie(event.target.checked);
+		cookies.googleMaps = event.target.checked;
+	} else if (cookieName === 'youTube') {
+		toggleYoutubeConsentCookie(event.target.checked);
+		cookies.youTube = event.target.checked;
+	}
+};
+
 onBeforeMount(async() => {
 	await updatePages();
+});
+
+onMounted(() => {
+	cookies.youTube = getYoutubeConsentCookie();
+	cookies.googleMaps = getGoogleMapsConsentCookie();
+});
+
+onUpdated(() => {
+	cookies.youTube = getYoutubeConsentCookie();
+	cookies.googleMaps = getGoogleMapsConsentCookie();
 });
 </script>
 
@@ -89,5 +147,11 @@ onBeforeMount(async() => {
 
 .edit-button {
 	margin-left: 1rem;
+}
+
+.cookie-settings {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
 }
 </style>
