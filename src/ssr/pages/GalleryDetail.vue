@@ -226,9 +226,10 @@ onMounted(() => {
 }
 
 .zoomed-image-dialog {
+	display: flex;
 	width: 100vw;
 	height: 100vh;
-	transition: all 0.5s ease;
+	transition: all 1s ease-in-out;
 	background: rgba(0, 0, 0, 0.8);
 
 	img {
@@ -239,6 +240,7 @@ onMounted(() => {
 
 	&:not([open]) {
 		opacity: 0;
+		pointer-events: none;
 	}
 
 	&[open] {
