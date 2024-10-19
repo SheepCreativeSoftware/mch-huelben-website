@@ -26,6 +26,21 @@
 				<template #text>
 					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
 					<div v-html="sanitizeHtml(content.content)" />
+					<p>
+						Letzte Aktualisierung:
+						<span
+							v-if="content.updatedAt"
+							class="update-date"
+						> {{ new Date(content.updatedAt).toLocaleString('de-DE', getDateTimeFormatOptions()) }}
+
+						</span>
+						<span
+							v-else
+							class="update-date"
+						> {{ new Date(content.createdAt).toLocaleString('de-DE', getDateTimeFormatOptions()) }}
+
+						</span>
+					</p>
 				</template>
 			</MainArticleBase>
 			<!--Settings for Cookie Managment-->
@@ -75,6 +90,7 @@ import { computed, onBeforeMount, onMounted, onUpdated, reactive } from 'vue';
 import { getGoogleMapsConsentCookie, toggleGmapsConsentCookie } from '../modules/gmaps-link-consent-handler';
 import { getYoutubeConsentCookie, toggleYoutubeConsentCookie } from '../modules/youtube-link-consent-handler';
 import EditContentModal from '../components/EditContentModal.vue';
+import { getDateTimeFormatOptions } from '../../shared/transform/config/date-format-config';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import OverallImage from '../components/base/OverallImage.vue';
 import { routeOnError } from '../modules/route-on-error';
