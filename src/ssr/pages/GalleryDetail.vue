@@ -229,7 +229,7 @@ onMounted(() => {
 	display: flex;
 	width: 100vw;
 	height: 100vh;
-	transition: all 1s ease-in-out;
+	transition: all 0.5s ease-in-out;
 	background: rgba(0, 0, 0, 0.8);
 
 	img {
