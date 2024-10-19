@@ -68,7 +68,7 @@
 				<img
 					loading="lazy"
 					src="../assets/overall/overall-6.jpg"
-					alt="Overall Image 1"
+					alt="Overall Image 6"
 				>
 			</OverallImage>
 			<MainArticleBase v-if="contents[3]">
@@ -78,6 +78,28 @@
 				<template #edit>
 					<EditContentModal
 						:content="contents[3]"
+						@update="updatePages"
+					/>
+				</template>
+				<template #text>
+					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
+					<div v-html="sanitizeHtml(contents[3].content)" />
+				</template>
+			</MainArticleBase>
+			<OverallImage>
+				<img
+					loading="lazy"
+					src="../assets/overall/overall-7.jpg"
+					alt="Overall Image 7"
+				>
+			</OverallImage>
+			<MainArticleBase v-if="contents[4]">
+				<template #title>
+					{{ contents[4].title }}
+				</template>
+				<template #edit>
+					<EditContentModal
+						:content="contents[4]"
 						@update="updatePages"
 					/>
 				</template>
