@@ -105,7 +105,7 @@
 				</template>
 				<template #text>
 					<!-- eslint-disable-next-line vue/no-v-html -- this is sanitized -->
-					<div v-html="sanitizeHtml(contents[3].content)" />
+					<div v-html="sanitizeHtml(contents[4].content)" />
 				</template>
 				<template #additional>
 					<ContactForm />
