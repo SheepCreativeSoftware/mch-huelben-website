@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, type Relation, UpdateDateColumn } from 'typeorm';
+import { News } from './News.js';
 
 /* eslint-disable new-cap -- This is not a constructor */
 @Entity('events')
@@ -47,6 +48,9 @@ class Events {
 		type: 'timestamp',
 	})
 	updatedAt: Date | null;
+
+	@OneToOne(() => News, (news) => news.event)
+	news: Relation<News>;
 }
 /* eslint-enable new-cap -- This is not a constructor */
 
