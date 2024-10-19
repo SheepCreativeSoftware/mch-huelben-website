@@ -22,6 +22,11 @@ const ResponsePagesValidator = zod.object({
 const getPagesData = async ({ technicalName }: StoreServiceOptions): Promise<Pages> => {
 	if (!technicalName) throw new InternalServerException('Technical name is required');
 	const page = await dataSource.getRepository(Pages).findOne({
+		order: {
+			contents: {
+				createdAt: 'ASC',
+			},
+		},
 		relations: {
 			contents: true,
 			meta: false,
