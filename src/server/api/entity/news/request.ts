@@ -1,6 +1,7 @@
 import {
 	stringToBooleanTransformerOrUndefined,
 	stringToPositiveNumberOrUndefinedTransformer,
+	stringToValidDateTransformer,
 } from '../../../../shared/transform/validation-transformer.js';
 import { z as zod } from 'zod';
 
@@ -21,4 +22,19 @@ const RequestUpdateNewsArticleActiveStateBodyValidator = zod.object({
 	isActive: zod.boolean(),
 });
 
-export { RequestNewsQueryValidator, RequestUpdateNewsArticleBodyValidator, RequestUpdateNewsArticleActiveStateBodyValidator };
+const RequestAddNewsArticleBodyValidator = zod.object({
+	content: zod.string(),
+	event: zod.object({
+		fromDate: zod.string().datetime().transform(stringToValidDateTransformer),
+		title: zod.string(),
+		toDate: zod.string().datetime().transform(stringToValidDateTransformer),
+	}).optional(),
+	title: zod.string(),
+});
+
+export {
+	RequestAddNewsArticleBodyValidator,
+	RequestNewsQueryValidator,
+	RequestUpdateNewsArticleBodyValidator,
+	RequestUpdateNewsArticleActiveStateBodyValidator,
+};

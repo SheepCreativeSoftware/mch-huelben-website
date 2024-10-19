@@ -1,4 +1,4 @@
-import { getNewsHandle, getUpdateNewsArticleActiveStateHandle, getUpdateNewsArticleHandle } from './news/handle.js';
+import { getAddNewsArticleHandle, getNewsHandle, getUpdateNewsArticleActiveStateHandle, getUpdateNewsArticleHandle } from './news/handle.js';
 import { userAuthorizedHandler, userRoleAuthorizedHandler } from '../../modules/protection/user-auth-check.js';
 import express from 'express';
 import { getEventsHandle } from './events/handle.js';
@@ -21,5 +21,6 @@ router.use(userRoleAuthorizedHandler());
 router.post('/content/update', getUpdateContentHandle());
 router.post('/news/update', getUpdateNewsArticleHandle());
 router.post('/news/update-active-state', getUpdateNewsArticleActiveStateHandle());
+router.post('/news/add-article', getAddNewsArticleHandle());
 
 export { router as entityRouter };

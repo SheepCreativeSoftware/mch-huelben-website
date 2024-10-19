@@ -20,6 +20,39 @@ const baseUrl = import.meta.env.SSR ? import.meta.env.VITE_BASE_URL : window.loc
 
 const useNewsStore = defineStore('news-store', {
 	actions: {
+
+		async addNewsArticle({ content, title, event }: {
+			content: string, title: string, event?: { fromDate: Date, title: string, toDate: Date }
+		}): Promise<void> {
+			const accessStore = useAccessStore();
+			const url = new URL('/api/entity/news/add-article', baseUrl);
+
+			const body = {
+				content,
+				event,
+				title,
+			};
+
+			const result = await fetch(url, {
+				body: JSON.stringify(body),
+				headers: {
+					Authorization: `Bearer ${accessStore.token}`,
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+			});
+
+			if (!result.ok) {
+				throw new Error('Could not add news article', {
+					cause: {
+						response: JSON.stringify(result),
+						status: result.status,
+						statusText: result.statusText,
+					},
+				});
+			}
+		},
+
 		async fetchNewsData(count?: number, offset?: number, includeDisabled?: boolean): Promise<void> {
 			if (import.meta.env.SSR) return;
 

@@ -3,6 +3,7 @@
 		ref="news-container"
 		class="news-container"
 	>
+		<AddNewsModal @update="updateNews" />
 		<article
 			v-for="article in news"
 			:key="article.identifier"
@@ -37,6 +38,7 @@
 
 <script setup lang="ts">
 import { computed, onBeforeMount, onMounted, onUpdated, useTemplateRef } from 'vue';
+import AddNewsModal from './AddNewsModal.vue';
 import EditNewsModal from './EditNewsModal.vue';
 import { getDateTimeFormatOptions } from '../../shared/transform/config/date-format-config';
 import { routeOnError } from '../modules/route-on-error';

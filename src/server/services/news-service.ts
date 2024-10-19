@@ -1,6 +1,7 @@
 import { InternalServerException, NotFoundException } from '../modules/misc/custom-errors.js';
 import type { StoreService, StoreServiceOptions } from './StoreServiceInterface.js';
 import { dataSource } from '../database/datasource.js';
+import { Events } from '../database/entities/Events.js';
 import type { FindOptionsWhere } from 'typeorm';
 import { News } from '../database/entities/News.js';
 import { removeImagesOnChange } from '../modules/misc/remove-images-on-content-change.js';
@@ -68,4 +69,24 @@ const updateNewsArticleActiveState = async ({ identifier, isActive }: { identifi
 	if (!result.affected) throw new InternalServerException('Failed to change news article active state', { cause: result.raw });
 };
 
-export { getLatestNews, getAllLatestNews, updateNewsArticle, updateNewsArticleActiveState };
+const addNewsArticle = async ({ content, title, event }: {
+	content: string,
+	title: string,
+	event?: { title: string, fromDate: Date, toDate: Date }
+}): Promise<void> => {
+	// eslint-disable-next-line init-declarations -- Undefined is a valid value
+	let eventEntity: Events | undefined;
+	if (event) {
+		const eventRepository = dataSource.getRepository(Events);
+		eventEntity = eventRepository.create({ ...event });
+		const eventResult = await eventRepository.insert(eventEntity);
+
+		if (!eventResult.identifiers.length) throw new InternalServerException('Failed to add event', { cause: eventResult.raw });
+	}
+
+	const repository = dataSource.getRepository(News);
+	const newsEntity = repository.create({ content, event: eventEntity, title });
+	await repository.save(newsEntity);
+};
+
+export { addNewsArticle, getLatestNews, getAllLatestNews, updateNewsArticle, updateNewsArticleActiveState };

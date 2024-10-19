@@ -1,5 +1,10 @@
-import { getAllLatestNews, getLatestNews, updateNewsArticle, updateNewsArticleActiveState } from '../../../services/news-service.js';
-import { RequestNewsQueryValidator, RequestUpdateNewsArticleActiveStateBodyValidator, RequestUpdateNewsArticleBodyValidator } from './request.js';
+import { addNewsArticle, getAllLatestNews, getLatestNews, updateNewsArticle, updateNewsArticleActiveState } from '../../../services/news-service.js';
+import {
+	RequestAddNewsArticleBodyValidator,
+	RequestNewsQueryValidator,
+	RequestUpdateNewsArticleActiveStateBodyValidator,
+	RequestUpdateNewsArticleBodyValidator,
+} from './request.js';
 import type { Handler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
@@ -47,4 +52,18 @@ const getUpdateNewsArticleActiveStateHandle = (): Handler => {
 	};
 };
 
-export { getNewsHandle, getUpdateNewsArticleHandle, getUpdateNewsArticleActiveStateHandle };
+const getAddNewsArticleHandle = (): Handler => {
+	return async (req, res, next) => {
+		try {
+			const requestBody = RequestAddNewsArticleBodyValidator.parse(req.body);
+
+			await addNewsArticle(requestBody);
+
+			res.status(StatusCodes.CREATED).send({ message: 'News article added' });
+		} catch (error) {
+			next(error);
+		}
+	};
+};
+
+export { getAddNewsArticleHandle, getNewsHandle, getUpdateNewsArticleHandle, getUpdateNewsArticleActiveStateHandle };
