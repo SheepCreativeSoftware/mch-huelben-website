@@ -9,7 +9,9 @@ import { z as zod } from 'zod';
 const getMetaDataTags = async (currentRoute: RouteLocationNormalizedLoadedGeneric): Promise<string> => {
 	let metaTags = '';
 
-	const canonicalUrl = currentRoute.fullPath;
+	let canonicalUrl = currentRoute.fullPath;
+	if (currentRoute.query.page === '0') canonicalUrl = currentRoute.path;
+
 	metaTags += `<link rel="canonical" href="${process.env.URL}${canonicalUrl}">`;
 	metaTags += `<meta property="og:url" content="${process.env.URL}${canonicalUrl}">`;
 	metaTags += `<meta name="twitter:url" content="${process.env.URL}${canonicalUrl}">`;
