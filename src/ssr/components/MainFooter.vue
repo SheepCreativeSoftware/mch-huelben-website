@@ -28,7 +28,18 @@
 			<span id="created-by">Created by M.Egner</span>
 		</nav>
 		<div class="logo-conatiner">
-			<div><!-- Intentionally left blank for grid container--></div>
+			<div>
+				<a
+					href="http://www.instagram.com/modellbahnclub_huelben"
+					target="_blank"
+				>
+					<img
+						class="social-logo"
+						src="../assets/instagram.svg"
+						alt="MCH-Hülben auf Instagram"
+					>
+				</a>
+			</div>
 			<ButtonLink
 				target-url="/"
 			>
@@ -118,11 +129,26 @@ footer {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	width: 100%;
+	max-width: 1200px;
 	align-items: center;
 	justify-items: center;
 
+	& :first-child {
+		justify-self: start;
+	}
+
 	& :last-child {
 		justify-self: end;
+	}
+}
+
+.social-logo {
+	width: 2.5rem;
+	height: 2.5rem;
+	filter: invert(90%);
+
+	@media (prefers-color-scheme: dark) {
+		filter: unset;
 	}
 }
 
