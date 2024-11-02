@@ -123,6 +123,10 @@ footer {
 			font-weight: normal;
 		}
 	}
+
+	@media (width < 768px) {
+		padding: 2rem 0.5rem;
+	}
 }
 
 .logo-conatiner {
@@ -150,6 +154,13 @@ footer {
 	@media (prefers-color-scheme: dark) {
 		filter: unset;
 	}
+}
+
+.footer-logo {
+	width: 12rem;
+	max-width: 40vw;
+	object-fit: contain;
+	justify-self: center;
 }
 
 #login-button {
