@@ -16,6 +16,7 @@ const ResponseEventsValidator = zod.array(zod.object({
 
 const getCurrentEvents = async (): Promise<Omit<Events, 'news'>[]> => {
 	const currentDate = new Date();
+	currentDate.setUTCHours(0, 0, 0, 0);
 	const events = await dataSource.getRepository(Events).find({
 		order: {
 			fromDate: 'DESC',
