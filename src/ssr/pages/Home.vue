@@ -43,22 +43,6 @@
 					alt="Overall Image 1"
 				>
 			</OverallImage>
-			<MainArticleBase id="aktuelles">
-				<template #title>
-					Aktuelles
-				</template>
-				<template #additional>
-					<NewsView
-						:count="3"
-					/>
-					<ButtonLink
-						target-url="/aktuelles"
-						:is-button="true"
-					>
-						Weitere Nachrichten
-					</ButtonLink>
-				</template>
-			</MainArticleBase>
 			<MainArticleBase id="termine">
 				<template #title>
 					Aktuelle Termine
@@ -80,6 +64,22 @@
 					<template v-else>
 						Aktuell sind keine Termine geplant.
 					</template>
+				</template>
+			</MainArticleBase>
+			<MainArticleBase id="aktuelles">
+				<template #title>
+					Aktuelles
+				</template>
+				<template #additional>
+					<NewsView
+						:count="3"
+					/>
+					<ButtonLink
+						target-url="/aktuelles"
+						:is-button="true"
+					>
+						Weitere Nachrichten
+					</ButtonLink>
 				</template>
 			</MainArticleBase>
 			<OverallImage>
