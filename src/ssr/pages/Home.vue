@@ -230,8 +230,6 @@ onBeforeMount(async() => {
 }
 
 #termine {
-	padding-top: 0;
-
 	table {
 		width: 100%;
 		border-collapse: collapse;
@@ -241,6 +239,10 @@ onBeforeMount(async() => {
 			border-bottom: 2px solid var(--primary-color-500);
 		}
 	}
+}
+
+#aktuelles {
+	padding-top: 0;
 }
 
 .edit-button {
