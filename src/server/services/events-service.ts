@@ -19,7 +19,7 @@ const getCurrentEvents = async (): Promise<Omit<Events, 'news'>[]> => {
 	currentDate.setUTCHours(0, 0, 0, 0);
 	const events = await dataSource.getRepository(Events).find({
 		order: {
-			fromDate: 'DESC',
+			fromDate: 'ASC',
 		},
 		/* eslint-disable new-cap -- This is not a constructor */
 		where: [
