@@ -136,6 +136,11 @@ const closeModal = () => {
 	emits('update');
 };
 
+const setEventDateToMidnightUTC = (date: Date): Date => {
+	date.setUTCHours(0, 0, 0, 0);
+	return date;
+};
+
 const addContent = async () => {
 	try {
 		let quillHtmlContent = quill?.getSemanticHTML();
@@ -146,8 +151,8 @@ const addContent = async () => {
 		if (state.hasEvent) {
 			event = {
 				title: state.event.title,
-				fromDate: new Date(state.event.fromDate),
-				toDate: new Date(state.event.toDate),
+				fromDate: setEventDateToMidnightUTC(new Date(state.event.fromDate)),
+				toDate: setEventDateToMidnightUTC(new Date(state.event.toDate)),
 			};
 			if (event.fromDate > event.toDate) throw new Error('Startdatum muss vor dem Enddatum liegen');
 		}
