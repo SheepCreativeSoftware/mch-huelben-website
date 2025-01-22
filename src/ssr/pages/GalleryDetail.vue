@@ -50,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, onMounted, useTemplateRef } from 'vue';
+import { computed, onBeforeMount, onMounted, onServerPrefetch, useTemplateRef } from 'vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import { routeOnError } from '../modules/route-on-error.ts';
 import { useGalleryStore } from '../stores/gallery-store.ts';
@@ -113,6 +113,11 @@ const updateGalleries = async () => {
 
 onBeforeMount(async() => {
 	await updateGalleries();
+	if (!gallery.value) await router.replace({ name: 'not-found', replace: true });
+});
+
+onServerPrefetch(async ()=>{
+	if (!gallery.value) await router.replace({ name: 'not-found', replace: true });
 });
 
 onMounted(() => {

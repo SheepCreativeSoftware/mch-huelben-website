@@ -1,4 +1,3 @@
-import './pages-old-mapping.js';
 import About from './About.vue';
 import GalleryDetail from './GalleryDetail.vue';
 import GalleryOverview from './GalleryOverview.vue';
