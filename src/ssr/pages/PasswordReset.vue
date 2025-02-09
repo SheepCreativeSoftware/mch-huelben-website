@@ -89,6 +89,8 @@ import MainArticleBase from '../components/base/MainArticleBase.vue';
 import { useAccessStore } from '../stores/access-store';
 import { useRouter } from 'vue-router';
 
+const REDIRECT_TIMEOUT = 2000;
+
 const router = useRouter();
 const token = router.currentRoute.value.query.token;
 
@@ -140,10 +142,14 @@ const submitPasswordReset = async (event: Event) => {
 		resetRequestedFailed.value = true;
 	}
 	form.reset();
+
+	setTimeout(async () => {
+		await router.replace({ name: 'home', replace: true });
+	}, REDIRECT_TIMEOUT);
 };
 
 onMounted(async() => {
-	if (!token) await router.replace({ name: 'Home', replace: true });
+	if (!token) await router.replace({ name: 'home', replace: true });
 });
 </script>
 
