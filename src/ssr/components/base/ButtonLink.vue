@@ -19,7 +19,8 @@
 			'button-link-button': isButton ?? false,
 			'button-link-inverted': hasInvertedStyle ?? false,
 		}"
-		href="javascript:void(0)"
+		href="#"
+		disabled
 	>
 		<slot />
 	</a>

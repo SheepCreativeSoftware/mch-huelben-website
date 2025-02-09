@@ -98,6 +98,30 @@ const useAccessStore = defineStore('access-store', {
 			this.storeTokenInLocalStore();
 		},
 
+		async requestPasswordReset(email: string): Promise<void> {
+			const url = new URL('/api/security/request-password-reset', baseUrl);
+			const result = await fetch(url, {
+				body: JSON.stringify({ email }),
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+			});
+			if (!result.ok) throw new Error('Could not reset password');
+		},
+
+		async resetPassword(token: string, password: string): Promise<void> {
+			const url = new URL('/api/security/reset-password', baseUrl);
+			const result = await fetch(url, {
+				body: JSON.stringify({ password, token }),
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+			});
+			if (!result.ok) throw new Error('Could not reset password');
+		},
+
 		restoreTokenFromEvent(event: StorageEvent): void {
 			if (event.key === 'token' && event.newValue) {
 				this.leadingInstance = false;

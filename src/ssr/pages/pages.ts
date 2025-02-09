@@ -8,6 +8,8 @@ import NewsPage from './NewsPage.vue';
 import PageCouldNotLoaded from './PageCouldNotLoaded.vue';
 import PageForbidden from './PageForbidden.vue';
 import PageNotFound from './PageNotFound.vue';
+import PasswordReset from './PasswordReset.vue';
+import PasswordResetRequest from './PasswordResetRequest.vue';
 import PrivacyPolicy from './PrivacyPolicy.vue';
 import { RouterInstance } from '../router.js';
 
@@ -69,6 +71,18 @@ RouterInstance.getInstance().addRoute({
 	component: PageForbidden,
 	name: 'forbidden',
 	path: '/forbidden',
+});
+
+RouterInstance.getInstance().addRoute({
+	component: PasswordReset,
+	name: 'password-reset',
+	path: '/password-reset',
+});
+
+RouterInstance.getInstance().addRoute({
+	component: PasswordResetRequest,
+	name: 'password-reset-request',
+	path: '/password-reset-request',
 });
 
 RouterInstance.getInstance().addRoute({

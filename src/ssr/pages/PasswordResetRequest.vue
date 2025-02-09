@@ -12,23 +12,29 @@
 		<main>
 			<MainArticleBase>
 				<template #title>
-					Login
+					Passwort zurücksetzen
 				</template>
 				<template #text>
 					<noscript>Bitte aktiviere JavaScript in deinem Browser, um diese Seite nutzen zu können.</noscript>
-					Bitte logge dich ein.
+					Bitte gib deine E-Mail-Adresse ein, um dein Passwort zurückzusetzen.
 					<div
-						v-if="loginFailed"
-						class="login-failed"
+						v-if="resetRequestedSuccess"
+						class="password-requested-success"
 					>
-						Login fehlgeschlagen. Bitte überprüfe deine Eingaben.
+						Bitte überprüfe deine E-Mails, um dein Passwort zurückzusetzen.
+					</div>
+					<div
+						v-if="resetRequestedFailed"
+						class="password-requested-failed"
+					>
+						Etwas ist schiefgelaufen. Bitte versuche es später erneut.
 					</div>
 				</template>
 				<template #additional>
 					<form
-						ref="login-form"
-						class="login-form"
-						@submit="submitLoginForm"
+						ref="password-reset-request-form"
+						class="password-reset-request-form"
+						@submit="submitPasswordResetRequest"
 					>
 						<label
 							for="email"
@@ -42,32 +48,12 @@
 							autocomplete="email"
 							required
 						>
-						<label
-							for="password"
+						<button
+							class="button-submit"
+							type="submit"
 						>
-							Passwort:
-						</label>
-						<input
-							id="password"
-							type="password"
-							name="password"
-							autoComplete="current-password"
-							required
-						>
-						<div class="login-form-interactions">
-							<button
-								class="button-submit"
-								type="submit"
-							>
-								Login
-							</button>
-							<ButtonLink
-								class="button-link"
-								:target-url="{ name: 'password-reset-request' }"
-							>
-								Passwort vergessen?
-							</ButtonLink>
-						</div>
+							Passwort zurücksetzen
+						</button>
 					</form>
 				</template>
 			</MainArticleBase>
@@ -76,31 +62,29 @@
 </template>
 
 <script setup lang="ts">
-import ButtonLink from '../components/base/ButtonLink.vue';
 import MainArticleBase from '../components/base/MainArticleBase.vue';
 import { ref } from 'vue';
 import { useAccessStore } from '../stores/access-store';
-import { useRouter } from 'vue-router';
 
 const accessStore = useAccessStore();
-const router = useRouter();
-const loginFailed = ref(false);
+const resetRequestedSuccess = ref(false);
+const resetRequestedFailed = ref(false);
 
-const submitLoginForm = async (event: Event) => {
+const submitPasswordResetRequest = async (event: Event) => {
 	event.preventDefault();
 	const form = event.target as HTMLFormElement;
 	const formData = new FormData(form);
 	const email = formData.get('email');
-	const password = formData.get('password');
 
 	try {
-		if (typeof email !== 'string' || typeof password !== 'string') throw new Error('Email or password is not provided');
+		if (typeof email !== 'string') throw new Error('Email is not provided');
 
-		await accessStore.loginUser(email, password);
-		loginFailed.value = false;
-		router.back();
+		await accessStore.requestPasswordReset(email);
+		resetRequestedSuccess.value = true;
+		resetRequestedFailed.value = false;
 	} catch {
-		loginFailed.value = true;
+		resetRequestedSuccess.value = false;
+		resetRequestedFailed.value = true;
 	}
 	form.reset();
 };
@@ -113,17 +97,17 @@ const submitLoginForm = async (event: Event) => {
 	max-height: 45vh;
 }
 
-.login-failed {
+.password-requested-success {
+	color: var(--success-color);
+	font-weight: bold;
+}
+
+.password-requested-failed {
 	color: var(--danger-color);
 	font-weight: bold;
 }
 
-.login-form-interactions {
-	display: grid;
-    grid-template-columns: min-content min-content;
-    justify-content: space-between;
-    align-items: center;
-	gap: var(--space-400);
+button {
 	margin-top: 1rem;
 }
 
