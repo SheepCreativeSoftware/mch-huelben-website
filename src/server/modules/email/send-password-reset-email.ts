@@ -5,14 +5,14 @@ const subject = 'Passwort zurücksetzen';
 
 const baseEmailTemplate = `Hallo,
 
-Es gab eine Anfrage, Ihr Password zu ändern.
-Klicken Sie bitte auf den Link unten, um Ihr Passwort zurückzusetzen.
+Es gab eine Anfrage, dein Passwort zu ändern.
+Klicke bitte auf den Link unten, um dein Passwort zurückzusetzen.
 Dieser Link wird in 15 Minuten ablaufen.
 
 Password zurücksetzen:
 ${process.env.URL}/password-reset?token={{token}}
 
-Wenn Sie diese Anfrage gemacht haben und vermuten, dass Ihr Konto gefährdet ist, kontaktieren Sie uns bitte unter ${process.env.SMTP_ADMIN_EMAIL}.
+Wenn du diese Anfrage nicht gemacht hast und vermutest, dass dein Konto gefährdet ist, kontaktiere uns bitte unter ${process.env.SMTP_ADMIN_EMAIL}
 
 -- 
 Gesendet durch Mail-Service von ${process.env.HOST}.`;
@@ -26,15 +26,15 @@ const baseEmailHTMLTemplate = `<!DOCTYPE html>
 		<p>
 			Hallo,
 			<br><br>
-			Es gab eine Anfrage, Ihr Password zu ändern.<br>
-			Klicken Sie bitte auf den Link unten, um Ihr Passwort zurückzusetzen.<br>
+			Es gab eine Anfrage, dein Passwort zu ändern.<br>
+			Klicke bitte auf den Link unten, um dein Passwort zurückzusetzen.<br>
 			Dieser Link wird in 15 Minuten ablaufen.<br>
-			<br><br>
-			<strong><a href="${process.env.URL}/password-reset?token={{token}}">Passwort zurücksetzen</a></strong>
-			<br><br>
-			Wenn Sie diese Anfrage gemacht haben und vermuten, dass Ihr Konto gefährdet ist,
-			kontaktieren Sie uns bitte unter <a href="mailto:${process.env.SMTP_ADMIN_EMAIL}">${process.env.SMTP_ADMIN_EMAIL}</a>.
-			<br
+			<br>
+			<strong><a href="${process.env.URL}/password-reset?token={{token}}">Passwort zurücksetzen</a></strong><br>
+			<br>
+			Wenn du diese Anfrage nicht gemacht hast und vermutest, dass dein Konto gefährdet ist,
+			kontaktiere uns bitte unter <a href="mailto:${process.env.SMTP_ADMIN_EMAIL}">${process.env.SMTP_ADMIN_EMAIL}</a><br>
+			<br>
 			<small>
 				--<br>
 				Gesendet durch Mail-Service von ${process.env.HOST}.
