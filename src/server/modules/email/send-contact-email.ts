@@ -5,7 +5,7 @@ const baseEmailTemplate = `Hallo,
 
 Dies ist eine Anfrage vom Kontaktformular.
 
-Nachricht von: {{name}}
+Nachricht von: {{name}} <{{email}}>
 --------------------------------
 {{message}}
 --------------------------------
@@ -24,7 +24,7 @@ const baseEmailHTMLTemplate = `<!DOCTYPE html>
 			<br><br>
 			Dies ist eine Anfrage vom Kontaktformular.
 			<br><br>
-			<strong>Nachricht von:</strong> {{name}}
+			<strong>Nachricht von:</strong> {{name}} &lt;{{email}}&gt;
 			<br>
 			<hr>
 			{{message}}
@@ -43,8 +43,8 @@ const sendContactEmail = async ({ email, message, name, subject }: {
 	name: string,
 	subject: string,
 }): Promise<void> => {
-	const emailInPlainText = baseEmailTemplate.replace('{{message}}', message).replace('{{name}}', name);
-	const emailInPlainHTML = baseEmailHTMLTemplate.replace('{{message}}', message).replace('{{name}}', name);;
+	const emailInPlainText = baseEmailTemplate.replace('{{message}}', message).replace('{{name}}', name).replace('{{email}}', email);
+	const emailInPlainHTML = baseEmailHTMLTemplate.replace('{{message}}', message).replace('{{name}}', name).replace('{{email}}', email);
 
 	const info = await getSmtpTransport().sendMail({
 		from: `"noreply" <${process.env.SMTP_USER}>`,
