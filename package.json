@@ -27,6 +27,8 @@
 		"typeorm": "typeorm-ts-node-esm -d src/server/database/datasource.ts",
 		"production": "node dist/app.mjs",
 		"preview": "NODE_ENV=production PREVIEW=true node --env-file=.env.local dist/app.mjs",
+		"deps:check": "yarn ncu --format group --cooldown '7d'",
+		"deps:update": "yarn deps:check -- --interactive",
 		"prepare": "husky"
 	},
 	"dependencies": {
@@ -47,6 +49,7 @@
 		"mime-types": "^2.1.35",
 		"node-cron": "^3.0.3",
 		"nodemailer": "^6.9.15",
+		"npm-check-updates": "^23.1.1",
 		"pinia": "^2.2.2",
 		"quill": "^2.0.2",
 		"sirv": "^2.0.4",
@@ -90,6 +93,6 @@
 		"yarn": "^1.22.22"
 	},
 	"engines": {
-		"node": ">=21.0.0"
+		"node": "^22.23.4"
 	}
 }
