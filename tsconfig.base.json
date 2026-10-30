@@ -26,9 +26,9 @@
 		"strictPropertyInitialization": false,
 		"rootDir": "./src",
 
-		"types": ["vite/client", "node", "./src/vite-env.d.ts"],
+		"types": ["vite/client", "node", "./src/vite-env.d.ts"]
 	},
 
 	"include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.tsx", "src/**/*.vue"],
-	"references": [{ "path": "./tsconfig.node.json" }],
+	"references": [{ "path": "./tsconfig.node.json" }]
 }
